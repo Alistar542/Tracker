@@ -16,12 +16,7 @@ function App() {
 
       <MiniDrawer/>
     
-      <Switch>
-      <Route exact path="/"/>
-        <Route exact path="/add">
-        <CourseComponent/>
-        </Route>
-      </Switch>
+      
     </Router>
   );
 }

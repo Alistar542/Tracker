@@ -19,6 +19,9 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
 import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
+import {UserComponent} from '../components/UserComponent';
+import {CourseComponent} from '../components/CourseComponent';
 
 
 
@@ -121,7 +124,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Tracker
           </Typography>
         </Toolbar>
       </AppBar>
@@ -150,6 +153,11 @@ export default function MiniDrawer() {
               <ListItemIcon><FaceRoundedIcon /></ListItemIcon>
               <ListItemText primary='Add Student' />
             </ListItem>
+
+            <ListItem button key='addCourse' component={Link} to='/course'>
+              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemText primary='Add Course' />
+            </ListItem>
          
         </List>
         <Divider />
@@ -162,7 +170,19 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      
+
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Switch>
+        <Route exact path="/"/>
+        <Route exact path="/add">
+        <UserComponent/>
+        </Route>
+        <Route exact path="/course">
+        <CourseComponent/>
+        </Route>
+      </Switch>
+        </main>
     </div>
   );
 }
