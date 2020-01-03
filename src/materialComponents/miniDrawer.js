@@ -22,6 +22,7 @@ import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 import {UserComponent} from '../components/UserComponent';
 import {CourseComponent} from '../components/CourseComponent';
+import CreateUserComponent from '../components/CreateUserComponent';
 
 
 
@@ -176,7 +177,7 @@ export default function MiniDrawer() {
         <Switch>
         <Route exact path="/"/>
         <Route exact path="/add">
-        <UserComponent/>
+        <CreateUserComponent/>
         </Route>
         <Route exact path="/course">
         <CourseComponent/>
