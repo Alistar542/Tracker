@@ -2,14 +2,16 @@ const router = require('express').Router();
 let Student = require('../models/student.model');
 
 router.route('/add').post((req,res)=>{
-    const studentName = req.body.studentName;
-    const dob = req.body.dob;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const followUpDate = req.body.followUpDate;
     const phoneNumber = req.body.phoneNumber;
     const courseInterested = req.body.courseInterested;
     
     const newStudent = new Student({
-        studentName,
-        dob,
+        firstName,
+        lastName,
+        followUpDate,
         phoneNumber,
         courseInterested
     })

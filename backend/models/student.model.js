@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
-    studentName : {type:String,required:true},
-    dob : {type:Date,required:true},
+    firstName : {type:String,required:true},
+    lastName : {type:String,required:true},
+    followUpDate : {type:Date,required:true},
     phoneNumber : {type:Number,required:true},
     courseInterested : {type:String,required:true}
 },{

@@ -8,6 +8,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 
 
@@ -25,9 +26,10 @@ const useStyles = makeStyles(theme => ({
 export const UserComponent = () => {
   
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedDate, setSelectedDate] = React.useState();
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
+  const [phoneNumber, setPhoneNumber] = React.useState();
   const [interestedCourse, setInterestedCourse] = React.useState('');
 
   const handleDateChange = date => {
@@ -36,15 +38,20 @@ export const UserComponent = () => {
 
   const handleSubmit=(event)=>{
     event.preventDefault();
-    alert("clicked");
     const userObject ={
       firstName:firstName,
       lastName:lastName,
-      interestedCourse:interestedCourse,
-      selectedDate:selectedDate
+      phoneNumber:phoneNumber,
+      courseInterested:interestedCourse,
+      followUpDate:selectedDate
     }
 
     console.log(userObject);
+
+    axios.post('http://localhost:5000/student/add',userObject)
+    .then(res => console.log(res.data));
+
+
   }
   
   const onChangeFirstName = event =>{
@@ -59,6 +66,10 @@ export const UserComponent = () => {
     setInterestedCourse(event.target.value);
   }
 
+  const onChangePhoneNumber = event =>{
+    setPhoneNumber(event.target.value);
+  }
+
   return(
              
     
@@ -69,7 +80,7 @@ export const UserComponent = () => {
       <TextField required id="standard-required" label="First Name" value={firstName} onChange={onChangeFirstName}/>
       <TextField required id="standard-required" label="Last Name" value={lastName} onChange={onChangeLastName}/>
       <TextField required id="standard-required" label="Interested Course" value={interestedCourse} onChange={onChangeInterestedCourse}/>
-
+      <TextField required id="standard-required" label="Phone Number" value={phoneNumber} onChange={onChangePhoneNumber}/>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           disableToolbar
