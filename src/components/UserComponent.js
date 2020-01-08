@@ -27,13 +27,26 @@ export const UserComponent = () => {
   
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = React.useState();
+  const [dateToFetch, setSelectedDateToFetch] = React.useState();
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [interestedCourse, setInterestedCourse] = React.useState('');
 
   const handleDateChange = date => {
-    setSelectedDate(date);
+    
+    var dateString = date.toUTCString();
+    dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+    setSelectedDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
+  };
+
+  const handleDateChangeToFetch = date => {
+    
+    // var dateString = date.toUTCString();
+    // dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+    setSelectedDateToFetch(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
   };
 
   const handleSubmit=(event)=>{
@@ -52,6 +65,17 @@ export const UserComponent = () => {
     .then(res => console.log(res.data));
 
 
+  }
+
+  const handleSubmitForFetching = (event) =>{
+    event.preventDefault();
+    const fetchObject = {
+      followUpDate:dateToFetch
+    }
+    console.log(' date to fetch : : '+dateToFetch);
+
+    axios.post('http://localhost:5000/student/getstudent',fetchObject)
+    .then(res => console.log(res.data));
   }
   
   const onChangeFirstName = event =>{
@@ -72,7 +96,7 @@ export const UserComponent = () => {
 
   return(
              
-    
+    <div>
 
     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
         Add a student
@@ -100,8 +124,26 @@ export const UserComponent = () => {
       </div>
       <Button variant="contained" color="primary" type="submit"> Save </Button>
     </form>
-                  
-                
+
+               <form onSubmit={handleSubmitForFetching}>
+               <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="date-picker-inline-1"
+          label="Follow up date"
+          value={dateToFetch}
+          onChange={handleDateChangeToFetch}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </MuiPickersUtilsProvider>
+        <Button variant="contained" color="primary" type="submit"> Find </Button>
+                 </form>   
+    </div>         
   );
 }
 
