@@ -21,7 +21,7 @@ import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 import {UserComponent} from '../components/UserComponent';
-import {CourseComponent} from '../components/CourseComponent';
+import {FetchUserComponent} from '../components/FetchUserComponent';
 import CreateUserComponent from '../components/CreateUserComponent';
 
 
@@ -155,9 +155,9 @@ export default function MiniDrawer() {
               <ListItemText primary='Add Student' />
             </ListItem>
 
-            <ListItem button key='addCourse' component={Link} to='/course'>
+            <ListItem button key='addCourse' component={Link} to='/fetchusercomponent'>
               <ListItemIcon><InboxIcon /></ListItemIcon>
-              <ListItemText primary='Add Course' />
+              <ListItemText primary='Find Student' />
             </ListItem>
          
         </List>
@@ -177,10 +177,10 @@ export default function MiniDrawer() {
         <Switch>
         <Route exact path="/"/>
         <Route exact path="/add">
-        <CreateUserComponent/>
+        <UserComponent/>
         </Route>
-        <Route exact path="/course">
-        <CourseComponent/>
+        <Route exact path="/fetchusercomponent">
+        <FetchUserComponent/>
         </Route>
       </Switch>
         </main>

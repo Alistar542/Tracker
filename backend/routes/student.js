@@ -28,7 +28,7 @@ router.route('/getstudent').post((req,res) => {
     
     var query = {followUpDate : date1};
     Student.find(query)
-        .then(students => res.json(students+' :: '+query.followUpDate))
+        .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' +err));
 });
 
