@@ -7,12 +7,13 @@ import {
 } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import ExpansionPanelForFetchUserComponent from './ExpansionPanelForFetchUserComponent';
 
 const useStyles = makeStyles(theme => ({
     root: {
       '& .MuiTextField-root': {
         margin: theme.spacing(1),
-        width: 200,
+        width: 300,
       },
     },
   }));
@@ -40,18 +41,19 @@ export const FetchUserComponent = () => {
             if(res.data.length > 0){
                 console.log('found');
                 console.log(res.data);
-                setStudentsFound(res.data.map(user => user.firstName))
-                setStudentsFound(res.data)
+               
+                handleStudentChange(res.data);
                 console.log(res.data.map(user => user.firstName))
             }else{
-                setStudentsFound([]);
+              handleStudentChange([]);
             }
         });
       }
 
-      const handleClick = () =>{
+      const handleStudentChange = (data) =>{
           console.log('Inside handleClick method')
-          console.log(studentsFound);
+          setStudentsFound(data);
+          console.log(data);
       }
 
   return(
@@ -74,12 +76,14 @@ export const FetchUserComponent = () => {
             }}
             />
             </MuiPickersUtilsProvider>
-            </div>
             <Button variant="contained" color="primary" type="submit"> Find </Button>
+            </div>
         </form>
-        {studentsFound.map(data => {
+        <br></br>
+        <ExpansionPanelForFetchUserComponent studentsFound={studentsFound}></ExpansionPanelForFetchUserComponent>
+        {/* {studentsFound.map(data => {
             return <li><h3>First Name : {data.firstName}</h3><h3>Phone Number : {data.phoneNumber}</h3> <h3>Follow Up Date : {new Date(data.followUpDate).getDate()}-{new Date(data.followUpDate).getMonth()+1}-{new Date(data.followUpDate).getFullYear()}</h3> </li>
-        })}
+        })} */}
     </div>
                   
                 
