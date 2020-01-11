@@ -9,6 +9,7 @@ import {
 } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import SuccessDialog from './SuccessDialog';
 
 
 
@@ -30,8 +31,10 @@ export const UserComponent = () => {
   const [dateToFetch, setSelectedDateToFetch] = React.useState();
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
-  const [phoneNumber, setPhoneNumber] = React.useState();
+  const [phoneNumber, setPhoneNumber] = React.useState('');
   const [interestedCourse, setInterestedCourse] = React.useState('');
+  const [dialogState,setDialogState]=React.useState(false);
+  const [successOrFail, setSuccessOrFail] = React.useState(false);
 
   const handleDateChange = date => {
     if(date)
@@ -52,12 +55,26 @@ export const UserComponent = () => {
     console.log(userObject);
 
     axios.post('http://localhost:5000/student/add',userObject)
-    .then(res => console.log(res.data));
+    .then(res => {console.log(res.data)
+      setDialogState(true);
+      setSuccessOrFail(true);
+      resetValues();
+    })
+    .catch(err => {
+      setDialogState(true);
+      setSuccessOrFail(false);
+    });
 
 
   }
 
-  
+  const resetValues=()=>{
+    setFirstName('');
+    setLastName('');
+    setPhoneNumber('');
+    setSelectedDate(null);
+    setInterestedCourse('');
+  }
   
   const onChangeFirstName = event =>{
     setFirstName(event.target.value);
@@ -105,6 +122,7 @@ export const UserComponent = () => {
       </div>
       <Button variant="contained" color="primary" type="submit"> Save </Button>
        </form>
+       <SuccessDialog dialogState={dialogState} setDialogStateFn={setDialogState} successOrFail={successOrFail}/>
     </div>         
   );
 }
