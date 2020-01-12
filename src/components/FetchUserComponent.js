@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import ExpansionPanelForFetchUserComponent from './ExpansionPanelForFetchUserComponent';
 import ExportAsExcelComponent from './ExportAsExcelComponent'
+import FailOnFetchingDialog from './Dialogs/FailOnFetchingDailog';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,6 +33,9 @@ export const FetchUserComponent = () => {
     const [dateToFetch, setSelectedDateToFetch] = React.useState(null);
     const [studentsFound, setStudentsFound] = React.useState([]);
     const [loadingSpinner,setLoadingSpinner] = React.useState(false);
+    const [dialogState,setDialogState]=React.useState(false);
+    const [successOrFail, setSuccessOrFail] = React.useState(false);
+
     const handleDateChangeToFetch = date => {
         if(date)
         setSelectedDateToFetch(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
@@ -47,18 +51,26 @@ export const FetchUserComponent = () => {
     
         axios.post('http://localhost:5000/student/getstudent',fetchObject)
         .then(res => {
-          setLoadingSpinner(false);
+            setLoadingSpinner(false);
             console.log(res.data)
             if(res.data.length > 0){
                 console.log('found');
                 console.log(res.data);
-               
+                setDialogState(true);
+                setSuccessOrFail(true);
                 handleStudentChange(res.data);
                 console.log(res.data.map(user => user.firstName))
             }else{
               handleStudentChange([]);
+              setDialogState(true);
+              setSuccessOrFail(false);
             }
-        });
+        })
+        .catch(err =>{
+          setLoadingSpinner(false);
+          setDialogState(true);
+          setSuccessOrFail(false);
+        })
       }
 
       const handleStudentChange = (data) =>{
@@ -97,7 +109,7 @@ export const FetchUserComponent = () => {
         <CircularProgress />:<span>
           <ExportAsExcelComponent studentsFound={studentsFound}></ExportAsExcelComponent>
         <ExpansionPanelForFetchUserComponent studentsFound={studentsFound}></ExpansionPanelForFetchUserComponent></span>}
-       
+        {!successOrFail?<FailOnFetchingDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>:<span></span>}
         
         {/* {studentsFound.map(data => {
             return <li><h3>First Name : {data.firstName}</h3><h3>Phone Number : {data.phoneNumber}</h3> <h3>Follow Up Date : {new Date(data.followUpDate).getDate()}-{new Date(data.followUpDate).getMonth()+1}-{new Date(data.followUpDate).getFullYear()}</h3> </li>

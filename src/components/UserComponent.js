@@ -9,7 +9,8 @@ import {
 } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import SuccessDialog from './SuccessDialog';
+import SuccessDialog from './Dialogs/SuccessDialog';
+import FailDialog from './Dialogs/FailDialog';
 
 
 
@@ -122,7 +123,8 @@ export const UserComponent = () => {
       </div>
       <Button variant="contained" color="primary" type="submit"> Save </Button>
        </form>
-       <SuccessDialog dialogState={dialogState} setDialogStateFn={setDialogState} successOrFail={successOrFail}/>
+       {successOrFail?<SuccessDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>
+       :<FailDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>}
     </div>         
   );
 }

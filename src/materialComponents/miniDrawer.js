@@ -23,6 +23,9 @@ import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 import {UserComponent} from '../components/UserComponent';
 import {FetchUserComponent} from '../components/FetchUserComponent';
 import CreateUserComponent from '../components/CreateUserComponent';
+import SearchIcon from '@material-ui/icons/Search';
+
+
 
 
 
@@ -155,8 +158,8 @@ export default function MiniDrawer() {
               <ListItemText primary='Add Student' />
             </ListItem>
 
-            <ListItem button key='addCourse' component={Link} to='/fetchusercomponent'>
-              <ListItemIcon><InboxIcon /></ListItemIcon>
+            <ListItem button key='findStudent' component={Link} to='/fetchusercomponent'>
+              <ListItemIcon><SearchIcon /></ListItemIcon>
               <ListItemText primary='Find Student' />
             </ListItem>
          

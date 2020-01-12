@@ -4,14 +4,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function SuccessDialog(props) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
+export default function FailOnFetchingDialog(props) {
+  
+    const handleClose = () => {
     props.setDialogStateFn(false);
   };
 
@@ -23,10 +18,9 @@ export default function SuccessDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {props.successOrFail?<DialogTitle id="alert-dialog-title">Saved SuccessFully</DialogTitle>
-        :<DialogTitle id="alert-dialog-title">Could Not Save The Data</DialogTitle>}
+        <DialogTitle id="alert-dialog-title">No Students Found</DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose}>
             OK
           </Button>
         </DialogActions>
