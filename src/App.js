@@ -18,7 +18,7 @@ import  PrivateRoute  from './components/Login/PrivateRoute'
 function App() {
 
   const [authTokens, setAuthTokens] = React.useState();
-  
+  console.log("This is the process.env", process.env.PUBLIC_URL)
   const setTokens = (data) => {
     localStorage.setItem("tokens", JSON.stringify(data));
     setAuthTokens(data);
@@ -27,7 +27,7 @@ function App() {
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
     <Router>    
-      <Route exact path="/" component={LoginComponent} />
+      <Route exact path={'/'} component={LoginComponent} />
       <PrivateRoute exact path="/home" component={MiniDrawer} />
       
     </Router>
