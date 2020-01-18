@@ -108,6 +108,7 @@ export default function MiniDrawer() {
 
   return (
     <div className={classes.root}>
+      <Router>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -178,7 +179,6 @@ export default function MiniDrawer() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-        <Route exact path="/"/>
         <Route exact path="/add">
         <UserComponent/>
         </Route>
@@ -187,6 +187,7 @@ export default function MiniDrawer() {
         </Route>
       </Switch>
         </main>
+        </Router>
     </div>
   );
 }
