@@ -4,13 +4,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import {useAuth} from './context/auth';
 import { Redirect } from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
     root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: 200,
-      },
+        width: '100%',
+        marginTop: theme.spacing(1),
+    },
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
     },
   }));
 
@@ -30,7 +39,7 @@ export default function LoginComponent(){
 
     const onChangeUserName=(event)=>{
         event.preventDefault();
-        setUsername(event.target.value)
+        setUsername(event.target.value.toLowerCase())
     }
   
     const onChangeUserPassword=(event)=>{
@@ -42,7 +51,7 @@ export default function LoginComponent(){
   
   const handleSubmit=(event)=>{
       event.preventDefault();
-      if(username=='admin' && password=='admin'){
+      if(username==='admin' && password==='admin'){
         setLoggedIn(true);
         setAuthTokens("abc")
       }
@@ -54,26 +63,42 @@ export default function LoginComponent(){
   }
 
     return(
+      <Container component="main" maxWidth="xs">
+        <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
         <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
             <TextField
                 required
+                fullWidth
                 id="outlined-required"
                 label="Username"
                 variant="outlined"
+                margin="normal"
                 onChange={onChangeUserName}
+                value={username}
             />
-            <br></br>
+            
             <TextField
                 required
+                fullWidth
                 id="outlined-password-input"
                 label="Password"
                 type="password"
                 autoComplete="current-password"
                 variant="outlined"
+                margin="normal"
                 onChange={onChangeUserPassword}
             />
             <br></br>
-            <Button variant="contained" color="primary" type="submit"> LOGIN </Button>
+            <Button 
+            fullWidth
+            variant="contained"
+            className={classes.submit}
+            color="primary" type="submit"> LOGIN </Button>
         </form>
+        </div>
+        </Container>
     );
 }

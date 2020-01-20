@@ -12,7 +12,7 @@ export default function PrivateRoute({ component: Component, ...rest }) {
         isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/" />
+          <Redirect basename={process.env.PUBLIC_URL} to="/" />
         )
       }
     />

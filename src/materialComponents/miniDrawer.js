@@ -24,6 +24,9 @@ import {UserComponent} from '../components/UserComponent';
 import {FetchUserComponent} from '../components/FetchUserComponent';
 import CreateUserComponent from '../components/CreateUserComponent';
 import SearchIcon from '@material-ui/icons/Search';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { useAuth } from "../components/Login/context/auth";
+import { Redirect } from "react-router-dom";
 
 
 
@@ -97,6 +100,7 @@ export default function MiniDrawer() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [isLoggedIn, setLoggedIn] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,6 +109,16 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const { setAuthTokens } = useAuth();
+  const logout=()=>{
+    setAuthTokens();
+    setLoggedIn(false);
+  }
+  const {authTokens} = useAuth();
+  if (!isLoggedIn && !authTokens) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.root}>
@@ -173,6 +187,10 @@ export default function MiniDrawer() {
               <ListItemText primary={text} />
             </ListItem>
           ))}
+           <ListItem button key='logout' onClick={logout}>
+              <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
+              <ListItemText primary='Logout' />
+            </ListItem>
         </List>
       </Drawer>
 
