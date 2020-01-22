@@ -53,7 +53,15 @@ export default function LoginComponent(){
       event.preventDefault();
       if(username==='admin' && password==='admin'){
         setLoggedIn(true);
-        setAuthTokens("abc")
+        setAuthTokens({
+          user:username,
+        });
+      }
+      if(username==='alistar' && password==='alistar'){
+        setLoggedIn(true);
+        setAuthTokens({
+          user:username,
+        });
       }
   
   }
@@ -68,7 +76,7 @@ export default function LoginComponent(){
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <form className={classes.root} Validate autoComplete="off" onSubmit={handleSubmit}>
             <TextField
                 required
                 fullWidth

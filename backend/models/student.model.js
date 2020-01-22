@@ -6,7 +6,8 @@ const studentSchema = new Schema({
     lastName : {type:String,required:true},
     followUpDate : {type:Date,required:true},
     phoneNumber : {type:Number,required:true},
-    courseInterested : {type:String,required:true}
+    courseInterested : {type:String,required:true},
+    lastUpdateUser : {type:String,required:true}
 },{
     timestamps:true
 });

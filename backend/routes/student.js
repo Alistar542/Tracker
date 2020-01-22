@@ -8,13 +8,14 @@ router.route('/add').post((req,res)=>{
     const followUpDate = Date.parse(req.body.followUpDate);
     const phoneNumber = Number(req.body.phoneNumber);
     const courseInterested = req.body.courseInterested;
-    console.log('second : '+followUpDate);
+    const lastUpdateUser = req.body.lastUpdateUser;
     const newStudent = new Student({
         firstName,
         lastName,
         followUpDate,
         phoneNumber,
-        courseInterested
+        courseInterested,
+        lastUpdateUser
     })
 
     newStudent.save()
@@ -25,8 +26,16 @@ router.route('/add').post((req,res)=>{
 
 router.route('/getstudent').post((req,res) => {
     var date1 = Date.parse(req.body.followUpDate);
+    var currentUser = req.body.currentUser;
+    var query;
+    if(currentUser === 'admin'){
+
+        query = {followUpDate : date1};
+    }else{
+        query = {followUpDate : date1,
+            lastUpdateUser:currentUser};
+    }
     
-    var query = {followUpDate : date1};
     Student.find(query)
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' +err));

@@ -12,6 +12,7 @@ import axios from 'axios';
 import ExpansionPanelForFetchUserComponent from './ExpansionPanelForFetchUserComponent';
 import ExportAsExcelComponent from './ExportAsExcelComponent'
 import FailOnFetchingDialog from './Dialogs/FailOnFetchingDailog';
+import {useAuth} from './Login/context/auth';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,6 +36,7 @@ export const FetchUserComponent = () => {
     const [loadingSpinner,setLoadingSpinner] = React.useState(false);
     const [dialogState,setDialogState]=React.useState(false);
     const [successOrFail, setSuccessOrFail] = React.useState(false);
+    const {authTokens} = useAuth();
 
     const handleDateChangeToFetch = date => {
         if(date)
@@ -45,7 +47,8 @@ export const FetchUserComponent = () => {
         event.preventDefault();
         setLoadingSpinner(true);
         const fetchObject = {
-          followUpDate:dateToFetch
+          followUpDate:dateToFetch,
+          currentUser:authTokens.user
         }
         console.log(' date to fetch : : '+dateToFetch);
     

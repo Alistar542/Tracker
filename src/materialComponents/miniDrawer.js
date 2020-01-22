@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -27,8 +27,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { useAuth } from "../components/Login/context/auth";
 import { Redirect } from "react-router-dom";
-
-
+import axios from 'axios';
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 
 
@@ -101,7 +102,7 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [isLoggedIn, setLoggedIn] = React.useState(true);
-
+  const [followUps,setFollowUps] = React.useState();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -115,11 +116,37 @@ export default function MiniDrawer() {
     setAuthTokens();
     setLoggedIn(false);
   }
+  
+  useEffect(() => { 
+    if(authTokens){
+      var date = new Date();
+      const fetchObject = {
+        followUpDate:new Date(date.getFullYear(),date.getMonth(),date.getDate()),
+        currentUser:authTokens.user
+      }
+      
+  
+      axios.post('http://localhost:5000/student/getstudent',fetchObject)
+      .then(res => {
+          
+          console.log(res.data)
+         
+          setFollowUps(res.data.length);
+              
+          
+      })
+      .catch(err =>{
+       
+      })
+    }
+  });
   const {authTokens} = useAuth();
   if (!isLoggedIn && !authTokens) {
     return <Redirect to="/" />;
   }
-
+  
+  
+  
   return (
     <div className={classes.root}>
       <Router>
@@ -145,6 +172,11 @@ export default function MiniDrawer() {
           <Typography variant="h6" noWrap>
             Tracker
           </Typography>
+          <IconButton aria-label="show new notifications" color="inherit">
+              <Badge badgeContent={followUps} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer

@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import SuccessDialog from './Dialogs/SuccessDialog';
 import FailDialog from './Dialogs/FailDialog';
+import {useAuth} from './Login/context/auth'
 
 
 
@@ -42,7 +43,7 @@ export const UserComponent = () => {
     setSelectedDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
   };
 
-
+  const {authTokens} = useAuth();
   const handleSubmit=(event)=>{
     event.preventDefault();
     const userObject ={
@@ -50,7 +51,8 @@ export const UserComponent = () => {
       lastName:lastName,
       phoneNumber:phoneNumber,
       courseInterested:interestedCourse,
-      followUpDate:selectedDate
+      followUpDate:selectedDate,
+      lastUpdateUser:authTokens.user
     }
 
     console.log(userObject);
@@ -97,7 +99,7 @@ export const UserComponent = () => {
              
     <div>
 
-    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+    <form className={classes.root} Validate autoComplete="off" onSubmit={handleSubmit}>
         Add a student
     <div>
       <TextField required id="standard-required" label="First Name" value={firstName} onChange={onChangeFirstName}/>
