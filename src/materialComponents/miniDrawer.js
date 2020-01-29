@@ -125,7 +125,8 @@ export default function MiniDrawer() {
         currentUser:authTokens.user
       }
       
-  
+  //https://protected-gorge-55144.herokuapp.com/student/getstudent
+  //http://localhost:5000/student/getstudent
       axios.post('http://localhost:5000/student/getstudent',fetchObject)
       .then(res => {
           

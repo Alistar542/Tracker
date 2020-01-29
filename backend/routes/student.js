@@ -27,6 +27,7 @@ router.route('/add').post((req,res)=>{
 router.route('/getstudent').post((req,res) => {
     var date1 = Date.parse(req.body.followUpDate);
     var currentUser = req.body.currentUser;
+    var status = req.body.status;
     var query;
     if(currentUser === 'admin'){
 
@@ -35,7 +36,6 @@ router.route('/getstudent').post((req,res) => {
         query = {followUpDate : date1,
             lastUpdateUser:currentUser};
     }
-    
     Student.find(query)
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' +err));

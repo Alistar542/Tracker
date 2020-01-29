@@ -13,6 +13,9 @@ import ExpansionPanelForFetchUserComponent from './ExpansionPanelForFetchUserCom
 import ExportAsExcelComponent from './ExportAsExcelComponent'
 import FailOnFetchingDialog from './Dialogs/FailOnFetchingDailog';
 import {useAuth} from './Login/context/auth';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,6 +39,7 @@ export const FetchUserComponent = () => {
     const [loadingSpinner,setLoadingSpinner] = React.useState(false);
     const [dialogState,setDialogState]=React.useState(false);
     const [successOrFail, setSuccessOrFail] = React.useState(false);
+    const [status,setStatus] = React.useState('P');
     const {authTokens} = useAuth();
 
     const handleDateChangeToFetch = date => {
@@ -48,10 +52,12 @@ export const FetchUserComponent = () => {
         setLoadingSpinner(true);
         const fetchObject = {
           followUpDate:dateToFetch,
+          status:status,
           currentUser:authTokens.user
         }
         console.log(' date to fetch : : '+dateToFetch);
-    
+    //https://protected-gorge-55144.herokuapp.com/student/getstudent
+    //http://localhost:5000/student/getstudent
         axios.post('http://localhost:5000/student/getstudent',fetchObject)
         .then(res => {
             setLoadingSpinner(false);
@@ -82,6 +88,10 @@ export const FetchUserComponent = () => {
           console.log(data);
       }
 
+      const handleStatusChange = (data) =>{
+        setStatus(data);
+      }
+
   return(
 
     <div>
@@ -103,6 +113,16 @@ export const FetchUserComponent = () => {
             }}
             />
             </MuiPickersUtilsProvider>
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={status}
+              onChange={handleStatusChange}
+            >
+              <MenuItem value={'P'}>Pending</MenuItem>
+              <MenuItem value={'D'}>Done</MenuItem>
+            </Select>
             <Button variant="contained" className={classes.buttonStyle} color="primary" type="submit"> Find </Button>
             
         </form>

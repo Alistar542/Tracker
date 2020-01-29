@@ -56,7 +56,8 @@ export const UserComponent = () => {
     }
 
     console.log(userObject);
-
+//https://protected-gorge-55144.herokuapp.com/student/add
+//http://localhost:5000/student/add
     axios.post('http://localhost:5000/student/add',userObject)
     .then(res => {console.log(res.data)
       setDialogState(true);
