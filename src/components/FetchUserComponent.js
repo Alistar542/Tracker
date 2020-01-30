@@ -89,7 +89,7 @@ export const FetchUserComponent = () => {
       }
 
       const handleStatusChange = (data) =>{
-        setStatus(data);
+        setStatus(data.target.value);
       }
 
   return(

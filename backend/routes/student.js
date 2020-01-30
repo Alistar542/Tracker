@@ -36,7 +36,8 @@ router.route('/getstudent').post((req,res) => {
         query = {followUpDate : date1,
             lastUpdateUser:currentUser};
     }
-    Student.find(query)
+    var cloneQuery = {status:status,...query};
+    Student.find(cloneQuery)
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' +err));
 });
