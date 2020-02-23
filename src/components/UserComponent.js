@@ -19,6 +19,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { flexbox } from '@material-ui/system';
 import FormControl from '@material-ui/core/FormControl';
 import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +45,18 @@ const useStyles = makeStyles(theme => ({
   formControlSelect:{
     margin: theme.spacing(1),
     minWidth: 160,
-  }
+  },
+  appBar: {
+    top: 'auto',
+    bottom: 0,
+    background:'#42a5f5',
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'flex-end',
+    '& .MuiButton-root':{
+      margin:theme.spacing(1)
+    }
+  },
 }));
 
 
@@ -66,6 +84,7 @@ export const UserComponent = () => {
   const [writing,setWriting] = React.useState();
   const [speaking,setSpeaking] = React.useState();
   const [selectedExamDate,setExamDate] = React.useState(null);
+  const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
 
   const handleDateChange = date => {
     if(date)
@@ -173,6 +192,15 @@ export const UserComponent = () => {
 
   const onChangeEnglishExamType = event => {
     
+  }
+
+  const openFollowUpPopupFn = event => {
+    event.preventDefault();
+    setOpenFollowUpPopup(true);
+  }
+
+  const closeFollowUpPopupFn = event => {
+    setOpenFollowUpPopup(false);
   }
 
   return(
@@ -289,10 +317,43 @@ export const UserComponent = () => {
           <TextField required id="standard" label="Speaking" value={speaking} onChange={onChangeSpeaking}/>
         </div>
       <br></br>
-      <Button variant="contained" color="primary" type="submit"> Save </Button>
-       </form>
+      
        {successOrFail?<SuccessDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>
        :<FailDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>}
+
+
+      <Dialog open={openFollowUpPopup} onClose={closeFollowUpPopupFn} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter the follow up details
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Remarks"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeFollowUpPopupFn} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={closeFollowUpPopupFn} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+       <AppBar position="fixed" color="primary" className={classes.appBar}>
+       <Toolbar>
+       <Button variant="contained" color="primary" onClick={openFollowUpPopupFn}> Follow Up </Button>
+       <Button variant="contained" color="primary" type="submit"> Save </Button>
+       </Toolbar>
+       </AppBar>
+       </form>
     </div>         
   );
 }

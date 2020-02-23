@@ -6,7 +6,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import ExpansionPanelForFetchUserComponent from './ExpansionPanelForFetchUserComponent';
@@ -16,6 +15,7 @@ import {useAuth} from './Login/context/auth';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,7 +27,17 @@ const useStyles = makeStyles(theme => ({
     buttonStyle: {
       width:100,
       height:40,
-      position:"relative"  
+    },
+    filterDiv:{
+      margin: theme.spacing(1),
+      display:'flex',
+      flexDirection:'row',
+      flexWrap:'wrap',
+      alignItems:'center',
+    },
+    formControlSelect:{
+      margin: theme.spacing(1),
+      minWidth: 160,
     }
   }));
 
@@ -95,8 +105,8 @@ export const FetchUserComponent = () => {
   return(
 
     <div>
-      <Box color="text.primary" display="flex" flexDirection="row" justifyContent="flex-start" alignItems="flex-start">
-        <form noValidate autoComplete="off" onSubmit={handleSubmitForFetching}>
+      <div>
+        <form noValidate autoComplete="off" className={classes.filterDiv} onSubmit={handleSubmitForFetching}>
             
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -113,6 +123,7 @@ export const FetchUserComponent = () => {
             }}
             />
             </MuiPickersUtilsProvider>
+            <FormControl className={classes.formControlSelect}>
             <InputLabel id="demo-simple-select-label">Status</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -123,10 +134,11 @@ export const FetchUserComponent = () => {
               <MenuItem value={'P'}>Pending</MenuItem>
               <MenuItem value={'D'}>Done</MenuItem>
             </Select>
+            </FormControl>
             <Button variant="contained" className={classes.buttonStyle} color="primary" type="submit"> Find </Button>
             
         </form>
-        </Box>
+        </div>
         <br></br>
         {loadingSpinner?
         <CircularProgress />:<span>
