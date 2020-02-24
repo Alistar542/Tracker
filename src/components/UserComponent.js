@@ -26,6 +26,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles(theme => ({
@@ -57,6 +59,10 @@ const useStyles = makeStyles(theme => ({
       margin:theme.spacing(1)
     }
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 
@@ -85,6 +91,8 @@ export const UserComponent = () => {
   const [speaking,setSpeaking] = React.useState();
   const [selectedExamDate,setExamDate] = React.useState(null);
   const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
+  const [backDropState,setBackDropState] = React.useState(false);
+  const [followUpRemarks,setFollowUpRemarks] = React.useState();
 
   const handleDateChange = date => {
     if(date)
@@ -94,6 +102,7 @@ export const UserComponent = () => {
   const {authTokens} = useAuth();
   const handleSubmit=(event)=>{
     event.preventDefault();
+    setBackDropState(true);
     const userObject ={
       firstName:firstName,
       lastName:lastName,
@@ -111,10 +120,12 @@ export const UserComponent = () => {
       setDialogState(true);
       setSuccessOrFail(true);
       resetValues();
+      setBackDropState(false);
     })
     .catch(err => {
       setDialogState(true);
       setSuccessOrFail(false);
+      setBackDropState(false);
     });
 
 
@@ -201,6 +212,13 @@ export const UserComponent = () => {
 
   const closeFollowUpPopupFn = event => {
     setOpenFollowUpPopup(false);
+    var val = event.target.value;
+  }
+
+  const handleSubmitFollowUp = event => {
+    event.preventDefault();
+    setOpenFollowUpPopup(false);
+    var val = event.target.followupremarks.value;
   }
 
   return(
@@ -323,7 +341,8 @@ export const UserComponent = () => {
 
 
       <Dialog open={openFollowUpPopup} onClose={closeFollowUpPopupFn} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Follow Up</DialogTitle>
+        <form id="followUpForm" onSubmit={handleSubmitFollowUp}>
         <DialogContent>
           <DialogContentText>
             Please enter the follow up details
@@ -331,7 +350,7 @@ export const UserComponent = () => {
           <TextField
             autoFocus
             margin="dense"
-            id="name"
+            id="followupremarks"
             label="Remarks"
             fullWidth
           />
@@ -340,10 +359,11 @@ export const UserComponent = () => {
           <Button onClick={closeFollowUpPopupFn} color="primary">
             Cancel
           </Button>
-          <Button onClick={closeFollowUpPopupFn} color="primary">
+          <Button type="submit" color="primary">
             Save
           </Button>
         </DialogActions>
+        </form>
       </Dialog>
 
 
@@ -354,6 +374,9 @@ export const UserComponent = () => {
        </Toolbar>
        </AppBar>
        </form>
+       <Backdrop className={classes.backdrop} open={backDropState}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>         
   );
 }

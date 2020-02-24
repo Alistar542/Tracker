@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
         background:'white',
         padding:'10%',
         borderRadius:'1%',
-        marginBottom:theme.spacing(30)
+        //marginBottom:'100%'
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -31,12 +31,11 @@ const useStyles = makeStyles(theme => ({
         background: 'blue'
     },
     back: {
-        height: '100%',
+        height: '100vh',
         display: 'flex',
         //backgroundImage : `url(${BookBackground})`,
-        marginBottom:theme.spacing(1),
         backgroundPosition:'center',
-        background:'#00bcd4'
+        background:'#00bcd4',
     }
 }));
 
@@ -89,7 +88,7 @@ export default function LoginComponent() {
 
     return ( <div className = { classes.back } >
         <Container component = "main" maxWidth = "xs" >
-        <div className = { classes.paper } >
+        <div className = { classes.paper } elevation={6}>
         <Typography component = "h1" variant = "h5" >
         Sign in
         </Typography> 
