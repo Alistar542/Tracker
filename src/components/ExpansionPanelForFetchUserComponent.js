@@ -5,6 +5,10 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
+import {UserComponent} from '../components/UserComponent'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,11 +28,12 @@ export default function ExpansionPanelForFetchUserComponent(props) {
   const classes = useStyles();
   console.log("ExpansionPanelFor FetchUser Component ---- ++++")
   //console.log(props.studentsFound);
-  //const [studentFoundAfterSearch,setStudentFound]=React.useState(props.studentsFound?props.studentsFound:[]);
+  const [studentFoundAfterSearch,setStudentFound]=React.useState();
   //console.log(studentFoundAfterSearch)
 //setStudentFound(props.studentsFound?props.studentsFound:[]);
   return (
     <div className={classes.root}>
+    
     {props.studentsFound.map(data => {
     return <ExpansionPanel className={classes.panel}>
         <ExpansionPanelSummary
@@ -41,11 +46,26 @@ export default function ExpansionPanelForFetchUserComponent(props) {
         <ExpansionPanelDetails>
           <Typography>
             Phone Number: {data.phoneNumber} Course Interested : {data.courseInterested}
+            Follow Up Remarks : {
+              data.followUpRemarks.map(remarks => {
+              return <li>{remarks}</li>
+              })
+            }
+            <Button component={Link} to={{
+				pathname: "/add",
+				state: { studentFound: data }
+			}} color="primary">View</Button>
           </Typography>
         </ExpansionPanelDetails>
+   
+      
+   
       </ExpansionPanel>
    
+
     })}
+	
+	   
     </div>
   );
 }

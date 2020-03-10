@@ -8,7 +8,8 @@ const studentSchema = new Schema({
     phoneNumber : {type:Number,required:true},
     courseInterested : {type:String,required:true},
     status:{type:String,required:true,default:'P'},
-    lastUpdateUser : {type:String,required:true}
+    lastUpdateUser : {type:String,required:true},
+    followUpRemarks : {type:Array}
 },{
     timestamps:true
 });

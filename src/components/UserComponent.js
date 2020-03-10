@@ -28,6 +28,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useLocation} from "react-router";
 
 
 const useStyles = makeStyles(theme => ({
@@ -36,6 +37,11 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(1),
       width: 200,
     },
+  },
+  formDiv :{
+    margin : 0,
+    padding: theme.spacing(3),
+    height:'50%'
   },
   personalInfoDiv:{
         margin: theme.spacing(1),
@@ -57,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent:'flex-end',
     '& .MuiButton-root':{
       margin:theme.spacing(1)
-    }
+    },
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -69,13 +75,15 @@ const useStyles = makeStyles(theme => ({
 
 export const UserComponent = () => {
   
+  let locationFound = useLocation();
+  let {studentFound} = locationFound.state ? locationFound.state : new Object();
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = React.useState(null);
+  const [selectedDate, setSelectedDate] = React.useState(studentFound?studentFound.followUpDate:null);
   const [dateToFetch, setSelectedDateToFetch] = React.useState();
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
-  const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [interestedCourse, setInterestedCourse] = React.useState('');
+  const [firstName, setFirstName] = React.useState(studentFound ? studentFound.firstName : '');
+  const [lastName, setLastName] = React.useState(studentFound?studentFound.lastName:'');
+  const [phoneNumber, setPhoneNumber] = React.useState(studentFound?studentFound.phoneNumber:'');
+  const [interestedCourse, setInterestedCourse] = React.useState(studentFound?studentFound.courseInterested:'');
   const [dialogState,setDialogState]=React.useState(false);
   const [successOrFail, setSuccessOrFail] = React.useState(false);
   const [maritalStatus,setMaritalStatus] = React.useState();
@@ -92,7 +100,7 @@ export const UserComponent = () => {
   const [selectedExamDate,setExamDate] = React.useState(null);
   const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
   const [backDropState,setBackDropState] = React.useState(false);
-  const [followUpRemarks,setFollowUpRemarks] = React.useState();
+  const [followUpRemarks,setFollowUpRemarks] = React.useState(studentFound?studentFound.followUpRemarks:new Array());
 
   const handleDateChange = date => {
     if(date)
@@ -109,10 +117,12 @@ export const UserComponent = () => {
       phoneNumber:phoneNumber,
       courseInterested:interestedCourse,
       followUpDate:selectedDate,
-      lastUpdateUser:authTokens.user
+      lastUpdateUser:authTokens.user,
+      followUpRemarks:followUpRemarks
     }
 
-    console.log(userObject);
+    //console.log(userObject);
+	if(typeof studentFound === 'undefined'){
 //https://protected-gorge-55144.herokuapp.com/student/add
 //http://localhost:5000/student/add
     axios.post('http://localhost:5000/student/add',userObject)
@@ -127,8 +137,24 @@ export const UserComponent = () => {
       setSuccessOrFail(false);
       setBackDropState(false);
     });
+	}else{
 
-
+//update code
+	axios.post('http://localhost:5000/student/update/'+studentFound._id,userObject)
+    .then(res => {
+      console.log("success in client side")
+	  setDialogState(true);
+      setSuccessOrFail(true);
+      resetValues();
+      setBackDropState(false);
+    })
+    .catch(err => {
+		console.log("failed in client side")
+      setDialogState(true);
+      setSuccessOrFail(false);
+      setBackDropState(false);
+    });
+	}
   }
 
   const resetValues=()=>{
@@ -218,22 +244,25 @@ export const UserComponent = () => {
   const handleSubmitFollowUp = event => {
     event.preventDefault();
     setOpenFollowUpPopup(false);
-    var val = event.target.followupremarks.value;
+    let remarksCopy= followUpRemarks;
+    remarksCopy.push(event.target.followupremarks.value);
+    //let follow_up_remarks = [...followUpRemarks,...event.target.followupremarks.value];
+    setFollowUpRemarks(remarksCopy);
   }
 
   return(
              
     <div>
-
-    <form className={classes.root} Validate autoComplete="off" onSubmit={handleSubmit}>
+    <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
+    <div id="formDiv" className={classes.formDiv}>
         <Typography component = "h6" variant = "h6" >
           Personal Information
         </Typography> 
     <div className={classes.personalInfoDiv}>
       <TextField required id="standard-required" label="First Name" value={firstName} onChange={onChangeFirstName}/>
-      <TextField required id="standard-required" label="Middle Name" value={middleName} onChange={onChangeMiddleName}/>
+      <TextField id="standard-required" label="Middle Name" value={middleName} onChange={onChangeMiddleName}/>
       <TextField required id="standard-required" label="Last Name" value={lastName} onChange={onChangeLastName}/>
-      <TextField required id="standard-required" label="Email" value={email} onChange={onChangeEmail}/>
+      <TextField id="standard-required" label="Email" value={email} onChange={onChangeEmail}/>
       <TextField required id="standard-required" label="Phone Number" value={phoneNumber} onChange={onChangePhoneNumber}/>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
@@ -328,19 +357,43 @@ export const UserComponent = () => {
           }}
         />
         </MuiPickersUtilsProvider>
-          <TextField required id="standard" label="Overall" value={overall} onChange={onChangeOverall}/>
-          <TextField required id="standard" label="Listening" value={listening} onChange={onChangeListening}/>
-          <TextField required id="standard" label="Reading" value={reading} onChange={onChangeReading}/>
-          <TextField required id="standard" label="Writing" value={writing} onChange={onChangeWriting}/>
-          <TextField required id="standard" label="Speaking" value={speaking} onChange={onChangeSpeaking}/>
+          <TextField  id="standard" label="Overall" value={overall} onChange={onChangeOverall}/>
+          <TextField  id="standard" label="Listening" value={listening} onChange={onChangeListening}/>
+          <TextField  id="standard" label="Reading" value={reading} onChange={onChangeReading}/>
+          <TextField  id="standard" label="Writing" value={writing} onChange={onChangeWriting}/>
+          <TextField  id="standard" label="Speaking" value={speaking} onChange={onChangeSpeaking}/>
         </div>
       <br></br>
+      <br></br>
+      <Divider/>
+      <br></br>
+      <Typography component = "h6" variant = "h6" >
+          Follow Up Remarks
+      </Typography>
+      <div className={classes.personalInfoDiv}>
+        <ul>
+         
+        {followUpRemarks.map((followUpRem,index) =>{
+          return <li>{followUpRem}</li>
+        })}
+        </ul>
+      </div>
       
        {successOrFail?<SuccessDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>
        :<FailDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>}
 
 
-      <Dialog open={openFollowUpPopup} onClose={closeFollowUpPopupFn} aria-labelledby="form-dialog-title">
+      
+
+
+       
+        </div>
+       <Toolbar position="fixed" className={classes.appBar}>
+       <Button variant="contained" color="primary" onClick={openFollowUpPopupFn}> Follow Up </Button>
+       <Button variant="contained" color="primary" type="submit"> Save </Button>
+       </Toolbar>
+       </form>
+       <Dialog open={openFollowUpPopup} onClose={closeFollowUpPopupFn} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Follow Up</DialogTitle>
         <form id="followUpForm" onSubmit={handleSubmitFollowUp}>
         <DialogContent>
@@ -359,7 +412,7 @@ export const UserComponent = () => {
           <Button onClick={closeFollowUpPopupFn} color="primary">
             Cancel
           </Button>
-          <Button type="submit" color="primary">
+          <Button id="submitFollowUp" type="submit" color="primary">
             Save
           </Button>
         </DialogActions>
@@ -367,13 +420,6 @@ export const UserComponent = () => {
       </Dialog>
 
 
-       <AppBar position="fixed" color="primary" className={classes.appBar}>
-       <Toolbar>
-       <Button variant="contained" color="primary" onClick={openFollowUpPopupFn}> Follow Up </Button>
-       <Button variant="contained" color="primary" type="submit"> Save </Button>
-       </Toolbar>
-       </AppBar>
-       </form>
        <Backdrop className={classes.backdrop} open={backDropState}>
         <CircularProgress color="inherit" />
       </Backdrop>
