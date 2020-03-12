@@ -21,16 +21,15 @@ const useStyles = makeStyles(theme => ({
   panel: {
     background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
     color:'white'
+  },
+  viewButton:{
+    background : 'white'
   }
 }));
 
 export default function ExpansionPanelForFetchUserComponent(props) {
   const classes = useStyles();
-  console.log("ExpansionPanelFor FetchUser Component ---- ++++")
-  //console.log(props.studentsFound);
-  const [studentFoundAfterSearch,setStudentFound]=React.useState();
-  //console.log(studentFoundAfterSearch)
-//setStudentFound(props.studentsFound?props.studentsFound:[]);
+  
   return (
     <div className={classes.root}>
     
@@ -46,15 +45,15 @@ export default function ExpansionPanelForFetchUserComponent(props) {
         <ExpansionPanelDetails>
           <Typography>
             Phone Number: {data.phoneNumber} Course Interested : {data.courseInterested}
-            Follow Up Remarks : {
+            <br></br>Follow Up Remarks : {
               data.followUpRemarks.map(remarks => {
               return <li>{remarks}</li>
               })
             }
-            <Button component={Link} to={{
-				pathname: "/add",
-				state: { studentFound: data }
-			}} color="primary">View</Button>
+            <Button variant="contained" className={classes.viewButton} component={Link} to={{
+                pathname: "/add",
+                state: { studentFound: data }
+              }}>View</Button>
           </Typography>
         </ExpansionPanelDetails>
    

@@ -140,6 +140,8 @@ export const UserComponent = () => {
 	}else{
 
 //update code
+//https://protected-gorge-55144.herokuapp.com/student/update/
+//http://localhost:5000/student/update/
 	axios.post('http://localhost:5000/student/update/'+studentFound._id,userObject)
     .then(res => {
       console.log("success in client side")
@@ -163,6 +165,7 @@ export const UserComponent = () => {
     setPhoneNumber('');
     setSelectedDate(null);
     setInterestedCourse('');
+    setFollowUpRemarks(new Array());
   }
   
   const onChangeFirstName = event =>{
