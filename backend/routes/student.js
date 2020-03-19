@@ -4,18 +4,42 @@ let Student = require('../models/student.model');
 router.route('/add').post((req,res)=>{
     console.log('first : '+req.body.followUpDate);
     const firstName = req.body.firstName;
+    const middleName = req.body.middleName;
     const lastName = req.body.lastName;
-    const followUpDate = Date.parse(req.body.followUpDate);
+    const email = req.body.email;
     const phoneNumber = Number(req.body.phoneNumber);
+    const dateOfBirth = req.body.dateOfBirth;
+    const gender = req.body.gender;
+    const maritalStatus = req.body.maritalStatus;
     const courseInterested = req.body.courseInterested;
+    const followUpDate = req.body.followUpDate;
+    const englishExamType = req.body.englishExamType;
+    const examDate = req.body.examDate;
+    const overall = req.body.overall;
+    const listening = req.body.listening;
+    const reading = req.body.reading;
+    const writing = req.body.writing;
+    const speaking = req.body.speaking;
     const lastUpdateUser = req.body.lastUpdateUser;
     const followUpRemarks = req.body.followUpRemarks;
     const newStudent = new Student({
         firstName,
+        middleName,
         lastName,
-        followUpDate,
+        email,
         phoneNumber,
+        dateOfBirth,
+        gender,
+        maritalStatus,
         courseInterested,
+        followUpDate,
+        englishExamType,
+        examDate,
+        overall,
+        listening,
+        reading,
+        writing,
+        speaking,
         lastUpdateUser,
         followUpRemarks
     })
@@ -28,23 +52,25 @@ router.route('/add').post((req,res)=>{
 
 router.route('/update/:id').post((req,res)=>{
     console.log('Update Id : : '+req.params.id);
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const followUpDate = Date.parse(req.body.followUpDate);
-    const phoneNumber = Number(req.body.phoneNumber);
-    const courseInterested = req.body.courseInterested;
-    const lastUpdateUser = req.body.lastUpdateUser;
-    const followUpRemarks = req.body.followUpRemarks;
-   
-
 	Student.findById(req.params.id)
 	.then(student => {
-		console.log("Student found bro !!!!")
 		student.firstName = req.body.firstName;
-		student.lastName = req.body.lastName;
-		student.followUpDate = Date.parse(req.body.followUpDate);
-		student.phoneNumber = Number(req.body.phoneNumber);
-		student.courseInterested = req.body.courseInterested;
+        student.middleName = req.body.middleName;
+        student.lastName = req.body.lastName;
+        student.email = req.body.email;
+        student.phoneNumber = Number(req.body.phoneNumber);
+        student.dateOfBirth = req.body.dateOfBirth;
+        student.gender = req.body.gender;
+        student.maritalStatus = req.body.maritalStatus;
+        student.courseInterested = req.body.courseInterested;
+        student.followUpDate = req.body.followUpDate;
+        student.englishExamType = req.body.englishExamType;
+        student.examDate = req.body.examDate;
+        student.overall = req.body.overall;
+        student.listening = req.body.listening;
+        student.reading = req.body.reading;
+        student.writing = req.body.writing;
+        student.speaking = req.body.speaking;
 		student.lastUpdateUser = req.body.lastUpdateUser;
 		student.followUpRemarks = req.body.followUpRemarks;
 		

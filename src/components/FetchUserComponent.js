@@ -16,6 +16,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import {useParams,useLocation} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,6 +24,11 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1),
         width: 300,
       },
+    },
+    formDiv :{
+      margin : 0,
+      padding: theme.spacing(3),
+      height:'50%'
     },
     buttonStyle: {
       width:100,
@@ -42,7 +48,6 @@ const useStyles = makeStyles(theme => ({
   }));
 
 export const FetchUserComponent = () => {
-
     const classes = useStyles();
     const [dateToFetch, setSelectedDateToFetch] = React.useState(null);
     const [studentsFound, setStudentsFound] = React.useState([]);
@@ -105,7 +110,7 @@ export const FetchUserComponent = () => {
   return(
 
     <div>
-      <div>
+      <div className={classes.formDiv}>
         <form noValidate autoComplete="off" className={classes.filterDiv} onSubmit={handleSubmitForFetching}>
             
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -138,7 +143,7 @@ export const FetchUserComponent = () => {
             <Button variant="contained" className={classes.buttonStyle} color="primary" type="submit"> Find </Button>
             
         </form>
-        </div>
+        
         <br></br>
         {loadingSpinner?
         <CircularProgress />:<span>
@@ -146,9 +151,8 @@ export const FetchUserComponent = () => {
         <ExpansionPanelForFetchUserComponent studentsFound={studentsFound}></ExpansionPanelForFetchUserComponent></span>}
         {!successOrFail?<FailOnFetchingDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>:<span></span>}
         
-        {/* {studentsFound.map(data => {
-            return <li><h3>First Name : {data.firstName}</h3><h3>Phone Number : {data.phoneNumber}</h3> <h3>Follow Up Date : {new Date(data.followUpDate).getDate()}-{new Date(data.followUpDate).getMonth()+1}-{new Date(data.followUpDate).getFullYear()}</h3> </li>
-        })} */}
+        
+        </div>
     </div>
                   
                 

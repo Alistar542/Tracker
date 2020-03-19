@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import SuccessDialog from './Dialogs/SuccessDialog';
 import FailDialog from './Dialogs/FailDialog';
-import {useAuth} from './Login/context/auth';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -29,6 +28,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation} from "react-router";
+import {useAuth} from './Login/context/auth';
 
 
 const useStyles = makeStyles(theme => ({
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   formDiv :{
     margin : 0,
     padding: theme.spacing(3),
-    height:'50%'
+    marginBottom:theme.spacing(4)
   },
   personalInfoDiv:{
         margin: theme.spacing(1),
@@ -52,11 +52,11 @@ const useStyles = makeStyles(theme => ({
   },
   formControlSelect:{
     margin: theme.spacing(1),
-    minWidth: 160,
+    width: 200,
   },
   appBar: {
-    top: 'auto',
-    bottom: 0,
+    top:'auto',
+    bottom:0,
     background:'#42a5f5',
     display:'flex',
     flexDirection:'row',
@@ -64,6 +64,8 @@ const useStyles = makeStyles(theme => ({
     '& .MuiButton-root':{
       margin:theme.spacing(1)
     },
+    width: `calc(100% - ${theme.spacing(7) + 1}px)`,
+    position:'fixed',
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -79,44 +81,51 @@ export const UserComponent = () => {
   let {studentFound} = locationFound.state ? locationFound.state : new Object();
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = React.useState(studentFound?studentFound.followUpDate:null);
-  const [dateToFetch, setSelectedDateToFetch] = React.useState();
-  const [firstName, setFirstName] = React.useState(studentFound ? studentFound.firstName : '');
-  const [lastName, setLastName] = React.useState(studentFound?studentFound.lastName:'');
-  const [phoneNumber, setPhoneNumber] = React.useState(studentFound?studentFound.phoneNumber:'');
-  const [interestedCourse, setInterestedCourse] = React.useState(studentFound?studentFound.courseInterested:'');
   const [dialogState,setDialogState]=React.useState(false);
   const [successOrFail, setSuccessOrFail] = React.useState(false);
-  const [maritalStatus,setMaritalStatus] = React.useState();
-  const [email,setEmail] = React.useState();
-  const [middleName,setMiddleName] = React.useState();
-  const [selectedDateOfBirth,setSelectedDateOfBirth] = React.useState(null);
-  const [gender,setGender] = React.useState();
-  const [englishExamType,setEnglishExamType] = React.useState();
-  const [overall,setOverall] = React.useState();
-  const [listening,setListening] = React.useState();
-  const [reading,setReading] = React.useState();
-  const [writing,setWriting] = React.useState();
-  const [speaking,setSpeaking] = React.useState();
-  const [selectedExamDate,setExamDate] = React.useState(null);
+  const [selectedDateOfBirth,setSelectedDateOfBirth] = React.useState(studentFound?studentFound.dateOfBirth:null);
+  const [selectedExamDate,setExamDate] = React.useState(studentFound?studentFound.examDate:null);
   const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
   const [backDropState,setBackDropState] = React.useState(false);
-  const [followUpRemarks,setFollowUpRemarks] = React.useState(studentFound?studentFound.followUpRemarks:new Array());
+  const [followUpRemarks,setFollowUpRemarks] = React.useState(studentFound?studentFound.followUpRemarks:null);
+  const {authTokens} = useAuth();
+  const [formData,setFormData] = React.useState(studentFound ? studentFound : {});
+  const [submitted,setSubmitted] = React.useState(false);
 
   const handleDateChange = date => {
     if(date)
     setSelectedDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
   };
 
-  const {authTokens} = useAuth();
-  const handleSubmit=(event)=>{
+  const onChangeValidate = event => {
+    setSubmitted(false); 
+    let formDataClone = {...formData};
+    formDataClone[event.target.name] = event.target.value;
+    setFormData(formDataClone);
+  }
+
+  const onSubmit=(event)=>{
     event.preventDefault();
     setBackDropState(true);
+    
     const userObject ={
-      firstName:firstName,
-      lastName:lastName,
-      phoneNumber:phoneNumber,
-      courseInterested:interestedCourse,
+      firstName:formData.firstName,
+      middleName:formData.middleName,
+      lastName:formData.lastName,
+      email:formData.email,
+      phoneNumber:formData.phoneNumber,
+      dateOfBirth:selectedDateOfBirth,
+      gender:formData.gender,
+      maritalStatus:formData.maritalStatus,
+      courseInterested:formData.courseInterested,
       followUpDate:selectedDate,
+      englishExamType:formData.englishExamType,
+      examDate:selectedExamDate,
+      overall:formData.overall,
+      listening:formData.listening,
+      reading:formData.reading,
+      writing:formData.writing,
+      speaking:formData.speaking,
       lastUpdateUser:authTokens.user,
       followUpRemarks:followUpRemarks
     }
@@ -129,6 +138,7 @@ export const UserComponent = () => {
     .then(res => {console.log(res.data)
       setDialogState(true);
       setSuccessOrFail(true);
+      setSubmitted(true);
       resetValues();
       setBackDropState(false);
     })
@@ -145,8 +155,9 @@ export const UserComponent = () => {
 	axios.post('http://localhost:5000/student/update/'+studentFound._id,userObject)
     .then(res => {
       console.log("success in client side")
-	  setDialogState(true);
+	    setDialogState(true);
       setSuccessOrFail(true);
+      setSubmitted(true);
       resetValues();
       setBackDropState(false);
     })
@@ -160,36 +171,14 @@ export const UserComponent = () => {
   }
 
   const resetValues=()=>{
-    setFirstName('');
-    setLastName('');
-    setPhoneNumber('');
+    let formDataClone = formData;
+    let formDataKeys = Object.keys(formDataClone);
+    formDataKeys.forEach(formDatakey => {
+      formDataClone[formDatakey]=null;
+    });
+    setFormData(formDataClone);
     setSelectedDate(null);
-    setInterestedCourse('');
-    setFollowUpRemarks(new Array());
-  }
-  
-  const onChangeFirstName = event =>{
-    setFirstName(event.target.value);
-  }
-
-  const onChangeLastName = event =>{
-    setLastName(event.target.value);
-  }
-
-  const onChangeInterestedCourse = event =>{
-    setInterestedCourse(event.target.value);
-  }
-
-  const onChangePhoneNumber = event =>{
-    setPhoneNumber(event.target.value);
-  }
-
-  const onChangeEmail = event =>{
-    setEmail(event.target.value);
-  }
-
-  const onChangeMiddleName = event =>{
-    setMiddleName(event.target.value);
+    setFollowUpRemarks(null);
   }
 
   const onChangeDOB = date => {
@@ -197,42 +186,11 @@ export const UserComponent = () => {
     setSelectedDateOfBirth(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
   };
 
-  const onChangeGender = event => {
-    setGender(event.target.value);
-  }
-
-  const onChangeMaritalStatus = event =>{
-    setMaritalStatus(event.target.value);
-  }
-
-  const onChangeListening = event => {
-
-  }
-
-  const onChangeWriting = event => {
-
-  }
-
-  const onChangeReading = event => {
-
-  }
-
-  const onChangeOverall = event => {
-
-  }
-
-  const onChangeSpeaking = event => {
-
-  }
-
   const onChangeExamDate = date => {
     if(date)
     setExamDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
   }
 
-  const onChangeEnglishExamType = event => {
-    
-  }
 
   const openFollowUpPopupFn = event => {
     event.preventDefault();
@@ -247,7 +205,7 @@ export const UserComponent = () => {
   const handleSubmitFollowUp = event => {
     event.preventDefault();
     setOpenFollowUpPopup(false);
-    let remarksCopy= followUpRemarks;
+    let remarksCopy= followUpRemarks?followUpRemarks:[];
     remarksCopy.push(event.target.followupremarks.value);
     //let follow_up_remarks = [...followUpRemarks,...event.target.followupremarks.value];
     setFollowUpRemarks(remarksCopy);
@@ -256,17 +214,54 @@ export const UserComponent = () => {
   return(
              
     <div>
-    <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
+    <form className={classes.root} autoComplete="off" onSubmit={onSubmit}>
     <div id="formDiv" className={classes.formDiv}>
         <Typography component = "h6" variant = "h6" >
           Personal Information
         </Typography> 
     <div className={classes.personalInfoDiv}>
-      <TextField required id="standard-required" label="First Name" value={firstName} onChange={onChangeFirstName}/>
-      <TextField id="standard-required" label="Middle Name" value={middleName} onChange={onChangeMiddleName}/>
-      <TextField required id="standard-required" label="Last Name" value={lastName} onChange={onChangeLastName}/>
-      <TextField id="standard-required" label="Email" value={email} onChange={onChangeEmail}/>
-      <TextField required id="standard-required" label="Phone Number" value={phoneNumber} onChange={onChangePhoneNumber}/>
+
+      <TextField required 
+        id="standard-required" 
+        error={formData.firstName === '' && !submitted} 
+        label="First Name" 
+        value={formData.firstName} 
+        name="firstName" 
+        helperText={formData.firstName==='' && !submitted?"This is a required field":''} 
+        onChange={onChangeValidate} />
+      
+      <TextField id="standard-required" 
+        label="Middle Name" 
+        value={formData.middleName} 
+        name="middleName" 
+        onChange={onChangeValidate}/>
+
+      <TextField required 
+        id="standard-required"
+        error={formData.lastName === ''  && !submitted} 
+        label="Last Name" 
+        name="lastName" 
+        value={formData.lastName}
+        helperText={formData.lastName==='' && !submitted?"This is a required field":''} 
+        onChange={onChangeValidate} />
+
+      <TextField 
+        id="standard-required" 
+        label="Email"
+        name="email" 
+        value={formData.email} 
+        onChange={onChangeValidate}/>
+
+      <TextField 
+        required 
+        id="standard-required"
+        error={formData.phoneNumber === ''  && !submitted} 
+        label="Phone"
+        name="phoneNumber" 
+        value={formData.phoneNumber}
+        helperText={formData.phoneNumber==='' && !submitted?"This is a required field":''} 
+        onChange={onChangeValidate} />
+
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           disableToolbar
@@ -282,32 +277,45 @@ export const UserComponent = () => {
           }}
         />
         </MuiPickersUtilsProvider>
-        <FormControl className={classes.formControlSelect}>
-        <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+
+          <FormControl className={classes.formControlSelect}>
+          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={gender}
-              onChange={onChangeGender}
+              name="gender"
+              value={formData.gender}
+              onChange={onChangeValidate}
             >
               <MenuItem value={'M'}>Male</MenuItem>
               <MenuItem value={'F'}>Female</MenuItem>
               <MenuItem value={'O'}>Other</MenuItem>
             </Select>
             </FormControl>
+
             <FormControl className={classes.formControlSelect}>
             <InputLabel id="demo-simple-select-label">Marital Status</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={maritalStatus}
-              onChange={onChangeMaritalStatus}
+              name="maritalStatus"
+              value={formData.maritalStatus}
+              onChange={onChangeValidate}
             >
               <MenuItem value={'M'}>Married</MenuItem>
               <MenuItem value={'F'}>Un-Married</MenuItem>
             </Select>
             </FormControl>
-      <TextField required id="standard-required" label="Interested Course" value={interestedCourse} onChange={onChangeInterestedCourse}/>
+
+      <TextField required 
+        id="standard-required" 
+        label="Interested Course"
+        name="courseInterested"
+        error={formData.courseInterested === ''  && !submitted} 
+        value={formData.courseInterested}
+        helperText={formData.courseInterested==='' && !submitted?"This is a required field":''} 
+        onChange={onChangeValidate} />
+      
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           disableToolbar
@@ -337,8 +345,9 @@ export const UserComponent = () => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={englishExamType}
-              onChange={onChangeEnglishExamType}
+              value={formData.englishExamType}
+              name="englishExamType"
+              onChange={onChangeValidate}
             >
               <MenuItem value={'IELTS'}>IELTS</MenuItem>
               <MenuItem value={'TOEFL'}>TOEFL</MenuItem>
@@ -360,16 +369,37 @@ export const UserComponent = () => {
           }}
         />
         </MuiPickersUtilsProvider>
-          <TextField  id="standard" label="Overall" value={overall} onChange={onChangeOverall}/>
-          <TextField  id="standard" label="Listening" value={listening} onChange={onChangeListening}/>
-          <TextField  id="standard" label="Reading" value={reading} onChange={onChangeReading}/>
-          <TextField  id="standard" label="Writing" value={writing} onChange={onChangeWriting}/>
-          <TextField  id="standard" label="Speaking" value={speaking} onChange={onChangeSpeaking}/>
+          <TextField  id="standard" 
+            label="Overall"
+            name="overall"
+            value={formData.overall} 
+            onChange={onChangeValidate}/>
+          <TextField  id="standard" 
+            label="Listening" 
+            name="listening"
+            value={formData.listening} 
+            onChange={onChangeValidate}/>
+          <TextField  id="standard" 
+            label="Reading" 
+            name="reading"
+            value={formData.reading} 
+            onChange={onChangeValidate}/>
+          <TextField  id="standard" 
+            label="Writing"
+            name="writing" 
+            value={formData.writing} 
+            onChange={onChangeValidate}/>
+          <TextField  id="standard" 
+            label="Speaking" 
+            name="speaking"
+            value={formData.speaking} 
+            onChange={onChangeValidate}/>
         </div>
       <br></br>
       <br></br>
       <Divider/>
       <br></br>
+      {followUpRemarks?<div>
       <Typography component = "h6" variant = "h6" >
           Follow Up Remarks
       </Typography>
@@ -380,7 +410,7 @@ export const UserComponent = () => {
           return <li>{followUpRem}</li>
         })}
         </ul>
-      </div>
+      </div></div>:<span></span>}
       
        {successOrFail?<SuccessDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>
        :<FailDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>}
@@ -404,6 +434,7 @@ export const UserComponent = () => {
             Please enter the follow up details
           </DialogContentText>
           <TextField
+            required
             autoFocus
             margin="dense"
             id="followupremarks"

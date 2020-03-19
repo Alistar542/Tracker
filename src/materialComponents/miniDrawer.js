@@ -19,7 +19,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
 import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route,Switch,HashRouter, useLocation} from 'react-router-dom';
 import {UserComponent} from '../components/UserComponent';
 import {FetchUserComponent} from '../components/FetchUserComponent';
 import CreateUserComponent from '../components/CreateUserComponent';
@@ -30,6 +30,8 @@ import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import HomeIcon from '@material-ui/icons/Home';
+
 
 
 
@@ -98,10 +100,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MiniDrawer() {
+  let match;
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [isLoggedIn, setLoggedIn] = React.useState(true);
+  const [isLoggedIn, setLoggedIn] = React.useState(false);
   const [followUps,setFollowUps] = React.useState();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -117,7 +120,7 @@ export default function MiniDrawer() {
     setLoggedIn(false);
   }
   
-  useEffect(() => { 
+  useEffect(() => {
     if(authTokens){
       var date = new Date();
       const fetchObject = {
@@ -140,7 +143,7 @@ export default function MiniDrawer() {
        
       })
     }
-  });
+  },[]);
   const {authTokens} = useAuth();
   if (!isLoggedIn && !authTokens) {
     return <Redirect to="/" />;
@@ -150,7 +153,7 @@ export default function MiniDrawer() {
   
   return (
     <div className={classes.root}>
-      <Router>
+      
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -200,13 +203,18 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
+
+            <ListItem button key='home' component={Link} to="/home">
+              <ListItemIcon><HomeIcon /></ListItemIcon>
+              <ListItemText primary='Home' />
+            </ListItem>
          
-            <ListItem button key='addStudent' component={Link} to='/add'>
+            <ListItem button key='addStudent' component={Link} to="/home/add">
               <ListItemIcon><FaceRoundedIcon /></ListItemIcon>
               <ListItemText primary='Add Student' />
             </ListItem>
 
-            <ListItem button key='findStudent' component={Link} to='/fetchusercomponent'>
+            <ListItem button key='findStudent' component={Link} to="/home/fetchusercomponent">
               <ListItemIcon><SearchIcon /></ListItemIcon>
               <ListItemText primary='Find Student' />
             </ListItem>
@@ -214,12 +222,6 @@ export default function MiniDrawer() {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
            <ListItem button key='logout' onClick={logout}>
               <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
               <ListItemText primary='Logout' />
@@ -229,16 +231,21 @@ export default function MiniDrawer() {
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Switch>
-        <Route exact path="/add">
+       
+
+      <Switch>
+        <Route exact path={'/home'}>
+      <Typography>Hello {authTokens.user}</Typography>
+        </Route>
+        <Route path={'/home/add'}>
         <UserComponent/>
         </Route>
-        <Route exact path="/fetchusercomponent">
+        <Route path="/home/fetchusercomponent">
         <FetchUserComponent/>
         </Route>
       </Switch>
         </main>
-        </Router>
+       
     </div>
   );
 }

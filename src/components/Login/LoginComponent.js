@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         //backgroundImage : `url(${BookBackground})`,
         backgroundPosition:'center',
-        background:'#00bcd4',
+        //background:'#00bcd4',
+        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
     }
 }));
 

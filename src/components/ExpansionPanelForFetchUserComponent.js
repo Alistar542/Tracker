@@ -45,13 +45,15 @@ export default function ExpansionPanelForFetchUserComponent(props) {
         <ExpansionPanelDetails>
           <Typography>
             Phone Number: {data.phoneNumber} Course Interested : {data.courseInterested}
-            <br></br>Follow Up Remarks : {
+            <br></br>
+            {data.followUpRemarks?<div>
+            Follow Up Remarks : {
               data.followUpRemarks.map(remarks => {
               return <li>{remarks}</li>
               })
-            }
+            }</div>:<span></span>}
             <Button variant="contained" className={classes.viewButton} component={Link} to={{
-                pathname: "/add",
+                pathname: "/home/add",
                 state: { studentFound: data }
               }}>View</Button>
           </Typography>

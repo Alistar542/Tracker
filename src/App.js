@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { HashRouter as Router, Route} from 'react-router-dom';
+import { HashRouter as Router, Route,Switch,BrowserRouter} from 'react-router-dom';
 import MiniDrawer from './materialComponents/miniDrawer';
 import LoginComponent from './components/Login/LoginComponent'
 import { AuthContext } from "./components/Login/context/auth";
@@ -19,11 +19,13 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
-    <Router>    
+    
+    
+      <Router>
       <Route exact path={'/'} component={LoginComponent} />
-      <PrivateRoute exact path="/home" component={MiniDrawer} />
-      
-    </Router>
+      <PrivateRoute path="/home" component={MiniDrawer} />
+    
+      </Router>
     </AuthContext.Provider>
   );
 }
