@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
+import clsx from 'clsx';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -9,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import ExpansionPanelForFetchUserComponent from './ExpansionPanelForFetchUserComponent';
+import {StudentsFoundTableComponent} from './StudentsFoundTableComponent'
 import ExportAsExcelComponent from './ExportAsExcelComponent'
 import FailOnFetchingDialog from './Dialogs/FailOnFetchingDailog';
 import {useAuth} from './Login/context/auth';
@@ -17,45 +19,74 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import {useParams,useLocation} from 'react-router-dom';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: 300,
-      },
-    },
+    
     formDiv :{
-      margin : 0,
-      padding: theme.spacing(3),
-      height:'50%'
+      margin: theme.spacing(3),
     },
     buttonStyle: {
       width:100,
       height:40,
+      marginLeft:theme.spacing(1),
+      marginTop:theme.spacing(1),
     },
     filterDiv:{
-      margin: theme.spacing(1),
+      
+    },
+    cardContentDiv:{
       display:'flex',
       flexDirection:'row',
       flexWrap:'wrap',
-      alignItems:'center',
+      '& .MuiTextField-root': {
+        width: 200,
+        marginLeft: theme.spacing(1),
+      },
     },
     formControlSelect:{
-      margin: theme.spacing(1),
-      minWidth: 160,
-    }
+      marginLeft: theme.spacing(1),
+      marginTop:theme.spacing(1),
+      minWidth: 200,
+    },
+    cardComponent: {
+      borderWidth:'1px',
+      borderRadius:'3px',
+      boxShadow:'0 3px 5px 2px rgba(201, 202, 177, .3)'
+    },
+    selectField:{
+      height:40
+    },
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+      margin:theme.spacing(1),
+    },
+    expandOpen: {
+      marginLeft: 'auto',
+      transform: 'rotate(180deg)',
+      margin:theme.spacing(1),
+    },
   }));
 
 export const FetchUserComponent = () => {
     const classes = useStyles();
     const [dateToFetch, setSelectedDateToFetch] = React.useState(null);
-    const [studentsFound, setStudentsFound] = React.useState([]);
+    const [studentsFound, setStudentsFound] = React.useState();
     const [loadingSpinner,setLoadingSpinner] = React.useState(false);
     const [dialogState,setDialogState]=React.useState(false);
     const [successOrFail, setSuccessOrFail] = React.useState(false);
     const [status,setStatus] = React.useState('P');
     const {authTokens} = useAuth();
+    const [expanded,setExpanded] = React.useState(false);
 
     const handleDateChangeToFetch = date => {
         if(date)
@@ -107,16 +138,29 @@ export const FetchUserComponent = () => {
         setStatus(data.target.value);
       }
 
+      const clearValues = () =>{
+        setStudentsFound();
+        setStatus('');
+        setSelectedDateToFetch(null);
+      }
+
+      const handleExpandClick = () => {
+        setExpanded(!expanded);
+      }
+
   return(
 
     <div>
       <div className={classes.formDiv}>
+      <Card className={classes.cardComponent}>
         <form noValidate autoComplete="off" className={classes.filterDiv} onSubmit={handleSubmitForFetching}>
+        <CardContent className={classes.cardContentDiv}>
             
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
             disableToolbar
             variant="inline"
+            inputVariant="outlined"
             format="MM/dd/yyyy"
             margin="dense"
             id="date-picker-inline"
@@ -128,27 +172,76 @@ export const FetchUserComponent = () => {
             }}
             />
             </MuiPickersUtilsProvider>
-            <FormControl className={classes.formControlSelect}>
-            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <FormControl variant="outlined" className={classes.formControlSelect}>
+            <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
               value={status}
               onChange={handleStatusChange}
+              margin="dense"
+              label="Status"
             >
-              <MenuItem value={'P'}>Pending</MenuItem>
-              <MenuItem value={'D'}>Done</MenuItem>
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value='P'>Pending</MenuItem>
+              <MenuItem value='D'>Done</MenuItem>
             </Select>
             </FormControl>
-            <Button variant="contained" className={classes.buttonStyle} color="primary" type="submit"> Find </Button>
+            <Button 
+              variant="contained" 
+              className={classes.buttonStyle} 
+              color="primary" 
+              type="submit"> 
+              Find 
+            </Button>
+            <Button 
+              variant="contained" 
+              className={classes.buttonStyle} 
+              color="primary"
+              onClick={clearValues}> 
+              Clear 
+            </Button>
+            {studentsFound?
+            <ExportAsExcelComponent studentsFound={studentsFound}></ExportAsExcelComponent>:<span></span>}
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
             
+        </CardContent>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent className={classes.cardContentDiv}>
+          <TextField  id="standard" 
+            label="Reading" 
+            name="reading" 
+            variant="outlined"
+            margin="dense"/>
+
+            <TextField  id="standard" 
+            label="Writing" 
+            name="writing"
+            variant="outlined"
+            margin="dense"/>
+            
+          </CardContent>
+        </Collapse>
         </form>
-        
+      </Card>
         <br></br>
         {loadingSpinner?
-        <CircularProgress />:<span>
-          <ExportAsExcelComponent studentsFound={studentsFound}></ExportAsExcelComponent>
-        <ExpansionPanelForFetchUserComponent studentsFound={studentsFound}></ExpansionPanelForFetchUserComponent></span>}
+          <CircularProgress />:
+          studentsFound?
+          <span>
+          <StudentsFoundTableComponent studentsFound={studentsFound}></StudentsFoundTableComponent>
+          </span>:<span></span>}
         {!successOrFail?<FailOnFetchingDialog dialogState={dialogState} setDialogStateFn={setDialogState}/>:<span></span>}
         
         

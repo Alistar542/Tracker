@@ -22,6 +22,7 @@ import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route,Switch,HashRouter, useLocation} from 'react-router-dom';
 import {UserComponent} from '../components/UserComponent';
 import {FetchUserComponent} from '../components/FetchUserComponent';
+import {HomeComponent} from '../components/HomeComponent';
 import CreateUserComponent from '../components/CreateUserComponent';
 import SearchIcon from '@material-ui/icons/Search';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
@@ -235,7 +236,7 @@ export default function MiniDrawer() {
 
       <Switch>
         <Route exact path={'/home'}>
-      <Typography>Hello {authTokens.user}</Typography>
+        <HomeComponent/>
         </Route>
         <Route path={'/home/add'}>
         <UserComponent/>

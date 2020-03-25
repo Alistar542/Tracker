@@ -11,6 +11,7 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const useStyles = makeStyles(theme => ({
     button: {
       margin: theme.spacing(1),
+      height:40
     },
   }));
 
@@ -23,7 +24,6 @@ export default function ExportAsExcelComponent(props) {
             <Button
                 variant="contained"
                 color="primary"
-                size="small"
                 className={classes.button}
                 startIcon={<SaveIcon />}
               >
