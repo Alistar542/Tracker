@@ -109,7 +109,7 @@ export const UserComponent = () => {
     setBackDropState(true);
     
     const userObject ={
-      firstName:formData.firstName,
+      firstName:formData.firstName.toLowerCase(),
       middleName:formData.middleName,
       lastName:formData.lastName,
       email:formData.email,

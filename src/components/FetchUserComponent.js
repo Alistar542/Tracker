@@ -85,13 +85,22 @@ export const FetchUserComponent = () => {
     const [dialogState,setDialogState]=React.useState(false);
     const [successOrFail, setSuccessOrFail] = React.useState(false);
     const [status,setStatus] = React.useState('P');
+    const [firstName,setFirstName] = React.useState('');
     const {authTokens} = useAuth();
     const [expanded,setExpanded] = React.useState(false);
+    const [phoneNumber,setPhoneNumber] = React.useState();
 
     const handleDateChangeToFetch = date => {
-        if(date)
-        setSelectedDateToFetch(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
+        if(date){
+          setSelectedDateToFetch(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
+        }else{
+          setSelectedDateToFetch(null);
+        }
     };
+
+    const handleFirstNameChange = event => {
+      setFirstName(event.target.value);
+    }
 
       const handleSubmitForFetching = (event) =>{
         event.preventDefault();
@@ -99,7 +108,9 @@ export const FetchUserComponent = () => {
         const fetchObject = {
           followUpDate:dateToFetch,
           status:status,
-          currentUser:authTokens.user
+          currentUser:authTokens.user,
+          firstName:firstName,
+          phoneNumber:phoneNumber
         }
         console.log(' date to fetch : : '+dateToFetch);
     //https://protected-gorge-55144.herokuapp.com/student/getstudent
@@ -138,10 +149,15 @@ export const FetchUserComponent = () => {
         setStatus(data.target.value);
       }
 
+      const handlePhoneNumber = event => {
+        setPhoneNumber(event.target.value);
+      }
+
       const clearValues = () =>{
         setStudentsFound();
-        setStatus('');
         setSelectedDateToFetch(null);
+        setStatus();
+        setFirstName('');
       }
 
       const handleExpandClick = () => {
@@ -220,16 +236,21 @@ export const FetchUserComponent = () => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent className={classes.cardContentDiv}>
           <TextField  id="standard" 
-            label="Reading" 
-            name="reading" 
+            label="Stundent Name" 
+            name="firstName" 
             variant="outlined"
-            margin="dense"/>
+            margin="dense"
+            name="firstName"
+            value={firstName}
+            onChange={handleFirstNameChange}/>
 
             <TextField  id="standard" 
-            label="Writing" 
-            name="writing"
+            label="Phone Number" 
+            name="phoneNumber"
             variant="outlined"
-            margin="dense"/>
+            margin="dense"
+            value={phoneNumber}
+            onChange={handlePhoneNumber}/>
             
           </CardContent>
         </Collapse>

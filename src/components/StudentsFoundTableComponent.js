@@ -19,6 +19,10 @@ const useStyles = makeStyles({
     },
   });
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 export function StudentsFoundTableComponent(props){
 
     const classes = useStyles();
@@ -40,7 +44,7 @@ export function StudentsFoundTableComponent(props){
                 {props.studentsFound.map(row => (
                     <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
-                        {row.firstName} {row.lastName}
+                        {row.firstName.capitalize()} {row.lastName}
                     </TableCell>
                     <TableCell align="right">{row.phoneNumber}</TableCell>
                     <TableCell align="right">{row.courseInterested}</TableCell>

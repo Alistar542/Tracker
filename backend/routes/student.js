@@ -3,7 +3,7 @@ let Student = require('../models/student.model');
 
 router.route('/add').post((req,res)=>{
     console.log('first : '+req.body.followUpDate);
-    const firstName = req.body.firstName;
+    const firstName = req.body.firstName.toLowerCase();
     const middleName = req.body.middleName;
     const lastName = req.body.lastName;
     const email = req.body.email;
@@ -83,18 +83,27 @@ router.route('/update/:id').post((req,res)=>{
 })
 
 router.route('/getstudent').post((req,res) => {
-    var date1 = Date.parse(req.body.followUpDate);
-    var currentUser = req.body.currentUser;
+    var followUpDate = req.body.followUpDate;
     var status = req.body.status;
-    var query;
-    if(currentUser === 'admin'){
-
-        query = {followUpDate : date1};
-    }else{
-        query = {followUpDate : date1,
-            lastUpdateUser:currentUser};
+    var firstName = req.body.firstName?req.body.firstName.toLowerCase():'';
+    let query = {};
+    if(followUpDate){
+        console.log("test date  "+followUpDate);
+        query['followUpDate'] = followUpDate;
     }
-    var cloneQuery = {status:status,...query};
+    if(firstName){
+        console.log("test firstName"+firstName);
+        query['firstName'] = firstName;
+    }
+    if(status){
+        console.log("test status  "+status);
+        query['status'] = status;
+    }
+    if(req.body.phoneNumber){
+        query['phoneNumber'] = req.body.phoneNumber;
+    }
+    
+    var cloneQuery = query;
     Student.find(cloneQuery)
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' +err));
