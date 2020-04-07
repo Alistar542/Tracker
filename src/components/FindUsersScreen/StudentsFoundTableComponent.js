@@ -12,13 +12,15 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
     tableContainer:{
-        boxShadow:'0 3px 5px 2px rgba(201, 202, 177, .3)'
+      borderRadius:'6px',
+      boxShadow:'0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)'
     },
     table: {
       minWidth: 650,
     },
   });
 
+// eslint-disable-next-line no-extend-native
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }

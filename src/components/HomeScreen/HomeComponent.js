@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {useAuth} from './Login/context/auth';
+import {AuthContext} from '../LoginScreen/context/auth';
 
 const useStyles = makeStyles(theme => ({
     outerDiv:{
@@ -27,14 +27,14 @@ const useStyles = makeStyles(theme => ({
   
   export function HomeComponent() {
     const classes = useStyles();
-    const {authTokens} = useAuth();
-  
+    const {currentUser} = useContext(AuthContext);
+    //console.log(currentUser)
     return (
     <div className={classes.outerDiv}>
       <Card className={classes.cardComponent}>
         <CardContent>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
-           Welcome {authTokens.user}
+           Welcome
           </Typography>
           <Typography variant="h5" component="h2">
            

@@ -1,32 +1,25 @@
 import React from 'react';
 import './App.css';
-import { HashRouter as Router, Route,Switch,BrowserRouter} from 'react-router-dom';
-import MiniDrawer from './materialComponents/miniDrawer';
-import LoginComponent from './components/Login/LoginComponent'
-import { AuthContext } from "./components/Login/context/auth";
-import  PrivateRoute  from './components/Login/PrivateRoute'
+import { HashRouter as Router, Route} from 'react-router-dom';
+import MiniDrawer from './components/Drawer/miniDrawer';
+import LoginComponent from './components/LoginScreen/LoginComponent'
+import { AuthProvider  } from "./components/LoginScreen/context/auth";
+import  PrivateRoute  from './components/LoginScreen/PrivateRoute'
 
 
 
 function App() {
 
-  const [authTokens, setAuthTokens] = React.useState();
-  console.log("This is the process.env", process.env.PUBLIC_URL)
-  const setTokens = (data) => {
-    localStorage.setItem("tokens", JSON.stringify(data));
-    setAuthTokens(data);
-  }
-
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+    <AuthProvider >
     
     
       <Router>
       <Route exact path={'/'} component={LoginComponent} />
       <PrivateRoute path="/home" component={MiniDrawer} />
-    
       </Router>
-    </AuthContext.Provider>
+      
+    </AuthProvider>
   );
 }
 

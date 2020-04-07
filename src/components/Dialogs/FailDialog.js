@@ -12,12 +12,7 @@ const useStyles = makeStyles(theme=>({
   },
 }));
 export default function FailDialog(props) {
-  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     props.setDialogStateFn(false);

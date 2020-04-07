@@ -15,23 +15,21 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
 import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Route,Switch,HashRouter, useLocation} from 'react-router-dom';
-import {UserComponent} from '../components/UserComponent';
-import {FetchUserComponent} from '../components/FetchUserComponent';
-import {HomeComponent} from '../components/HomeComponent';
-import CreateUserComponent from '../components/CreateUserComponent';
+import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
+import {UserComponent} from '../SaveUserScreen/UserComponent';
+import {FetchUserComponent} from '../FindUsersScreen/FetchUserComponent';
+import {HomeComponent} from '../HomeScreen/HomeComponent';
 import SearchIcon from '@material-ui/icons/Search';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import { useAuth } from "../components/Login/context/auth";
+import { useAuth } from "../LoginScreen/context/auth";
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import HomeIcon from '@material-ui/icons/Home';
+import firebaseApp from '../LoginScreen/context/firebaseApp';
 
 
 
@@ -97,15 +95,14 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(0),
+    backgroundColor:'#f5f5f5'
   },
 }));
 
 export default function MiniDrawer() {
-  let match;
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [isLoggedIn, setLoggedIn] = React.useState(false);
   const [followUps,setFollowUps] = React.useState();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,46 +112,40 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const { setAuthTokens } = useAuth();
   const logout=()=>{
-    setAuthTokens();
-    setLoggedIn(false);
+    firebaseApp.auth().signOut()
   }
   
   useEffect(() => {
     if(authTokens){
-      var date = new Date();
-      const fetchObject = {
+       var date = new Date();
+       const fetchObject = {
         followUpDate:new Date(date.getFullYear(),date.getMonth(),date.getDate()),
-        currentUser:authTokens.user
-      }
+         currentUser:authTokens.user
+       }
       
-  //https://protected-gorge-55144.herokuapp.com/student/getstudent
-  //http://localhost:5000/student/getstudent
-      axios.post('http://localhost:5000/student/getstudent',fetchObject)
-      .then(res => {
+   //https://protected-gorge-55144.herokuapp.com/student/getstudent
+   //http://localhost:5000/student/getstudent
+     axios.post('http://localhost:5000/student/getstudent',fetchObject)
+       .then(res => {
           
-          console.log(res.data)
+           console.log(res.data)
          
-          setFollowUps(res.data.length);
+           setFollowUps(res.data.length);
               
           
-      })
-      .catch(err =>{
+       })
+       .catch(err =>{
        
-      })
-    }
-  },[]);
-  const {authTokens} = useAuth();
-  if (!isLoggedIn && !authTokens) {
-    return <Redirect to="/" />;
-  }
+       })
+     }
+  });
+
   
   
   
   return (
     <div className={classes.root}>
-      
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -238,15 +229,14 @@ export default function MiniDrawer() {
         <Route exact path={'/home'}>
         <HomeComponent/>
         </Route>
-        <Route path={'/home/add'}>
+        <Route exact path={'/home/add'}>
         <UserComponent/>
         </Route>
-        <Route path="/home/fetchusercomponent">
+        <Route exact path={"/home/fetchusercomponent"}>
         <FetchUserComponent/>
         </Route>
       </Switch>
         </main>
-       
-    </div>
+  </div>
   );
 }

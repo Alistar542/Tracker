@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route,Switch} from 'react-router-dom';
-import {UserComponent} from '../components/UserComponent'
+import {UserComponent} from '../SaveUserScreen/UserComponent'
 
 const useStyles = makeStyles(theme => ({
   root: {
