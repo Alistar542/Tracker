@@ -117,11 +117,11 @@ export default function MiniDrawer() {
   }
   
   useEffect(() => {
-    if(authTokens){
+
        var date = new Date();
        const fetchObject = {
         followUpDate:new Date(date.getFullYear(),date.getMonth(),date.getDate()),
-         currentUser:authTokens.user
+         //currentUser:authTokens.user
        }
       
    //https://protected-gorge-55144.herokuapp.com/student/getstudent
@@ -138,7 +138,7 @@ export default function MiniDrawer() {
        .catch(err =>{
        
        })
-     }
+     
   });
 
   
