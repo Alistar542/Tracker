@@ -3,6 +3,7 @@ import React,{useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
+import clsx from 'clsx';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -31,6 +32,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {PersonalInformationComponent} from './PersonalInformationComponent';
 import {EnglishExamTypeComponent} from './EnglishExamTypeComponent';
+import { green, purple } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,6 +74,19 @@ const useStyles = makeStyles(theme => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  doneButton:{
+    backgroundColor:green[600],
+    '&:hover':{
+      backgroundColor:green[700],
+    }
+    
+  },
+  pendingButton:{
+    backgroundColor:purple[600],
+    '&:hover':{
+      backgroundColor:purple[700],
+    }
+  },
 }));
 
 
@@ -81,21 +96,16 @@ export const UserComponent = () => {
   let locationFound = useLocation();
   let {studentFound} = locationFound.state ? locationFound.state : {};
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = React.useState(studentFound?studentFound.followUpDate:null);
   const [dialogState,setDialogState]=React.useState(false);
   const [successOrFail, setSuccessOrFail] = React.useState(false);
-  const [selectedDateOfBirth,setSelectedDateOfBirth] = React.useState(studentFound?studentFound.dateOfBirth:null);
-  const [selectedExamDate,setExamDate] = React.useState(studentFound?studentFound.examDate:null);
-  const [graduatedDate,setGraduatedDate] = React.useState(studentFound?studentFound.graduatedDate:null);
-  const [dateOfRequest,setDateOfRequest] = React.useState(studentFound?studentFound.dateOfRequest:new Date());
-  const [workEndDate,setWorkEndDate] = React.useState(studentFound?studentFound.workEndDate:null);
-  const [workStartDate,setWorkStartDate] = React.useState(studentFound?studentFound.workStartDate:null);
   const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
   const [backDropState,setBackDropState] = React.useState(false);
   const [followUpRemarks,setFollowUpRemarks] = React.useState(studentFound?studentFound.followUpRemarks:null);
   const [toDoRemarks,setToDoRemarks] = React.useState(studentFound?studentFound.toDoRemarks:null);
   const [errorData,setErrorData] = React.useState({});
   const [countries,setCountries] = React.useState([]);
+  const [status,setStatus] = React.useState(studentFound?studentFound.status:'P');
+  const [openReject,setOpenReject] = React.useState(false);
   const [formData,setFormData] = React.useState(studentFound ? studentFound : {
     firstName:'',
     middleName:'',
@@ -198,10 +208,14 @@ export const UserComponent = () => {
             })
   },[]);
 
-  const handleDateChange = date => {
-    if(date)
-    setSelectedDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  };
+
+  const handleStatusChange = () => {
+    if(status === 'P'){
+      setStatus('D');
+    }else if(status === 'D'){
+      setStatus('P');
+    }
+  }
 
   const onChangeValidate = event => {
     if(submitted){
@@ -228,13 +242,13 @@ export const UserComponent = () => {
       lastName:values.lastName,
       email:values.email,
       phoneNumber:values.phoneNumber,
-      dateOfBirth:values.dateOfBirth ? new Date(values.dateOfBirth.getFullYear(),values.dateOfBirth.getMonth(),values.dateOfBirth.getDate()):null,
+      dateOfBirth:values.dateOfBirth ? new Date(values.dateOfBirth):null,
       gender:values.gender,
       maritalStatus:values.maritalStatus,
       courseInterested:values.courseInterested,
-      followUpDate:values.followUpDate ?new Date(values.followUpDate.getFullYear(),values.followUpDate.getMonth(),values.followUpDate.getDate()):null,
+      followUpDate:values.followUpDate ?new Date(values.followUpDate):null,
       englishExamType:values.englishExamType,
-      examDate:values.examDate ?new Date(values.examDate.getFullYear(),values.examDate.getMonth(),values.examDate.getDate()):null,
+      examDate:values.examDate ?new Date(values.examDate):null,
       overall:values.overall,
       listening:values.listening,
       reading:values.reading,
@@ -244,25 +258,26 @@ export const UserComponent = () => {
       highestLevelOfEducation:values.highestLevelOfEducation,
       gradingScheme:values.gradingScheme,
       gradeAverage:values.gradeAverage,
-      graduatedYear:values.graduatedYear ?new Date(values.graduatedYear.getFullYear(),values.graduatedYear.getMonth(),values.graduatedYear.getDate()):null,
+      graduatedYear:values.graduatedYear ?new Date(values.graduatedYear):null,
       companyName:values.companyName,
       position:values.position,
-      endDate:values.endDate ?new Date(values.endDate.getFullYear(),values.endDate.getMonth(),values.endDate.getDate()):null,
-      startDate:values.startDate ?new Date(values.startDate.getFullYear(),values.startDate.getMonth(),values.startDate.getDate()):null,
+      endDate:values.endDate ?new Date(values.endDate):null,
+      startDate:values.startDate ?new Date(values.startDate):null,
       workAddress:values.workAddress,
       requestedCourseDetails:values.requestedCourseDetails,
       preferredCountry:values.preferredCountry,
-      dateOfRequest:values.dateOfRequest ?new Date(values.dateOfRequest.getFullYear(),values.dateOfRequest.getMonth(),values.dateOfRequest.getDate()):null,
+      dateOfRequest:values.dateOfRequest ?new Date(values.dateOfRequest):null,
       source:values.source,
       wayOfContact:values.wayOfContact,
       counselor:values.counselor,
       lastUpdateUser:'admin',
       followUpRemarks:followUpRemarks,
-
+      status:status,
     }
 
     //console.log(userObject);
 	if(typeof studentFound === 'undefined'){
+    console.log('add');
 //https://protected-gorge-55144.herokuapp.com/student/add
 //http://localhost:5000/student/add
     axios.post('http://localhost:5000/student/add',userObject)
@@ -279,7 +294,7 @@ export const UserComponent = () => {
       setBackDropState(false);
     });
 	}else{
-
+    console.log('update');
 //update code
 //https://protected-gorge-55144.herokuapp.com/student/update/
 //http://localhost:5000/student/update/
@@ -330,46 +345,8 @@ export const UserComponent = () => {
       wayOfContact:'',
       counselor:'',
     });
-    setSelectedDate(null);
     setFollowUpRemarks(null);
-    setSelectedDateOfBirth(null);
-    setExamDate(null);
-    setGraduatedDate(null);
-    setWorkEndDate(null);
-    setWorkStartDate(null);
-    setDateOfRequest(null);
   }
-
-  const onChangeDOB = date => {
-    if(date)
-    setSelectedDateOfBirth(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  };
-
-  const onChangeExamDate = date => {
-    if(date)
-    setExamDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  }
-
-  const handleGraduatedDateChange = date => {
-    if(date)
-    setGraduatedDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  }
-
-  const onChangeDateOfRequest = date => {
-    if(date)
-    setDateOfRequest(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  }
-
-  const onChangeWorkEndDate = date => {
-    if(date)
-    setWorkEndDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  }
-
-  const onChangeWorkStartDate = date => {
-    if(date)
-    setWorkStartDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
-  }
-
 
   const openFollowUpPopupFn = event => {
     event.preventDefault();
@@ -379,6 +356,18 @@ export const UserComponent = () => {
   const closeFollowUpPopupFn = event => {
     setOpenFollowUpPopup(false);
   }
+
+  const handleRejectStatus = () =>{
+    setOpenReject(true);
+  }
+
+  const handleRejectClose = event => {
+    setOpenReject(false);
+    if(event.target.name ==='yes'){
+      setStatus('R');
+    }
+  }
+
 
   const handleSubmitFollowUp = event => {
     event.preventDefault();
@@ -626,6 +615,8 @@ export const UserComponent = () => {
        
         </div>
        <Toolbar position="fixed" className={classes.appBar}>
+       <Button variant="contained" color="secondary" onClick={handleRejectStatus}> Reject </Button>
+       <Button variant="contained" color='primary' className={clsx(classes.doneButton,{[classes.pendingButton]:status==='D'})} onClick={handleStatusChange}> {status==='P'?'Mark As Done':'Mark As Pending'} </Button>
        <Button variant="contained" color="primary" onClick={openFollowUpPopupFn}> To Do </Button>
        <Button variant="contained" color="primary" onClick={openFollowUpPopupFn}> Follow Up </Button>
        <Button variant="contained" color="primary" type="submit"> Save </Button>
@@ -656,6 +647,28 @@ export const UserComponent = () => {
           </Button>
         </DialogActions>
         </form>
+      </Dialog>
+
+      <Dialog
+        open={openReject}
+        onClose={handleRejectClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Are you sure to reject this application ?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Once rejected the application cannot be renewed.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRejectClose} name='no' color="primary">
+            No
+          </Button>
+          <Button onClick={handleRejectClose} name='yes' color="primary" autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
       </Dialog>
 
 

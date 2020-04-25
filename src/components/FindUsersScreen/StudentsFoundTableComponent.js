@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
+import { green, purple } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
     tableContainer:{
@@ -17,6 +19,14 @@ const useStyles = makeStyles({
     },
     table: {
       minWidth: 650,
+    },
+    doneChip:{
+        color:'white',
+        backgroundColor:green[600],
+      },
+    pendingChip:{
+        color:'white',
+        backgroundColor:purple[600],
     },
   });
 
@@ -39,6 +49,7 @@ export function StudentsFoundTableComponent(props){
                     <TableCell align="right">Course Interested</TableCell>
                     <TableCell align="right">Email</TableCell>
                     <TableCell align="right">FollowUp Remark</TableCell>
+                    <TableCell align="right">Status</TableCell>
                     <TableCell align="right">Actions</TableCell>
                 </TableRow>
                 </TableHead>
@@ -54,6 +65,10 @@ export function StudentsFoundTableComponent(props){
                     <TableCell align="right">
                         {row.followUpRemarks?
                             row.followUpRemarks[row.followUpRemarks.length-1]:<span></span>}
+                    </TableCell>
+                    <TableCell align="right">
+                        {row.status ==='D'? 
+                        <Chip className={classes.doneChip} label="Done" /> : row.status ==='P'?<Chip className={classes.pendingChip} label="Pending" />:<Chip label="Reject" />}
                     </TableCell>
                     <TableCell align="right">
                     <Button color="primary" component={Link} to={{

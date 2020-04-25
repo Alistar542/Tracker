@@ -42,6 +42,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControlSelect:{
       minWidth: 200,
+      marginLeft: theme.spacing(1),
     },
     cardComponent: {
       borderWidth:'1px',
@@ -71,9 +72,9 @@ export function FilterComponent(props){
     const [dateToFetch, setSelectedDateToFetch] = React.useState(null);
     const [status,setStatus] = React.useState('P');
     const [firstName,setFirstName] = React.useState('');
-    //const {authTokens} = useAuth();
     const [expanded,setExpanded] = React.useState(false);
     const [phoneNumber,setPhoneNumber] = React.useState('');
+    const [priority,setPriority] = React.useState('');
 
     const handleDateChangeToFetch = date => {
         if(date){
@@ -91,6 +92,10 @@ export function FilterComponent(props){
        setStatus(data.target.value);
     }
 
+    const handlePriorityChange=(data)=>{
+      setPriority(data.target.value);
+    }
+
     const handlePhoneNumber = event => {
        setPhoneNumber(event.target.value);
     }
@@ -104,6 +109,7 @@ export function FilterComponent(props){
         const fetchObject = {
           followUpDate:dateToFetch,
           status:status,
+          priority:priority,
           currentUser:'admin',
           firstName:firstName,
           phoneNumber:phoneNumber
@@ -155,6 +161,23 @@ export function FilterComponent(props){
                     </MenuItem>
                     <MenuItem value='P'>Pending</MenuItem>
                     <MenuItem value='D'>Done</MenuItem>
+                    </Select>
+                    </FormControl>
+                    <FormControl margin="dense" variant="outlined" className={classes.formControlSelect}>
+                    <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="priority"
+                      name="priority"
+                      value={priority}
+                      onChange={handlePriorityChange}
+                      label="Priority">
+                        <MenuItem value="">
+                        <em>None</em>
+                        </MenuItem>
+                        <MenuItem value='high'>High</MenuItem>
+                        <MenuItem value='medium'>Medium</MenuItem>
+                        <MenuItem value='low'>Low</MenuItem>
                     </Select>
                     </FormControl>
                     <Button 

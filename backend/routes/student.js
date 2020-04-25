@@ -22,6 +22,7 @@ router.route('/add').post((req,res)=>{
     const speaking = req.body.speaking;
     const lastUpdateUser = req.body.lastUpdateUser;
     const followUpRemarks = req.body.followUpRemarks;
+    const status = req.body.status;
     const newStudent = new Student({
         firstName,
         middleName,
@@ -41,7 +42,8 @@ router.route('/add').post((req,res)=>{
         writing,
         speaking,
         lastUpdateUser,
-        followUpRemarks
+        followUpRemarks,
+        status,
     })
 
     newStudent.save()
@@ -73,7 +75,7 @@ router.route('/update/:id').post((req,res)=>{
         student.speaking = req.body.speaking;
 		student.lastUpdateUser = req.body.lastUpdateUser;
 		student.followUpRemarks = req.body.followUpRemarks;
-		
+		student.status = req.body.status;
 		student.save()
 		.then(() => res.json('Student updated'))
 		.catch(err => res.status(400).json('Error :'+err));
@@ -101,6 +103,9 @@ router.route('/getstudent').post((req,res) => {
     }
     if(req.body.phoneNumber){
         query['phoneNumber'] = req.body.phoneNumber;
+    }
+    if(req.body.priority){
+        query['priority'] = req.body.priority;
     }
     
     var cloneQuery = query;
