@@ -68,7 +68,7 @@ export function StudentsFoundTableComponent(props){
                     </TableCell>
                     <TableCell align="right">
                         {row.status ==='D'? 
-                        <Chip className={classes.doneChip} label="Done" /> : row.status ==='P'?<Chip className={classes.pendingChip} label="Pending" />:<Chip label="Reject" />}
+                        <Chip className={classes.doneChip} label="Done" /> : row.status ==='P'?<Chip className={classes.pendingChip} label="Pending" />:<Chip label="Rejected" />}
                     </TableCell>
                     <TableCell align="right">
                     <Button color="primary" component={Link} to={{

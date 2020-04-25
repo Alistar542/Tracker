@@ -300,6 +300,7 @@ export const UserComponent = () => {
 //http://localhost:5000/student/update/
 	axios.post('http://localhost:5000/student/update/'+studentFound._id,userObject)
     .then(res => {
+      console.log(userObject);
       console.log("success in client side")
 	    setDialogState(true);
       setSuccessOrFail(true);
@@ -363,7 +364,7 @@ export const UserComponent = () => {
 
   const handleRejectClose = event => {
     setOpenReject(false);
-    if(event.target.name ==='yes'){
+    if(event.target.innerHTML ==='Yes'){
       setStatus('R');
     }
   }
