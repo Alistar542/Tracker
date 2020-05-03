@@ -177,9 +177,14 @@ export const UserComponent = () => {
     validationSchema: Yup.object({
       firstName: Yup.string()
         .max(15, 'Must be 15 characters or less')
+        .matches(/^[A-Za-z]+$/,{message:'Only alphabetic characters allowed'})
         .required('Required'),
+      middleName: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .matches(/^[A-Za-z]+$/,{message:'Only alphabetic characters allowed'}),        
       lastName: Yup.string()
         .max(20, 'Must be 20 characters or less')
+        .matches(/^[A-Za-z]+$/,{message:'Only alphabetic characters allowed'})
         .required('Required'),
       email: Yup.string()
         .email('Invalid email address')

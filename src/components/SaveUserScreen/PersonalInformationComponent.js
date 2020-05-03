@@ -47,8 +47,10 @@ export function PersonalInformationComponent({touched,errors,values,getFieldProp
             
             <TextField 
                 id="middleName" 
+                error={errors.middleName && touched.middleName} 
                 label="Middle Name" 
                 name="middleName" 
+                helperText={(errors.middleName && touched.middleName) && errors.middleName}  
                 {...getFieldProps('middleName')}/>
 
             <TextField required 
