@@ -33,6 +33,7 @@ import * as Yup from "yup";
 import { PersonalInformationComponent } from "./PersonalInformationComponent";
 import { EnglishExamTypeComponent } from "./EnglishExamTypeComponent";
 import { green, purple } from "@material-ui/core/colors";
+import SummaryPanel from "./SummaryPanel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -298,10 +299,7 @@ export const UserComponent = () => {
       //https://protected-gorge-55144.herokuapp.com/student/add
       //http://localhost:5000/student/add
       axios
-        .post(
-          "http://localhost:5000/student/add",
-          userObject
-        )
+        .post("http://localhost:5000/student/add", userObject)
         .then((res) => {
           console.log(res.data);
           setDialogState(true);
@@ -322,8 +320,7 @@ export const UserComponent = () => {
       //http://localhost:5000/student/update/
       axios
         .post(
-          "http://localhost:5000/student/update/" +
-            studentFound.studentId,
+          "http://localhost:5000/student/update/" + studentFound.studentId,
           userObject
         )
         .then((res) => {
@@ -412,6 +409,8 @@ export const UserComponent = () => {
         onSubmit={formik.handleSubmit}
       >
         <div id="formDiv" className={classes.formDiv}>
+          <SummaryPanel studentFound={studentFound} />
+          <br></br>
           <PersonalInformationComponent {...formik} />
           <br></br>
           <Divider />
@@ -717,8 +716,7 @@ export const UserComponent = () => {
             Follow Up{" "}
           </Button>
           <Button variant="contained" color="primary" type="submit">
-            {" "}
-            Save{" "}
+            {typeof studentFound === "undefined" ? " SAVE " : " UPDATE "}
           </Button>
         </Toolbar>
       </form>
