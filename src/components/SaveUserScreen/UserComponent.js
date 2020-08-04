@@ -531,7 +531,7 @@ export const UserComponent = () => {
               <KeyboardDatePicker
                 autoOk
                 variant="inline"
-                format="MM/dd/yyyy"
+                format="dd/MM/yyyy"
                 margin="normal"
                 id="endDate"
                 name="endDate"
@@ -547,7 +547,7 @@ export const UserComponent = () => {
               <KeyboardDatePicker
                 autoOk
                 variant="inline"
-                format="MM/dd/yyyy"
+                format="dd/MM/yyyy"
                 margin="normal"
                 id="startDate"
                 name="startDate"
@@ -612,7 +612,7 @@ export const UserComponent = () => {
               <KeyboardDatePicker
                 autoOk
                 variant="inline"
-                format="MM/dd/yyyy"
+                format="dd/MM/yyyy"
                 margin="normal"
                 id="dateOfRequest"
                 name="dateOfRequest"

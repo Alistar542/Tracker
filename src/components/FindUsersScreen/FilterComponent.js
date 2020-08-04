@@ -136,7 +136,7 @@ export function FilterComponent(props){
                     disableToolbar
                     variant="inline"
                     inputVariant="outlined"
-                    format="MM/dd/yyyy"
+                    format="dd/MM/yyyy"
                     margin="dense"
                     id="date-picker-inline"
                     label="Follow up date"

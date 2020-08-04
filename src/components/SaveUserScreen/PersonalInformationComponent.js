@@ -83,7 +83,7 @@ export function PersonalInformationComponent({touched,errors,values,getFieldProp
                 autoOk
                 openTo="year"
                 variant="inline"
-                format="MM/dd/yyyy"
+                format="dd/MM/yyyy"
                 margin="normal"
                 id="dateOfBirth"
                 name="dateOfBirth"
@@ -136,7 +136,7 @@ export function PersonalInformationComponent({touched,errors,values,getFieldProp
                 <KeyboardDatePicker
                 autoOk
                 variant="inline"
-                format="MM/dd/yyyy"
+                format="dd/MM/yyyy"
                 margin="normal"
                 id="followUpDate"
                 name="followUpDate"
