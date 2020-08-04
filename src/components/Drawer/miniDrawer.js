@@ -30,6 +30,7 @@ import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import HomeIcon from '@material-ui/icons/Home';
 import firebaseApp from '../LoginScreen/context/firebaseApp';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -57,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: theme.spacing(2),
   },
   hide: {
     display: 'none',
@@ -95,6 +96,9 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(0),
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
@@ -164,14 +168,17 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" className={classes.title}>
             Tracker
-          </Typography>
-          <IconButton aria-label="show new notifications" color="inherit">
+            <IconButton aria-label="show new notifications" color="inherit">
               <Badge badgeContent={followUps} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+          </Typography>    
+        <Button color="inherit" onClick={logout}><PowerSettingsNewIcon />
+          Logout
+        </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -212,12 +219,6 @@ export default function MiniDrawer() {
          
         </List>
         <Divider />
-        <List>
-           <ListItem button key='logout' onClick={logout}>
-              <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-              <ListItemText primary='Logout' />
-            </ListItem>
-        </List>
       </Drawer>
 
       <main className={classes.content}>
