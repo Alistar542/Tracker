@@ -31,6 +31,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import HomeIcon from '@material-ui/icons/Home';
 import firebaseApp from '../LoginScreen/context/firebaseApp';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 
 
@@ -201,21 +203,26 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
+            <Tooltip title="Home" arrow>  
+              <ListItem button key='home' component={Link} to="/home">
+                <ListItemIcon><HomeIcon /></ListItemIcon>
+                <ListItemText primary='Home' />
+              </ListItem>
+            </Tooltip>
 
-            <ListItem button key='home' component={Link} to="/home">
-              <ListItemIcon><HomeIcon /></ListItemIcon>
-              <ListItemText primary='Home' />
-            </ListItem>
-         
-            <ListItem button key='addStudent' component={Link} to="/home/add">
-              <ListItemIcon><FaceRoundedIcon /></ListItemIcon>
-              <ListItemText primary='Add Student' />
-            </ListItem>
+            <Tooltip title="Add New Student" arrow>
+              <ListItem button key='addStudent' component={Link} to="/home/add">
+                <ListItemIcon><FaceRoundedIcon /></ListItemIcon>
+                <ListItemText primary='Add Student' />
+              </ListItem>
+            </Tooltip>
 
-            <ListItem button key='findStudent' component={Link} to="/home/fetchusercomponent">
-              <ListItemIcon><SearchIcon /></ListItemIcon>
-              <ListItemText primary='Find Student' />
-            </ListItem>
+            <Tooltip title="Find Student" arrow>
+              <ListItem button key='findStudent' component={Link} to="/home/fetchusercomponent">
+                <ListItemIcon><SearchIcon /></ListItemIcon>
+                <ListItemText primary='Find Student' />
+              </ListItem>
+            </Tooltip>
          
         </List>
         <Divider />
