@@ -259,7 +259,7 @@ export const UserComponent = () => {
       gender: values.gender,
       maritalStatus: values.maritalStatus,
       courseInterested: values.courseInterested,
-      followUpDate: values.followUpDate ? new Date(values.followUpDate) : null,
+      followUpDate: values.followUpDate ? values.followUpDate : null,
       englishExamType: values.englishExamType,
       examDate: values.examDate ? new Date(values.examDate) : null,
       overall: values.overall,
@@ -298,7 +298,10 @@ export const UserComponent = () => {
       //https://protected-gorge-55144.herokuapp.com/student/add
       //http://localhost:5000/student/add
       axios
-        .post("http://localhost:5000/student/add", userObject)
+        .post(
+          "http://localhost:5000/student/add",
+          userObject
+        )
         .then((res) => {
           console.log(res.data);
           setDialogState(true);
@@ -319,7 +322,8 @@ export const UserComponent = () => {
       //http://localhost:5000/student/update/
       axios
         .post(
-          "http://localhost:5000/student/update/" + studentFound._id,
+          "http://localhost:5000/student/update/" +
+            studentFound.studentId,
           userObject
         )
         .then((res) => {

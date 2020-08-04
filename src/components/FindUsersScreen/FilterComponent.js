@@ -78,7 +78,7 @@ export function FilterComponent(props){
 
     const handleDateChangeToFetch = date => {
         if(date){
-          setSelectedDateToFetch(new Date(date.getFullYear(),date.getMonth(),date.getDate()));
+          setSelectedDateToFetch(new Date(date));
         }else{
           setSelectedDateToFetch(null);
         }
@@ -136,7 +136,7 @@ export function FilterComponent(props){
                     disableToolbar
                     variant="inline"
                     inputVariant="outlined"
-                    format="MM/dd/yyyy"
+                    format="dd/MM/yyyy"
                     margin="dense"
                     id="date-picker-inline"
                     label="Follow up date"
