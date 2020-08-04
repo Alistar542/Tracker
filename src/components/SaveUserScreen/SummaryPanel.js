@@ -76,10 +76,10 @@ export default function SummaryPanel(props) {
             </Typography>
             <Chip
               className={clsx(classes.statusChip, {
-                [classes.pendingStatus]: studentFound.status == STATUS.PENDING,
-                [classes.doneStatus]: studentFound.status == STATUS.DONE,
+                [classes.pendingStatus]: studentFound.status === STATUS.PENDING,
+                [classes.doneStatus]: studentFound.status === STATUS.DONE,
                 [classes.rejectedStatus]:
-                  studentFound.status == STATUS.REJECTED,
+                  studentFound.status === STATUS.REJECTED,
               })}
               avatar={
                 <Avatar className={classes.avatarComponent}>
