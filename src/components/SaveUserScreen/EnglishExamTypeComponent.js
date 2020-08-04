@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
             <KeyboardDatePicker
             autoOk
             variant="inline"
-            format="MM/dd/yyyy"
+            format="dd/MM/yyyy"
             margin="normal"
             id="examDate"
             name="examDate"
