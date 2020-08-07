@@ -10,7 +10,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
-import { green, purple } from "@material-ui/core/colors";
+import { green, cyan, red, indigo } from "@material-ui/core/colors";
+import clsx from "clsx";
+import { STATUS, STATUS_DESCRIPTION } from "../../constants";
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -20,13 +22,21 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
-  doneChip: {
+  statusChip: {
     color: "white",
+    width: "50%",
+  },
+  newStatus: {
+    backgroundColor: cyan[500],
+  },
+  doneStatus: {
     backgroundColor: green[600],
   },
-  pendingChip: {
-    color: "white",
-    backgroundColor: purple[600],
+  rejectedStatus: {
+    backgroundColor: red[500],
+  },
+  proposedStatus: {
+    backgroundColor: indigo[500],
   },
 });
 
@@ -70,13 +80,17 @@ export function StudentsFoundTableComponent(props) {
                     )}
                   </TableCell>
                   <TableCell align="right">
-                    {row.status === "D" ? (
-                      <Chip className={classes.doneChip} label="Done" />
-                    ) : row.status === "P" ? (
-                      <Chip className={classes.pendingChip} label="Pending" />
-                    ) : (
-                      <Chip label="Rejected" />
-                    )}
+                    <Chip
+                      className={clsx(classes.statusChip, {
+                        [classes.newStatus]: row.status === STATUS.NEW,
+                        [classes.doneStatus]: row.status === STATUS.DONE,
+                        [classes.rejectedStatus]:
+                          row.status === STATUS.REJECTED,
+                        [classes.proposedStatus]:
+                          row.status === STATUS.PROPOSED,
+                      })}
+                      label={STATUS_DESCRIPTION[row.status]}
+                    />
                   </TableCell>
                   <TableCell align="right">
                     <Button

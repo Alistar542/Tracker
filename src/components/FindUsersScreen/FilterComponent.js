@@ -21,6 +21,7 @@ import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import ExportAsExcelComponent from "./ExportAsExcelComponent";
 import { teal } from "@material-ui/core/colors";
+import { STATUS } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   buttonStyle: {
@@ -81,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 export function FilterComponent(props) {
   const classes = useStyles();
   const [dateToFetch, setSelectedDateToFetch] = React.useState(null);
-  const [status, setStatus] = React.useState("P");
+  const [status, setStatus] = React.useState(STATUS.NEW);
   const [firstName, setFirstName] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
   const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -180,8 +181,10 @@ export function FilterComponent(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="P">Pending</MenuItem>
+                <MenuItem value="N">New</MenuItem>
+                <MenuItem value="P">Proposed</MenuItem>
                 <MenuItem value="D">Done</MenuItem>
+                <MenuItem value="R">Rejected</MenuItem>
               </Select>
             </FormControl>
             <FormControl

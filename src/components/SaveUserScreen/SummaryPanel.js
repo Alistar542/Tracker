@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import { STATUS_DESCRIPTION, STATUS } from "../../constants";
 import clsx from "clsx";
-import { green, purple, red } from "@material-ui/core/colors";
+import { green, indigo, red, cyan } from "@material-ui/core/colors";
 import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,14 +34,17 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
   },
-  pendingStatus: {
-    backgroundColor: purple[600],
+  newStatus: {
+    backgroundColor: cyan[500],
   },
   doneStatus: {
     backgroundColor: green[600],
   },
   rejectedStatus: {
-    backgroundColor: red[200],
+    backgroundColor: red[500],
+  },
+  proposedStatus: {
+    backgroundColor: indigo[500],
   },
   avatarComponent: {
     color: "white",
@@ -76,8 +79,10 @@ export default function SummaryPanel(props) {
             </Typography>
             <Chip
               className={clsx(classes.statusChip, {
-                [classes.pendingStatus]: studentFound.status === STATUS.PENDING,
+                [classes.newStatus]: studentFound.status === STATUS.NEW,
                 [classes.doneStatus]: studentFound.status === STATUS.DONE,
+                [classes.proposedStatus]:
+                  studentFound.status === STATUS.PROPOSED,
                 [classes.rejectedStatus]:
                   studentFound.status === STATUS.REJECTED,
               })}

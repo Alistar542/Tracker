@@ -1,11 +1,17 @@
 export const STATUS_DESCRIPTION = {
-  P: "PENDING",
-  R: "REJECTED",
-  D: "DONE",
+  N: "New",
+  P: "Proposed",
+  R: "Rejected",
+  D: "Done",
 };
 
 export const STATUS = {
-  PENDING: "P",
+  NEW: "N",
+  PROPOSED: "P",
   REJECTED: "R",
   DONE: "D",
+};
+
+export const URL = {
+  UPDATE_STUDENT: "http://localhost:5000/student/update/",
 };

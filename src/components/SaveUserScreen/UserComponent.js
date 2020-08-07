@@ -32,8 +32,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PersonalInformationComponent } from "./PersonalInformationComponent";
 import { EnglishExamTypeComponent } from "./EnglishExamTypeComponent";
-import { green, purple } from "@material-ui/core/colors";
+import { green, indigo, red } from "@material-ui/core/colors";
 import SummaryPanel from "./SummaryPanel";
+import { STATUS } from "../../constants";
+import { updateStudent } from "../../actions/studentactions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,16 +77,22 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
   },
+  rejectButton: {
+    backgroundColor: red[500],
+    "&:hover": {
+      backgroundColor: red[700],
+    },
+  },
   doneButton: {
     backgroundColor: green[600],
     "&:hover": {
       backgroundColor: green[700],
     },
   },
-  pendingButton: {
-    backgroundColor: purple[600],
+  proposedButton: {
+    backgroundColor: indigo[600],
     "&:hover": {
-      backgroundColor: purple[700],
+      backgroundColor: indigo[700],
     },
   },
 }));
@@ -106,7 +114,7 @@ export const UserComponent = () => {
   const [errorData, setErrorData] = React.useState({});
   const [countries, setCountries] = React.useState([]);
   const [status, setStatus] = React.useState(
-    studentFound ? studentFound.status : "P"
+    studentFound ? studentFound.status : STATUS.NEW
   );
   const [openReject, setOpenReject] = React.useState(false);
   const [formData, setFormData] = React.useState(
@@ -224,11 +232,26 @@ export const UserComponent = () => {
   }, []);
 
   const handleStatusChange = () => {
-    if (status === "P") {
-      setStatus("D");
-    } else if (status === "D") {
-      setStatus("P");
+    let studentToBeUpdated = { ...formData };
+    if (formData.status === STATUS.NEW) {
+      studentToBeUpdated.status = STATUS.PROPOSED;
+    } else if (formData.status === STATUS.PROPOSED) {
+      studentToBeUpdated.status = STATUS.DONE;
     }
+    setBackDropState(true);
+    updateStudent(studentToBeUpdated)
+      .then((res) => {
+        setFormData((previousStudentData) => ({
+          ...previousStudentData,
+          status: studentToBeUpdated.status,
+        }));
+        setBackDropState(false);
+        return res;
+      })
+      .catch((err) => {
+        setBackDropState(false);
+        return err;
+      });
   };
 
   const onChangeValidate = (event) => {
@@ -389,7 +412,23 @@ export const UserComponent = () => {
   const handleRejectClose = (event) => {
     setOpenReject(false);
     if (event.target.innerHTML === "Yes") {
-      setStatus("R");
+      setBackDropState(true);
+      setStatus(STATUS.REJECTED);
+      let studentObjectToBeUpdated = { ...studentFound };
+      studentObjectToBeUpdated.status = STATUS.REJECTED;
+      updateStudent(studentObjectToBeUpdated)
+        .then((res) => {
+          setFormData((previousStudent) => ({
+            ...previousStudent,
+            status: STATUS.REJECTED,
+          }));
+          setBackDropState(false);
+          return res;
+        })
+        .catch((err) => {
+          setBackDropState(false);
+          return err;
+        });
     }
   };
 
@@ -409,7 +448,7 @@ export const UserComponent = () => {
         onSubmit={formik.handleSubmit}
       >
         <div id="formDiv" className={classes.formDiv}>
-          <SummaryPanel studentFound={studentFound} />
+          <SummaryPanel studentFound={formData} />
           <br></br>
           <PersonalInformationComponent {...formik} />
           <br></br>
@@ -681,8 +720,9 @@ export const UserComponent = () => {
         </div>
         <Toolbar position="fixed" className={classes.appBar}>
           <Button
+            className={classes.rejectButton}
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={handleRejectStatus}
           >
             {" "}
@@ -692,12 +732,13 @@ export const UserComponent = () => {
             variant="contained"
             color="primary"
             className={clsx(classes.doneButton, {
-              [classes.pendingButton]: status === "D",
+              [classes.proposedButton]: formData.status === STATUS.NEW,
             })}
             onClick={handleStatusChange}
           >
-            {" "}
-            {status === "P" ? "Mark As Done" : "Mark As Pending"}{" "}
+            {formData.status === STATUS.NEW
+              ? " Move To Proposed "
+              : " Mark As Done "}
           </Button>
           <Button
             variant="contained"
