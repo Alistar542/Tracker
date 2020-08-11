@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -35,7 +35,8 @@ import { EnglishExamTypeComponent } from "./EnglishExamTypeComponent";
 import { green, indigo, red } from "@material-ui/core/colors";
 import SummaryPanel from "./SummaryPanel";
 import { STATUS } from "../../constants";
-import { updateStudent } from "../../actions/studentactions";
+import { updateStudent, saveStudent } from "../../actions/studentactions";
+import { AuthContext } from "../LoginScreen/context/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,6 +118,7 @@ export const UserComponent = () => {
     studentFound ? studentFound.status : STATUS.NEW
   );
   const [openReject, setOpenReject] = React.useState(false);
+  const { currentUser } = useContext(AuthContext);
   const [formData, setFormData] = React.useState(
     studentFound
       ? studentFound
@@ -239,7 +241,7 @@ export const UserComponent = () => {
       studentToBeUpdated.status = STATUS.DONE;
     }
     setBackDropState(true);
-    updateStudent(studentToBeUpdated)
+    updateStudent(studentToBeUpdated, currentUser)
       .then((res) => {
         setFormData((previousStudentData) => ({
           ...previousStudentData,
@@ -274,6 +276,7 @@ export const UserComponent = () => {
     setBackDropState(true);
 
     const userObject = {
+      studentId: studentFound && studentFound.studentId,
       firstName: values.firstName.toLowerCase(),
       middleName: values.middleName,
       lastName: values.lastName,
@@ -311,7 +314,7 @@ export const UserComponent = () => {
       source: values.source,
       wayOfContact: values.wayOfContact,
       counselor: values.counselor,
-      lastUpdateUser: "admin",
+      lastUpdateUser: "",
       followUpRemarks: followUpRemarks,
       status: status,
     };
@@ -321,8 +324,7 @@ export const UserComponent = () => {
       console.log("add");
       //https://protected-gorge-55144.herokuapp.com/student/add
       //http://localhost:5000/student/add
-      axios
-        .post("http://localhost:5000/student/add", userObject)
+      saveStudent(userObject, currentUser)
         .then((res) => {
           console.log(res.data);
           setDialogState(true);
@@ -341,11 +343,7 @@ export const UserComponent = () => {
       //update code
       //https://protected-gorge-55144.herokuapp.com/student/update/
       //http://localhost:5000/student/update/
-      axios
-        .post(
-          "http://localhost:5000/student/update/" + studentFound.studentId,
-          userObject
-        )
+      updateStudent(userObject, currentUser)
         .then((res) => {
           console.log(userObject);
           console.log("success in client side");
@@ -416,7 +414,7 @@ export const UserComponent = () => {
       setStatus(STATUS.REJECTED);
       let studentObjectToBeUpdated = { ...studentFound };
       studentObjectToBeUpdated.status = STATUS.REJECTED;
-      updateStudent(studentObjectToBeUpdated)
+      updateStudent(studentObjectToBeUpdated, currentUser)
         .then((res) => {
           setFormData((previousStudent) => ({
             ...previousStudent,

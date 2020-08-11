@@ -14,4 +14,7 @@ export const STATUS = {
 
 export const URL = {
   UPDATE_STUDENT: "http://localhost:5000/student/update/",
+  LOGIN_USER: "http://localhost:5000/user/login",
+  FIND_STUDENT: "http://localhost:5000/student/getstudent",
+  SAVE_STUDENT: "http://localhost:5000/student/add",
 };

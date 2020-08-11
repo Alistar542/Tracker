@@ -1,9 +1,35 @@
 import axios from "axios";
 import { URL } from "../constants";
 
-export const updateStudent = (studentObject) => {
+//heroku sample request
+//https://protected-gorge-55144.herokuapp.com/student/getstudent
+
+export const updateStudent = (studentObject, currentUser) => {
   return axios.post(
     URL.UPDATE_STUDENT + studentObject.studentId,
-    studentObject
+    studentObject,
+    createAccessToken(currentUser)
   );
 };
+
+export const findStudent = (studentObject, currentUser) => {
+  return axios.post(
+    URL.FIND_STUDENT,
+    studentObject,
+    createAccessToken(currentUser)
+  );
+};
+
+export const saveStudent = (studentObject, currentUser) => {
+  return axios.post(
+    URL.SAVE_STUDENT,
+    studentObject,
+    createAccessToken(currentUser)
+  );
+};
+
+function createAccessToken(currentUser) {
+  return {
+    headers: { Authorization: `Bearer ${currentUser.accessToken}` },
+  };
+}

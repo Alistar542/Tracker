@@ -61,7 +61,7 @@ export default function SummaryPanel(props) {
   const studentFound = props.studentFound;
   return (
     <div className={classes.summaryPanelDiv}>
-      {studentFound && (
+      {studentFound ? (
         <Card className={classes.cardDiv}>
           <CardContent className={classes.cardContentDiv}>
             <Typography
@@ -95,6 +95,8 @@ export default function SummaryPanel(props) {
             />
           </CardContent>
         </Card>
+      ) : (
+        ""
       )}
     </div>
   );
