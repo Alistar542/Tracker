@@ -14,7 +14,7 @@ import { green, cyan, red, indigo } from "@material-ui/core/colors";
 import clsx from "clsx";
 import { STATUS, STATUS_DESCRIPTION } from "../../constants";
 import TablePaginationActions from "./TablePaginationActions";
-import TableFooter from "@material-ui/core/TableFooter";
+import Tooltip from "@material-ui/core/Tooltip";
 import TablePagination from "@material-ui/core/TablePagination";
 
 const useStyles = makeStyles({
@@ -112,17 +112,19 @@ export function StudentsFoundTableComponent(props) {
                       )}
                     </TableCell>
                     <TableCell align="right">
-                      <Chip
-                        className={clsx(classes.statusChip, {
-                          [classes.newStatus]: row.status === STATUS.NEW,
-                          [classes.doneStatus]: row.status === STATUS.DONE,
-                          [classes.rejectedStatus]:
-                            row.status === STATUS.REJECTED,
-                          [classes.proposedStatus]:
-                            row.status === STATUS.PROPOSED,
-                        })}
-                        label={STATUS_DESCRIPTION[row.status]}
-                      />
+                      <Tooltip title={STATUS_DESCRIPTION[row.status]} arrow>
+                        <Chip
+                          className={clsx(classes.statusChip, {
+                            [classes.newStatus]: row.status === STATUS.NEW,
+                            [classes.doneStatus]: row.status === STATUS.DONE,
+                            [classes.rejectedStatus]:
+                              row.status === STATUS.REJECTED,
+                            [classes.proposedStatus]:
+                              row.status === STATUS.PROPOSED,
+                          })}
+                          label={STATUS_DESCRIPTION[row.status]}
+                        />
+                      </Tooltip>
                     </TableCell>
                     <TableCell align="right">
                       <Button

@@ -33,6 +33,9 @@ import firebaseApp from "../LoginScreen/context/firebaseApp";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import { AuthContext } from "../LoginScreen/context/auth";
+import RestorePageRoundedIcon from "@material-ui/icons/RestorePageRounded";
+import StudentHistoryComponent from "../StudentHistory/StudentHistoryComponent";
+import DashboardRoundedIcon from "@material-ui/icons/DashboardRounded";
 
 const drawerWidth = 240;
 
@@ -200,12 +203,12 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          <Tooltip title="Home" arrow>
-            <ListItem button key="home" component={Link} to="/home">
+          <Tooltip title="Dashboard" arrow>
+            <ListItem button key="dashboard" component={Link} to="/home">
               <ListItemIcon>
-                <HomeIcon />
+                <DashboardRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText primary="Dashboard" />
             </ListItem>
           </Tooltip>
 
@@ -231,6 +234,19 @@ export default function MiniDrawer() {
               <ListItemText primary="Find Student" />
             </ListItem>
           </Tooltip>
+          <Tooltip title="View Student History" arrow>
+            <ListItem
+              button
+              key="studentHistory"
+              component={Link}
+              to="/home/studentHistory"
+            >
+              <ListItemIcon>
+                <RestorePageRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Student History" />
+            </ListItem>
+          </Tooltip>
         </List>
         <Divider />
       </Drawer>
@@ -247,6 +263,9 @@ export default function MiniDrawer() {
           </Route>
           <Route exact path={"/home/fetchusercomponent"}>
             <FetchUserComponent />
+          </Route>
+          <Route exact path={"/home/studentHistory"}>
+            <StudentHistoryComponent />
           </Route>
         </Switch>
       </main>

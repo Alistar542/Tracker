@@ -218,7 +218,7 @@ export function FilterComponent(props) {
               Find
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               className={classes.buttonStyle}
               onClick={clearValues}
