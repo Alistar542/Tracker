@@ -13,11 +13,17 @@ import Chip from "@material-ui/core/Chip";
 import { green, cyan, red, indigo } from "@material-ui/core/colors";
 import clsx from "clsx";
 import { STATUS, STATUS_DESCRIPTION } from "../../constants";
+import TablePaginationActions from "./TablePaginationActions";
+import TableFooter from "@material-ui/core/TableFooter";
+import TablePagination from "@material-ui/core/TablePagination";
 
 const useStyles = makeStyles({
+  root: {
+    boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
+  },
   tableContainer: {
     borderRadius: "6px",
-    boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
+    maxHeight: 650,
   },
   table: {
     minWidth: 650,
@@ -47,68 +53,112 @@ String.prototype.capitalize = function () {
 
 export function StudentsFoundTableComponent(props) {
   const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const rows = props.studentsFound;
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, props.studentsFound.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
     <div>
       {props.studentsFound && props.studentsFound.length > 0 ? (
-        <TableContainer component={Paper} className={classes.tableContainer}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Student Name</TableCell>
-                <TableCell align="right">Phone Number</TableCell>
-                <TableCell align="right">Course Interested</TableCell>
-                <TableCell align="right">Email</TableCell>
-                <TableCell align="right">FollowUp Remark</TableCell>
-                <TableCell align="right">Status</TableCell>
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {props.studentsFound.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.firstName.capitalize()} {row.lastName}
-                  </TableCell>
-                  <TableCell align="right">{row.phoneNumber}</TableCell>
-                  <TableCell align="right">{row.courseInterested}</TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">
-                    {row.followUpRemarks ? (
-                      row.followUpRemarks[row.followUpRemarks.length - 1]
-                    ) : (
-                      <span></span>
-                    )}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Chip
-                      className={clsx(classes.statusChip, {
-                        [classes.newStatus]: row.status === STATUS.NEW,
-                        [classes.doneStatus]: row.status === STATUS.DONE,
-                        [classes.rejectedStatus]:
-                          row.status === STATUS.REJECTED,
-                        [classes.proposedStatus]:
-                          row.status === STATUS.PROPOSED,
-                      })}
-                      label={STATUS_DESCRIPTION[row.status]}
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <Button
-                      color="primary"
-                      component={Link}
-                      to={{
-                        pathname: "/home/add",
-                        state: { studentFound: row },
-                      }}
-                    >
-                      View
-                    </Button>
-                  </TableCell>
+        <Paper className={classes.root}>
+          <TableContainer className={classes.tableContainer}>
+            <Table
+              stickyHeader
+              className={classes.table}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Student Name</TableCell>
+                  <TableCell align="right">Phone Number</TableCell>
+                  <TableCell align="right">Course Interested</TableCell>
+                  <TableCell align="right">Email</TableCell>
+                  <TableCell align="right">FollowUp Remark</TableCell>
+                  <TableCell align="right">Status</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? rows.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : rows
+                ).map((row) => (
+                  <TableRow key={row.id} hover>
+                    <TableCell component="th" scope="row">
+                      {row.firstName.capitalize()} {row.lastName}
+                    </TableCell>
+                    <TableCell align="right">{row.phoneNumber}</TableCell>
+                    <TableCell align="right">{row.courseInterested}</TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
+                    <TableCell align="right">
+                      {row.followUpRemarks ? (
+                        row.followUpRemarks[row.followUpRemarks.length - 1]
+                      ) : (
+                        <span></span>
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Chip
+                        className={clsx(classes.statusChip, {
+                          [classes.newStatus]: row.status === STATUS.NEW,
+                          [classes.doneStatus]: row.status === STATUS.DONE,
+                          [classes.rejectedStatus]:
+                            row.status === STATUS.REJECTED,
+                          [classes.proposedStatus]:
+                            row.status === STATUS.PROPOSED,
+                        })}
+                        label={STATUS_DESCRIPTION[row.status]}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        color="primary"
+                        component={Link}
+                        to={{
+                          pathname: "/home/add",
+                          state: { studentFound: row },
+                        }}
+                      >
+                        View
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={7} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+            count={props.studentsFound.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            SelectProps={{
+              inputProps: { "aria-label": "rows per page" },
+            }}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+            ActionsComponent={TablePaginationActions}
+          />
+        </Paper>
       ) : (
         ""
       )}
