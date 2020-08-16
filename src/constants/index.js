@@ -17,4 +17,18 @@ export const URL = {
   LOGIN_USER: "http://localhost:5000/user/login",
   FIND_STUDENT: "http://localhost:5000/student/getstudent",
   SAVE_STUDENT: "http://localhost:5000/student/add",
+  FIND_STUDENT_HISTORY:
+    "http://localhost:5000/studenthistory/getstudenthistory",
+};
+
+export const OPERATION_FLAG = {
+  INSERT: "I",
+  UPDATE: "U",
+  DELETE: "D",
+};
+
+export const OPERATION_FLAG_DESC = {
+  I: "Created",
+  U: "Updated",
+  D: "Deleted",
 };

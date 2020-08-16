@@ -13,7 +13,7 @@ import Chip from "@material-ui/core/Chip";
 import { green, cyan, red, indigo } from "@material-ui/core/colors";
 import clsx from "clsx";
 import { STATUS, STATUS_DESCRIPTION } from "../../constants";
-import TablePaginationActions from "./TablePaginationActions";
+import TablePaginationActions from "../Common/TablePaginationActions";
 import Tooltip from "@material-ui/core/Tooltip";
 import TablePagination from "@material-ui/core/TablePagination";
 
