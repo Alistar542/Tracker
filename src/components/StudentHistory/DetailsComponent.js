@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
   tableContainer: {
     borderRadius: "6px",
-    maxHeight: 650,
+    maxHeight: "670px",
   },
   table: {
     minWidth: 650,
@@ -29,6 +29,13 @@ String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+const getDateAndTime = (lastUpdateTime) => {
+  let updateDateTime = new Date(lastUpdateTime);
+  let updateDate = updateDateTime.toDateString();
+  let hours = updateDateTime.getHours();
+  let minutes = updateDateTime.getMinutes();
+  return `${updateDate} ${hours}:${minutes}`;
+};
 export default function DetailsComponent(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -57,9 +64,9 @@ export default function DetailsComponent(props) {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Operation</TableCell>
-                  <TableCell align="right">Remarks</TableCell>
-                  <TableCell align="right">Last Update User</TableCell>
+                  <TableCell align="left">Operation</TableCell>
+                  <TableCell align="left">Remarks</TableCell>
+                  <TableCell align="left">Last Update User</TableCell>
                   <TableCell align="right">Last Update Time</TableCell>
                 </TableRow>
               </TableHead>
@@ -72,12 +79,14 @@ export default function DetailsComponent(props) {
                   : rows
                 ).map((row) => (
                   <TableRow key={row.id} hover>
-                    <TableCell align="center">
+                    <TableCell align="left">
                       {OPERATION_FLAG_DESC[row.operationFlag]}
                     </TableCell>
-                    <TableCell align="right">{row.remarks}</TableCell>
-                    <TableCell align="right">{row.lastUpdateUser}</TableCell>
-                    <TableCell align="right">{row.lastUpdateTime}</TableCell>
+                    <TableCell align="left">{row.remarks}</TableCell>
+                    <TableCell align="left">{row.lastUpdateUser}</TableCell>
+                    <TableCell align="right">
+                      {getDateAndTime(row.lastUpdateTime)}
+                    </TableCell>
                   </TableRow>
                 ))}
                 {emptyRows > 0 && (

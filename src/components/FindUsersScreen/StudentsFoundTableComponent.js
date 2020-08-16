@@ -17,13 +17,13 @@ import TablePaginationActions from "../Common/TablePaginationActions";
 import Tooltip from "@material-ui/core/Tooltip";
 import TablePagination from "@material-ui/core/TablePagination";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
   },
   tableContainer: {
     borderRadius: "6px",
-    maxHeight: 650,
+    maxHeight: "670px",
   },
   table: {
     minWidth: 650,
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
   proposedStatus: {
     backgroundColor: indigo[500],
   },
-});
+}));
 
 // eslint-disable-next-line no-extend-native
 String.prototype.capitalize = function () {
@@ -80,12 +80,12 @@ export function StudentsFoundTableComponent(props) {
             >
               <TableHead>
                 <TableRow>
+                  <TableCell align="left">Student Id</TableCell>
                   <TableCell>Student Name</TableCell>
-                  <TableCell align="right">Phone Number</TableCell>
-                  <TableCell align="right">Course Interested</TableCell>
-                  <TableCell align="right">Email</TableCell>
-                  <TableCell align="right">FollowUp Remark</TableCell>
-                  <TableCell align="right">Status</TableCell>
+                  <TableCell align="left">Phone Number</TableCell>
+                  <TableCell align="left">Course Interested</TableCell>
+                  <TableCell align="left">FollowUp Remark</TableCell>
+                  <TableCell align="center">Status</TableCell>
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -98,20 +98,20 @@ export function StudentsFoundTableComponent(props) {
                   : rows
                 ).map((row) => (
                   <TableRow key={row.id} hover>
+                    <TableCell align="left">{`# ${row.studentId}`}</TableCell>
                     <TableCell component="th" scope="row">
                       {row.firstName.capitalize()} {row.lastName}
                     </TableCell>
-                    <TableCell align="right">{row.phoneNumber}</TableCell>
-                    <TableCell align="right">{row.courseInterested}</TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="left">{row.phoneNumber}</TableCell>
+                    <TableCell align="left">{row.courseInterested}</TableCell>
+                    <TableCell align="left">
                       {row.followUpRemarks ? (
                         row.followUpRemarks[row.followUpRemarks.length - 1]
                       ) : (
                         <span></span>
                       )}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">
                       <Tooltip title={STATUS_DESCRIPTION[row.status]} arrow>
                         <Chip
                           className={clsx(classes.statusChip, {
