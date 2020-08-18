@@ -37,6 +37,7 @@ import SummaryPanel from "./SummaryPanel";
 import { STATUS } from "../../constants";
 import { updateStudent, saveStudent } from "../../actions/studentactions";
 import { AuthContext } from "../LoginScreen/context/auth";
+import SnackbarCommon from "../Common/SnackbarCommon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -153,6 +154,8 @@ export const UserComponent = () => {
         }
   );
   const [submitted, setSubmitted] = React.useState(false);
+  const [snackbarMessage, setSnackBarMessage] = React.useState("");
+  const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
   console.log("rendering UserComponent");
 
   const formik = useFormik({
@@ -237,8 +240,14 @@ export const UserComponent = () => {
     let studentToBeUpdated = { ...formData };
     if (formData.status === STATUS.NEW) {
       studentToBeUpdated.status = STATUS.PROPOSED;
+      studentToBeUpdated.remarks = "Status Changed to Proposed";
     } else if (formData.status === STATUS.PROPOSED) {
       studentToBeUpdated.status = STATUS.DONE;
+      studentToBeUpdated.remarks = "Status Changed to Done";
+    } else if (formData.status === STATUS.DONE) {
+      setSnackBarMessage("Already Marked as Done");
+      setSnackbarOpenState(true);
+      return;
     }
     setBackDropState(true);
     updateStudent(studentToBeUpdated, currentUser)
@@ -414,6 +423,7 @@ export const UserComponent = () => {
       setStatus(STATUS.REJECTED);
       let studentObjectToBeUpdated = { ...studentFound };
       studentObjectToBeUpdated.status = STATUS.REJECTED;
+      studentObjectToBeUpdated.remarks = "Status changed to Rejected";
       updateStudent(studentObjectToBeUpdated, currentUser)
         .then((res) => {
           setFormData((previousStudent) => ({
@@ -436,6 +446,11 @@ export const UserComponent = () => {
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
     remarksCopy.push(event.target.followupremarks.value);
     setFollowUpRemarks(remarksCopy);
+  };
+
+  const snackbarClose = () => {
+    setSnackBarMessage("");
+    setSnackbarOpenState(false);
   };
 
   return (
@@ -822,6 +837,11 @@ export const UserComponent = () => {
       <Backdrop className={classes.backdrop} open={backDropState}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      <SnackbarCommon
+        message={snackbarMessage}
+        handleClose={snackbarClose}
+        openState={snackbarOpenState}
+      />
     </div>
   );
 };
