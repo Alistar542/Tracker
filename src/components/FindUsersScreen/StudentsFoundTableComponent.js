@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   statusChip: {
     color: "white",
     width: "50%",
+    minWidth: "100px",
   },
   newStatus: {
     backgroundColor: cyan[500],
@@ -84,7 +85,6 @@ export function StudentsFoundTableComponent(props) {
                   <TableCell>Student Name</TableCell>
                   <TableCell align="left">Phone Number</TableCell>
                   <TableCell align="left">Course Interested</TableCell>
-                  <TableCell align="left">FollowUp Remark</TableCell>
                   <TableCell align="center">Status</TableCell>
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
@@ -104,13 +104,6 @@ export function StudentsFoundTableComponent(props) {
                     </TableCell>
                     <TableCell align="left">{row.phoneNumber}</TableCell>
                     <TableCell align="left">{row.courseInterested}</TableCell>
-                    <TableCell align="left">
-                      {row.followUpRemarks ? (
-                        row.followUpRemarks[row.followUpRemarks.length - 1]
-                      ) : (
-                        <span></span>
-                      )}
-                    </TableCell>
                     <TableCell align="center">
                       <Tooltip title={STATUS_DESCRIPTION[row.status]} arrow>
                         <Chip
