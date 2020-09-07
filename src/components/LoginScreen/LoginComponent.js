@@ -9,6 +9,10 @@ import { AuthContext } from "./context/auth";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { green } from "@material-ui/core/colors";
 import { loginUser } from "../../actions/useractions";
+import {
+  updatePrivilege,
+  AbilityContext,
+} from "../../privilegehandler/privilegehandler";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +59,7 @@ export default function LoginComponent() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const ability = useContext(AbilityContext);
   const classes = useStyles();
 
   const handleSubmit = (event) => {
@@ -68,6 +73,7 @@ export default function LoginComponent() {
     };
     loginUser(user)
       .then((res) => {
+        updatePrivilege(ability, { userType: "A" });
         setCurrentUser(res.data);
         setLoading(false);
       })

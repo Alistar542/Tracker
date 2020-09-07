@@ -118,6 +118,7 @@ export const UserComponent = () => {
   const [status, setStatus] = React.useState(
     studentFound ? studentFound.status : STATUS.NEW
   );
+  let isActionsDisabled = typeof studentFound === "undefined";
   const [openReject, setOpenReject] = React.useState(false);
   const { currentUser } = useContext(AuthContext);
   const [formData, setFormData] = React.useState(
@@ -737,6 +738,7 @@ export const UserComponent = () => {
             variant="contained"
             color="primary"
             onClick={handleRejectStatus}
+            disabled={isActionsDisabled}
           >
             {" "}
             Reject{" "}

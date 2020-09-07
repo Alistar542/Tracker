@@ -23,19 +23,21 @@ import { FetchUserComponent } from "../FindUsersScreen/FetchUserComponent";
 import { HomeComponent } from "../HomeScreen/HomeComponent";
 import SearchIcon from "@material-ui/icons/Search";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import { useAuth } from "../LoginScreen/context/auth";
-import { Redirect } from "react-router-dom";
+import TimelineIcon from "@material-ui/icons/Timeline";
 import axios from "axios";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import HomeIcon from "@material-ui/icons/Home";
-import firebaseApp from "../LoginScreen/context/firebaseApp";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import { AuthContext } from "../LoginScreen/context/auth";
 import RestorePageRoundedIcon from "@material-ui/icons/RestorePageRounded";
 import StudentHistoryComponent from "../StudentHistory/StudentHistoryComponent";
 import DashboardRoundedIcon from "@material-ui/icons/DashboardRounded";
+import SettingsIcon from "@material-ui/icons/Settings";
+import SettingsComponent from "../SettingsScreen/SettingsComponent";
+import SaveStudentComponent from "../SaveStudentScreen/SaveStudentComponent";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import { AbilityContext } from "../../privilegehandler/privilegehandler";
 
 const drawerWidth = 240;
 
@@ -101,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  bottomLink: {
+    marginBottom: "auto",
+  },
 }));
 
 export default function MiniDrawer() {
@@ -120,6 +125,7 @@ export default function MiniDrawer() {
   const logout = () => {
     setCurrentUser(null);
   };
+  const ability = useContext(AbilityContext);
 
   useEffect(() => {
     var date = new Date();
@@ -242,13 +248,45 @@ export default function MiniDrawer() {
               to="/home/studentHistory"
             >
               <ListItemIcon>
-                <RestorePageRoundedIcon />
+                <TimelineIcon />
               </ListItemIcon>
               <ListItemText primary="Student History" />
             </ListItem>
           </Tooltip>
+          <Tooltip title="Save Student" arrow>
+            <ListItem
+              button
+              key="saveStudent"
+              component={Link}
+              to="/home/saveStudent"
+            >
+              <ListItemIcon>
+                <AddRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Save Student" />
+            </ListItem>
+          </Tooltip>
         </List>
         <Divider />
+        {ability.can("view", "settings") ? (
+          <List className={classes.bottomLink}>
+            <Tooltip title="Settings" arrow>
+              <ListItem
+                button
+                key="settings"
+                component={Link}
+                to="/home/settings"
+              >
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItem>
+            </Tooltip>
+          </List>
+        ) : (
+          ""
+        )}
       </Drawer>
 
       <main className={classes.content}>
@@ -266,6 +304,12 @@ export default function MiniDrawer() {
           </Route>
           <Route exact path={"/home/studentHistory"}>
             <StudentHistoryComponent />
+          </Route>
+          <Route exact path={"/home/settings"}>
+            <SettingsComponent />
+          </Route>
+          <Route exact path={"/home/saveStudent"}>
+            <SaveStudentComponent />
           </Route>
         </Switch>
       </main>
