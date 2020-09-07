@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
+import { USER_TYPE } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   userSettingsDiv: {
@@ -113,8 +114,10 @@ export default function UserSettingsComponent() {
                       className={classes.userTypeSelect}
                       {...formik.getFieldProps("userType")}
                     >
-                      <MenuItem value={"A"}>ADMIN</MenuItem>
-                      <MenuItem value={"M"}>MODERATOR</MenuItem>
+                      <MenuItem value={USER_TYPE.ADMINISTRATOR}>
+                        ADMINISTRATOR
+                      </MenuItem>
+                      <MenuItem value={USER_TYPE.EMPLOYEE}>EMPLOYEE</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl margin="dense" variant="outlined">

@@ -9,7 +9,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
-import { FieldArray } from "formik";
+import { FieldArray, getIn } from "formik";
 
 const useStyles = makeStyles((theme) => ({
   areasOfInterestDiv: {
@@ -51,13 +51,41 @@ export default function AreasOfInterestComponent(props) {
             {formik.values.requestedCourseDetails &&
             formik.values.requestedCourseDetails.length > 0
               ? formik.values.requestedCourseDetails.map((p, index) => {
+                  const requestedCourse = `requestedCourseDetails[${index}].requestedCourse`;
+                  const preferredCountry = `requestedCourseDetails[${index}].preferredCountry`;
+                  const touchedRequestedCourse = getIn(
+                    formik.touched,
+                    requestedCourse
+                  );
+                  const errorRequestedCourse = getIn(
+                    formik.errors,
+                    requestedCourse
+                  );
+                  const touchedPreferredCountry = getIn(
+                    formik.touched,
+                    preferredCountry
+                  );
+                  const errorPreferredCountry = getIn(
+                    formik.errors,
+                    preferredCountry
+                  );
                   return (
                     <div key={index} className={classes.innerDiv}>
                       <TextField
                         label="Requested Course"
-                        name={`requestedCourseDetails[${index}].requestedCourse`}
+                        name={requestedCourse}
                         value={p.requestedCourse}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        required
+                        helperText={
+                          touchedRequestedCourse && errorRequestedCourse
+                            ? errorRequestedCourse
+                            : ""
+                        }
+                        error={Boolean(
+                          touchedRequestedCourse && errorRequestedCourse
+                        )}
                       />
                       <FormControl className={classes.formControlSelect}>
                         <InputLabel id="demo-simple-select-label">
@@ -65,9 +93,19 @@ export default function AreasOfInterestComponent(props) {
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
-                          name={`requestedCourseDetails[${index}].preferredCountry`}
+                          name={preferredCountry}
                           value={p.preferredCountry}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          required
+                          helperText={
+                            touchedPreferredCountry && errorPreferredCountry
+                              ? errorPreferredCountry
+                              : ""
+                          }
+                          error={Boolean(
+                            touchedPreferredCountry && errorPreferredCountry
+                          )}
                         >
                           {countries.map((country) => {
                             return (

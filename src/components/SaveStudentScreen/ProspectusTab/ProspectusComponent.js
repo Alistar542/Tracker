@@ -177,7 +177,7 @@ export const ProspectusComponent = (props) => {
     priority: "",
   };
 
-  const validationSchema = Yup.object({
+  const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .max(15, "Must be 15 characters or less")
       .matches(/^[A-Za-z]+$/, {
@@ -199,6 +199,14 @@ export const ProspectusComponent = (props) => {
     phoneNumber: Yup.string()
       .matches(/^[0-9]*$/, { message: "Must be a number" })
       .required("Required"),
+    requestedCourseDetails: Yup.array().of(
+      Yup.object().shape({
+        requestedCourse: Yup.string().required("Requested Course is required"),
+        preferredCountry: Yup.string().required(
+          "Preferred Country is required"
+        ),
+      })
+    ),
   });
 
   const [formData, setFormData] = React.useState(
