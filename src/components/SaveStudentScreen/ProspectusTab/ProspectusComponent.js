@@ -512,21 +512,12 @@ export const ProspectusComponent = (props) => {
                     </Select>
                   </FormControl>
 
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Grade Average
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="gradeAverage"
-                      name="gradeAverage"
-                      {...formik.getFieldProps("gradeAverage")}
-                    >
-                      <MenuItem value={"aplus"}>A+</MenuItem>
-                      <MenuItem value={"a"}>A</MenuItem>
-                      <MenuItem value={"b"}>B</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    id="gradeAverage"
+                    label="Grade Average"
+                    name="gradeAverage"
+                    {...formik.getFieldProps("gradeAverage")}
+                  />
 
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
