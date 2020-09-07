@@ -73,7 +73,7 @@ export default function LoginComponent() {
     };
     loginUser(user)
       .then((res) => {
-        updatePrivilege(ability, { userType: "A" });
+        updatePrivilege(ability, res.data);
         setCurrentUser(res.data);
         setLoading(false);
       })
