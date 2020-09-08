@@ -42,7 +42,6 @@ export function HomeComponent() {
   return (
     <div className={classes.outerDiv}>
       <Card
-        button
         key="addStudent"
         component={Link}
         to="/home/add"
@@ -57,7 +56,6 @@ export function HomeComponent() {
         </CardContent>
       </Card>
       <Card
-        button
         key="findStudent"
         component={Link}
         to="/home/fetchusercomponent"
@@ -72,7 +70,6 @@ export function HomeComponent() {
         </CardContent>
       </Card>
       <Card
-        button
         key="studentHistory"
         component={Link}
         to="/home/studentHistory"

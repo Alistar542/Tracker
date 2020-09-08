@@ -32,7 +32,7 @@ export function EnglishExamTypeComponent(props) {
 
   return (
     <div>
-      <Typography component="h6" variant="h6">
+      <Typography component={"span"} variant="h6">
         English Exam Type
       </Typography>
       <div className={classes.personalInfoDiv}>

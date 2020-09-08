@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import { FieldArray, getIn } from "formik";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   areasOfInterestDiv: {
@@ -42,7 +43,7 @@ export default function AreasOfInterestComponent(props) {
 
   return (
     <Fragment>
-      <Typography component="h6" variant="h6">
+      <Typography component={"span"} variant="h6">
         Areas of Interest
       </Typography>
       <FieldArray name="requestedCourseDetails">
@@ -87,7 +88,12 @@ export default function AreasOfInterestComponent(props) {
                           touchedRequestedCourse && errorRequestedCourse
                         )}
                       />
-                      <FormControl className={classes.formControlSelect}>
+                      <FormControl
+                        className={classes.formControlSelect}
+                        error={Boolean(
+                          touchedPreferredCountry && errorPreferredCountry
+                        )}
+                      >
                         <InputLabel id="demo-simple-select-label">
                           Preferred Country
                         </InputLabel>
@@ -98,23 +104,20 @@ export default function AreasOfInterestComponent(props) {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           required
-                          helperText={
-                            touchedPreferredCountry && errorPreferredCountry
-                              ? errorPreferredCountry
-                              : ""
-                          }
-                          error={Boolean(
-                            touchedPreferredCountry && errorPreferredCountry
-                          )}
                         >
-                          {countries.map((country) => {
+                          {countries.map((country, index) => {
                             return (
-                              <MenuItem value={country.name}>
+                              <MenuItem value={country.name} key={index}>
                                 {country.name}
                               </MenuItem>
                             );
                           })}
                         </Select>
+                        <FormHelperText>
+                          {touchedPreferredCountry && errorPreferredCountry
+                            ? errorPreferredCountry
+                            : ""}
+                        </FormHelperText>
                       </FormControl>
                       {formik.values.requestedCourseDetails.length !== 1 ? (
                         <IconButton

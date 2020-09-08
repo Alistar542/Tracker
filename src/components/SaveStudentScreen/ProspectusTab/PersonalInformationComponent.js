@@ -37,7 +37,7 @@ export function PersonalInformationComponent({
   console.log("rendering PersonalInfoComponent");
   return (
     <div>
-      <Typography component="h6" variant="h6">
+      <Typography component={"span"} variant="h6">
         Personal Information
       </Typography>
       <div className={classes.personalInfoDiv}>

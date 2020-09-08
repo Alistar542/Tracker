@@ -462,7 +462,7 @@ export const ProspectusComponent = (props) => {
                 <br></br>
                 <Divider />
                 <br></br>
-                <Typography component="h6" variant="h6">
+                <Typography component={"span"} variant="h6">
                   Education Summary
                 </Typography>
                 <div className={classes.personalInfoDiv}>
@@ -476,9 +476,9 @@ export const ProspectusComponent = (props) => {
                       name="countryOfEducation"
                       {...formik.getFieldProps("countryOfEducation")}
                     >
-                      {countries.map((country) => {
+                      {countries.map((country,index) => {
                         return (
-                          <MenuItem value={country.name}>
+                          <MenuItem value={country.name} key={index}>
                             {country.name}
                           </MenuItem>
                         );
@@ -551,7 +551,7 @@ export const ProspectusComponent = (props) => {
                 <br></br>
                 <Divider />
                 <br></br>
-                <Typography component="h6" variant="h6">
+                <Typography component={"span"} variant="h6">
                   Work Experience
                 </Typography>
                 <div className={classes.personalInfoDiv}>
@@ -624,7 +624,7 @@ export const ProspectusComponent = (props) => {
                 <Divider />
                 <br></br>
 
-                <Typography component="h6" variant="h6">
+                <Typography component={"span"} variant="h6">
                   Marketing Purpose
                 </Typography>
                 <div className={classes.personalInfoDiv}>

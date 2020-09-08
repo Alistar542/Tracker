@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import { USER_TYPE } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +66,7 @@ export default function UserSettingsComponent() {
   return (
     <div>
       <Paper elevation={0} className={classes.rootPaper}>
-        Create a new user
+        <Typography component={"span"}>Create a new user</Typography>
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
