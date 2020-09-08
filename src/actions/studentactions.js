@@ -28,6 +28,14 @@ export const saveStudent = (studentObject, currentUser) => {
   );
 };
 
+export const updateStatusOfStudent = (studentObject, currentUser) => {
+  return axios.post(
+    URL.UPDATE_STATUS_OF_STUDENT + studentObject.studentId,
+    studentObject,
+    createAccessToken(currentUser)
+  );
+};
+
 function createAccessToken(currentUser) {
   return {
     headers: { Authorization: `Bearer ${currentUser.accessToken}` },

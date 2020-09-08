@@ -19,6 +19,9 @@ export const URL = {
   SAVE_STUDENT: "http://localhost:5000/student/add",
   FIND_STUDENT_HISTORY:
     "http://localhost:5000/studenthistory/getstudenthistory",
+  UPDATE_STATUS_OF_STUDENT:
+    "http://localhost:5000/student/updateStatusOfStudent",
+  FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
 };
 
 export const OPERATION_FLAG = {
@@ -31,4 +34,9 @@ export const OPERATION_FLAG_DESC = {
   I: "Created",
   U: "Updated",
   D: "Deleted",
+};
+
+export const USER_TYPE = {
+  ADMINISTRATOR: "A",
+  EMPLOYEE: "E",
 };

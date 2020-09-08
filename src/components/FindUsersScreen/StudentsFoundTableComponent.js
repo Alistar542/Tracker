@@ -124,7 +124,7 @@ export function StudentsFoundTableComponent(props) {
                         color="primary"
                         component={Link}
                         to={{
-                          pathname: "/home/add",
+                          pathname: "/home/saveStudent",
                           state: { studentFound: row },
                         }}
                       >
