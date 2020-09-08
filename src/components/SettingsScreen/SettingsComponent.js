@@ -65,7 +65,9 @@ export default function SettingsComponent() {
 
   return (
     <Paper className={classes.paperRoot}>
-      <Typography variant="h4">Settings</Typography>
+      <Typography component={"span"} variant="h4">
+        Settings
+      </Typography>
       <div className={classes.divContainer}>
         <Tabs
           orientation="vertical"
@@ -76,8 +78,8 @@ export default function SettingsComponent() {
           className={classes.tabs}
         >
           <Tab label="General" {...a11yProps(0)} />
-          <Tab label="User" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Create User" {...a11yProps(1)} />
+          <Tab label="List Users" {...a11yProps(2)} />
           <Tab label="Item Four" {...a11yProps(3)} />
         </Tabs>
         <TabPanel value={value} index={0}>
