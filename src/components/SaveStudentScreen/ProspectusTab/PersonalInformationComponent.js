@@ -21,8 +21,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
+  },
+  outerDiv: {
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -36,8 +39,8 @@ export function PersonalInformationComponent({
   const classes = useStyles();
   console.log("rendering PersonalInfoComponent");
   return (
-    <div>
-      <Typography component={"span"} variant="h6">
+    <div className={classes.outerDiv}>
+      <Typography component={"span"} variant="h7">
         Personal Information
       </Typography>
       <div className={classes.personalInfoDiv}>

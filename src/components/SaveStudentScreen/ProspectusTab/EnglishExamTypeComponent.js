@@ -21,8 +21,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
+  },
+  outerDiv: {
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -31,8 +34,8 @@ export function EnglishExamTypeComponent(props) {
   const formik = props.formik;
 
   return (
-    <div>
-      <Typography component={"span"} variant="h6">
+    <div className={classes.outerDiv}>
+      <Typography component={"span"} variant="h7">
         English Exam Type
       </Typography>
       <div className={classes.personalInfoDiv}>

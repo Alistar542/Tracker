@@ -20,7 +20,7 @@ export function FollowUpComponent(props) {
       {props.followUpRemarks ? (
         <div className={classes.cardComponent}>
           {/* <Card className={classes.cardComponent}> */}
-          <Typography component="h6" variant="h6">
+          <Typography component="h7" variant="h7">
             Follow Up Remarks
           </Typography>
           {/* <CardContent className={classes.cardContentDiv}> */}

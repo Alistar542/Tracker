@@ -41,6 +41,9 @@ import { ToDoComponent } from "./ToDoComponent";
 import BlockRoundedIcon from "@material-ui/icons/BlockRounded";
 import UndoRoundedIcon from "@material-ui/icons/UndoRounded";
 import AreasOfInterestComponent from "./AreasOfInterestComponent";
+import MarketingPurposeComponent from "./MarketingPurposeComponent";
+import EducationSummaryComponent from "./EducationSummaryComponent";
+import WorkExperienceComponent from "./WorkExperienceComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rootDiv: {
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0, 1),
       width: 200,
     },
     height: `calc(100vh - 250px)`,
@@ -62,14 +65,14 @@ const useStyles = makeStyles((theme) => ({
     //marginBottom: theme.spacing(8),
   },
   personalInfoDiv: {
-    margin: theme.spacing(0, 1),
+    margin: theme.spacing(1),
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "stretch",
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
   },
   appBar: {
@@ -452,238 +455,26 @@ export const ProspectusComponent = (props) => {
             <div id="rootDiv" className={classes.rootDiv}>
               <div id="formDiv" className={classes.formDiv}>
                 <PersonalInformationComponent {...formik} />
-                <br></br>
                 <Divider />
-                <br></br>
                 <EnglishExamTypeComponent formik={formik} />
-                <br></br>
                 <Divider />
-                <br></br>
-                <Typography component={"span"} variant="h6">
-                  Education Summary
-                </Typography>
-                <div className={classes.personalInfoDiv}>
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Country Of Education
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="countryOfEducation"
-                      name="countryOfEducation"
-                      {...formik.getFieldProps("countryOfEducation")}
-                    >
-                      {countries.map((country, index) => {
-                        return (
-                          <MenuItem value={country.name} key={index}>
-                            {country.name}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Highest Level Of Education
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="highestLevelOfEducation"
-                      name="highestLevelOfEducation"
-                      {...formik.getFieldProps("highestLevelOfEducation")}
-                    >
-                      <MenuItem value={"sslc"}>SSLC</MenuItem>
-                      <MenuItem value={"higherSecondary"}>
-                        Higher Secondary
-                      </MenuItem>
-                      <MenuItem value={"diploma"}>Diploma</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Grading Scheme
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="gradingScheme"
-                      name="gradingScheme"
-                      {...formik.getFieldProps("gradingScheme")}
-                    >
-                      <MenuItem value={"cgpa"}>CGPA out of 10</MenuItem>
-                      <MenuItem value={"percentage"}>Percentage</MenuItem>
-                      <MenuItem value={"grade"}>Grade</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <TextField
-                    id="gradeAverage"
-                    label="Grade Average"
-                    name="gradeAverage"
-                    {...formik.getFieldProps("gradeAverage")}
-                  />
-
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      openTo="year"
-                      variant="inline"
-                      views={["year", "month"]}
-                      margin="normal"
-                      id="graduatedYear"
-                      name="graduatedYear"
-                      label="Graduated Year"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.graduatedYear}
-                      onChange={(value) =>
-                        formik.setFieldValue("graduatedYear", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
-                <br></br>
+                <EducationSummaryComponent
+                  formik={formik}
+                  countries={countries}
+                />
                 <Divider />
-                <br></br>
-                <Typography component={"span"} variant="h6">
-                  Work Experience
-                </Typography>
-                <div className={classes.personalInfoDiv}>
-                  <TextField
-                    id="companyName"
-                    label="Company Name"
-                    name="companyName"
-                    {...formik.getFieldProps("companyName")}
-                  />
-                  <TextField
-                    id="position"
-                    label="Postion"
-                    name="position"
-                    {...formik.getFieldProps("position")}
-                  />
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="endDate"
-                      name="endDate"
-                      label="End Date"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.endDate}
-                      onChange={(value) =>
-                        formik.setFieldValue("endDate", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="startDate"
-                      name="startDate"
-                      label="Start Date"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.startDate}
-                      onChange={(value) =>
-                        formik.setFieldValue("startDate", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-
-                  <TextField
-                    id="workAddress"
-                    label="Address"
-                    name="workAddress"
-                    {...formik.getFieldProps("workAddress")}
-                  />
-                </div>
-                <br></br>
+                <WorkExperienceComponent formik={formik} />
                 <Divider />
-                <br></br>
                 <AreasOfInterestComponent
                   formik={formik}
                   countries={countries}
                 />
-                <br></br>
                 <Divider />
-                <br></br>
 
-                <Typography component={"span"} variant="h6">
-                  Marketing Purpose
-                </Typography>
-                <div className={classes.personalInfoDiv}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="dateOfRequest"
-                      name="dateOfRequest"
-                      label="Date Of Request"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.dateOfRequest}
-                      onChange={(value) =>
-                        formik.setFieldValue("dateOfRequest", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-                  <TextField
-                    id="source"
-                    label="Source"
-                    name="source"
-                    {...formik.getFieldProps("source")}
-                  />
-                  <TextField
-                    id="wayOfContact"
-                    label="Way Of Contact"
-                    name="wayOfContact"
-                    {...formik.getFieldProps("wayOfContact")}
-                  />
-                  <TextField
-                    id="counselor"
-                    label="Counselor"
-                    name="counselor"
-                    {...formik.getFieldProps("counselor")}
-                  />
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Priority
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="priority"
-                      name="priority"
-                      {...formik.getFieldProps("priority")}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="high">High</MenuItem>
-                      <MenuItem value="medium">Medium</MenuItem>
-                      <MenuItem value="low">Low</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <br></br>
+                <MarketingPurposeComponent formik={formik} />
                 <Divider />
-                <br></br>
                 <FollowUpComponent followUpRemarks={followUpRemarks} />
-                <br></br>
                 <Divider />
-                <br></br>
                 <ToDoComponent toDoRemarks={toDoRemarks} />
                 {successOrFail ? (
                   <SuccessDialog

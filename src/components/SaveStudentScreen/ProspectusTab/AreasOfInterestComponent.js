@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
   },
   addButton: {
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   removeButton: {
     margin: theme.spacing(1),
   },
+  outerDiv: {
+    margin: theme.spacing(2, 0),
+  },
 }));
 
 export default function AreasOfInterestComponent(props) {
@@ -42,8 +45,8 @@ export default function AreasOfInterestComponent(props) {
   const { countries, formik } = props;
 
   return (
-    <Fragment>
-      <Typography component={"span"} variant="h6">
+    <div className={classes.outerDiv}>
+      <Typography component={"span"} variant="h7">
         Areas of Interest
       </Typography>
       <FieldArray name="requestedCourseDetails">
@@ -147,6 +150,6 @@ export default function AreasOfInterestComponent(props) {
           </div>
         )}
       </FieldArray>
-    </Fragment>
+    </div>
   );
 }
