@@ -14,7 +14,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   areasOfInterestDiv: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     display: "flex",
     flexDirection: "column",
   },

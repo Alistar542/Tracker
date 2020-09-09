@@ -50,20 +50,19 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rootDiv: {
-    margin: theme.spacing(3),
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 200,
     },
-    height: `calc(100vh - 335px)`,
+    height: `calc(100vh - 250px)`,
     overflow: "auto",
   },
   formDiv: {
-    margin: 0,
+    margin: theme.spacing(1),
     //marginBottom: theme.spacing(8),
   },
   personalInfoDiv: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -80,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    padding: theme.spacing(1),
     "& .MuiButton-root": {
       margin: theme.spacing(1),
     },
@@ -459,7 +457,6 @@ export const ProspectusComponent = (props) => {
                 <br></br>
                 <EnglishExamTypeComponent formik={formik} />
                 <br></br>
-                <br></br>
                 <Divider />
                 <br></br>
                 <Typography component={"span"} variant="h6">
@@ -476,7 +473,7 @@ export const ProspectusComponent = (props) => {
                       name="countryOfEducation"
                       {...formik.getFieldProps("countryOfEducation")}
                     >
-                      {countries.map((country,index) => {
+                      {countries.map((country, index) => {
                         return (
                           <MenuItem value={country.name} key={index}>
                             {country.name}
@@ -548,7 +545,6 @@ export const ProspectusComponent = (props) => {
                   </MuiPickersUtilsProvider>
                 </div>
                 <br></br>
-                <br></br>
                 <Divider />
                 <br></br>
                 <Typography component={"span"} variant="h6">
@@ -612,14 +608,12 @@ export const ProspectusComponent = (props) => {
                   />
                 </div>
                 <br></br>
-                <br></br>
                 <Divider />
                 <br></br>
                 <AreasOfInterestComponent
                   formik={formik}
                   countries={countries}
                 />
-                <br></br>
                 <br></br>
                 <Divider />
                 <br></br>
@@ -684,11 +678,9 @@ export const ProspectusComponent = (props) => {
                   </FormControl>
                 </div>
                 <br></br>
-                <br></br>
                 <Divider />
                 <br></br>
                 <FollowUpComponent followUpRemarks={followUpRemarks} />
-                <br></br>
                 <br></br>
                 <Divider />
                 <br></br>

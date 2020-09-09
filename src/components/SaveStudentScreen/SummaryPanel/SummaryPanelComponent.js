@@ -48,14 +48,16 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   emptyDivComponent: {
-    height: "75px",
+    display: "flex",
+    height: "50px",
     width: "100%",
+    padding: theme.spacing(2, 2),
   },
   summaryDataDiv: {
     display: "flex",
-    height: "75px",
+    height: "50px",
     width: "100%",
-    padding: "20px",
+    padding: theme.spacing(2, 2),
   },
 }));
 
@@ -71,7 +73,7 @@ export default function SummaryPanelComponent(props) {
     <div className={classes.summaryPanelDiv}>
       {studentFound ? (
         <div className={classes.summaryDataDiv}>
-          <Typography component="h4" variant="h4" className={classes.namePanel}>
+          <Typography component="h5" variant="h5" className={classes.namePanel}>
             {studentFound.firstName.capitalize() +
               " " +
               (studentFound.middleName
@@ -97,7 +99,7 @@ export default function SummaryPanelComponent(props) {
         </div>
       ) : (
         <div className={classes.emptyDivComponent}>
-          <Typography component="h4" variant="h4" style={{ padding: "20px" }}>
+          <Typography component="h5" variant="h5">
             Create a New Student
           </Typography>
         </div>
