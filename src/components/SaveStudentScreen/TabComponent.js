@@ -17,6 +17,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: grey[200],
   },
+  tabStyle: {
+    "& .MuiTab-root": {
+      fontSize: "0.750rem",
+    },
+  },
 }));
 
 function a11yProps(index) {
@@ -62,6 +67,7 @@ export default function TabComponent(props) {
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          classes={{ root: classes.tabStyle }}
         >
           <Tab label="Prospectus" {...a11yProps(0)} />
           <Tab

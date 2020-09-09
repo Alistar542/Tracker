@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0, 1),
       width: 200,
     },
+    "& .MuiFormLabel-root": {
+      fontSize: "0.9rem",
+    },
     height: `calc(100vh - 250px)`,
     overflow: "auto",
   },
