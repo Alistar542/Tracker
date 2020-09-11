@@ -40,3 +40,27 @@ export const USER_TYPE = {
   ADMINISTRATOR: "A",
   EMPLOYEE: "E",
 };
+
+export const APPLICATION_STATUS = {
+  NEW: "N",
+  POSTPONED: "O",
+  PROPOSED: "P",
+  TRAVELLED: "T",
+  CANCELLED: "C",
+};
+
+export const APPLICATION_STATUS_DESC = {
+  N: "NEW",
+  O: "POSTPONED",
+  P: "PROPOSED",
+  T: "TRAVELLED",
+  C: "CANCELLED",
+};
+
+export const APPLICATION_STATUS_ARRAY = [
+  { status: "New", value: "N" },
+  { status: "Postponed", value: "X" },
+  { status: "Proposed", value: "P" },
+  { status: "Travelled", value: "T" },
+  { status: "Cancelled", value: "C" },
+];
