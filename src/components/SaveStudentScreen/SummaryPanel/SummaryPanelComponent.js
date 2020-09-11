@@ -26,12 +26,10 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "100px",
     display: "flex",
     flexDirection: "row-reverse",
-    "& .MuiChip-root": {},
     "& .MuiChip-icon": {
       marginLeft: "auto",
       marginRight: theme.spacing(2),
     },
-    "& .MuiButtonBase-root": {},
   },
   cardDiv: {
     width: "100%",
