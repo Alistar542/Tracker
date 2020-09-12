@@ -1,17 +1,22 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import DetailsPanelComponent from "./DetailsPanelComponent";
 import Button from "@material-ui/core/Button";
 import { STATUS } from "../../../constants";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
     width: "100%",
-    height: `calc(100vh - 220px)`,
-    flexDirection: "column",
   },
-  formDiv: {
-    height: "92%",
+  innerDiv: {
+    display: "flex",
+    flexDirection: "column",
+    height: `calc(100vh - 200px)`,
+  },
+  detailsDiv: {
+    overflow: "auto",
   },
   bottomBar: {
     bottom: 0,
@@ -24,10 +29,21 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
     width: "100%",
-    height: "8%",
     minHeight: "70px",
+    marginTop: "auto",
   },
 }));
+
+const initialValues = {
+  visaApplnStatus: "",
+  visaStatus: "",
+  visaApplnPrcDate: null,
+  visaApRjDate: null,
+  travelDate: null,
+};
+
+const validationSchema = Yup.object().shape({});
+
 export default function ProposalComponent(props) {
   const classes = useStyles();
   const { studentToUpdate } = props;
@@ -56,13 +72,37 @@ export default function ProposalComponent(props) {
 
   return (
     <div className={classes.root}>
-      <div className={classes.formDiv}></div>
-      <div className={classes.bottomBar}>
-        <Button variant="contained" color="primary">
-          {" "}
-          Mark As Travelled{" "}
-        </Button>
-      </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          //submitApplicationDtls(values, setSubmitting, resetForm);
+          console.log("Inside Proposal Component Submit");
+          console.log(values);
+        }}
+        validateOnBlur={false}
+      >
+        {(formik) => (
+          <form
+            autoComplete="off"
+            onSubmit={formik.handleSubmit}
+            className={classes.innerDiv}
+          >
+            <div className={classes.detailsDiv}>
+              <DetailsPanelComponent formik={formik} />
+            </div>
+            <div className={classes.bottomBar}>
+              <Button variant="contained" color="primary">
+                {" "}
+                Mark As Travelled{" "}
+              </Button>
+              <Button variant="contained" color="primary" type="submit">
+                {` Save `}
+              </Button>
+            </div>
+          </form>
+        )}
+      </Formik>
     </div>
   );
 }
