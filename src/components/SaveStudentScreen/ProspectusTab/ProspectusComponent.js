@@ -553,7 +553,9 @@ export const ProspectusComponent = (props) => {
                 type="submit"
                 disabled={status === STATUS.REJECTED}
               >
-                {typeof studentFound === "undefined" ? " SAVE " : " UPDATE "}
+                {typeof studentFound === "undefined"
+                  ? " SAVE PROSPECTUS "
+                  : " UPDATE PROSPECTUS "}
               </Button>
               {/* </Toolbar> */}
             </div>

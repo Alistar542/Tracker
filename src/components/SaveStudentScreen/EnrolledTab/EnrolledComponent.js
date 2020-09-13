@@ -77,7 +77,7 @@ export default function EnrolledComponent(props) {
 
             <div className={classes.bottomBar}>
               <Button variant="contained" color="primary" type="submit">
-                {` Save `}
+                {` Save Enrolled `}
               </Button>
             </div>
           </form>

@@ -92,10 +92,10 @@ export default function TabComponent(props) {
         <ProspectusComponent {...props} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProposalComponent />
+        <ProposalComponent {...props} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <EnrolledComponent />
+        <EnrolledComponent {...props} />
       </TabPanel>
     </div>
   );
