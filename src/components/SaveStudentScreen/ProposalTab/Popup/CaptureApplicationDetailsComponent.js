@@ -27,12 +27,13 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 200,
     },
-    "& .MuiFormControl-root": {
-      margin: theme.spacing(1),
-    },
   },
+  innerDiv: {},
   radioComponent: {
-    marginLeft: theme.spacing(2),
+    "& .MuiFormLabel-root": {
+      marginLeft: theme.spacing(2),
+    },
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -101,7 +102,7 @@ export default function CaptureApplicationDetailsComponent(props) {
               onSubmit={formik.handleSubmit}
               className={classes.formDiv}
             >
-              <DialogContent>
+              <DialogContent className={classes.innerDiv}>
                 <TextField
                   autoFocus
                   margin="dense"
@@ -155,8 +156,9 @@ export default function CaptureApplicationDetailsComponent(props) {
                     formik.errors.appldCourseTyp &&
                       formik.touched.appldCourseTyp
                   )}
+                  className={classes.radioComponent}
                 >
-                  <FormLabel component="legend">Applied Course Type</FormLabel>
+                  <FormLabel>Applied Course Type</FormLabel>
                   <RadioGroup
                     row
                     aria-label="appldCourseTyp"
@@ -206,8 +208,9 @@ export default function CaptureApplicationDetailsComponent(props) {
                   error={Boolean(
                     formik.errors.offrLtrStatus && formik.touched.offrLtrStatus
                   )}
+                  className={classes.radioComponent}
                 >
-                  <FormLabel component="legend">Offer Letter Status</FormLabel>
+                  <FormLabel>Offer Letter Status</FormLabel>
                   <RadioGroup
                     row
                     aria-label="offrLtrStatus"
@@ -242,7 +245,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                     margin="dense"
                     id="offrLtrDate"
                     name="offrLtrDate"
-                    label="Offer Letter Received Date"
+                    label="Offer Letter Rcvd Date"
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -252,7 +255,10 @@ export default function CaptureApplicationDetailsComponent(props) {
                     }
                   />
                 </MuiPickersUtilsProvider>
-                <FormControl component="fieldset">
+                <FormControl
+                  component="fieldset"
+                  className={classes.radioComponent}
+                >
                   <FormLabel component="legend">Visa Letter Status</FormLabel>
                   <RadioGroup
                     row
@@ -274,7 +280,10 @@ export default function CaptureApplicationDetailsComponent(props) {
                     />
                   </RadioGroup>
                 </FormControl>
-                <FormControl component="fieldset">
+                <FormControl
+                  component="fieldset"
+                  className={classes.radioComponent}
+                >
                   <FormLabel component="legend">Tution Fees</FormLabel>
                   <RadioGroup
                     row
@@ -327,6 +336,31 @@ export default function CaptureApplicationDetailsComponent(props) {
                   label="Student Password"
                   size="small"
                 />
+                <FormControl
+                  component="fieldset"
+                  className={classes.radioComponent}
+                >
+                  <FormLabel component="legend">Status</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="applStatus"
+                    name="applStatus"
+                    {...formik.getFieldProps("applStatus")}
+                  >
+                    <FormControlLabel
+                      value="Y"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Continue"
+                    />
+                    <FormControlLabel
+                      value="N"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Cancelled"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </DialogContent>
               <DialogActions>
                 <Button onClick={() => handleClose(false)} color="primary">
