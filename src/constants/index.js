@@ -20,7 +20,7 @@ export const URL = {
   FIND_STUDENT_HISTORY:
     "http://localhost:5000/studenthistory/getstudenthistory",
   UPDATE_STATUS_OF_STUDENT:
-    "http://localhost:5000/student/updateStatusOfStudent",
+    "http://localhost:5000/student/updatestatusofstudent",
   FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
 };
@@ -54,7 +54,7 @@ export const APPLICATION_STATUS_DESC = {
   N: "New",
   O: "Postponed",
   P: "Proposed",
-  T: "Travelled",
+  E: "Enrolled",
   C: "Cancelled",
 };
 
@@ -62,6 +62,17 @@ export const APPLICATION_STATUS_ARRAY = [
   { status: "New", value: "N" },
   { status: "Postponed", value: "X" },
   { status: "Proposed", value: "P" },
-  { status: "Travelled", value: "T" },
+  { status: "Enrolled", value: "E" },
+  { status: "Cancelled", value: "C" },
+];
+
+export const APPLIED_COURSE_TYP = {
+  M: "MAJOR",
+  D: "DEGREE",
+};
+
+export const APPLCTN_STS_ARRY_PROPOSAL = [
+  { status: "Postponed", value: "X" },
+  { status: "Enrolled", value: "E" },
   { status: "Cancelled", value: "C" },
 ];

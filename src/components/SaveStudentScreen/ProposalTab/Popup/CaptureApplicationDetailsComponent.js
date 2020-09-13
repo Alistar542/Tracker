@@ -54,10 +54,10 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  applnId: Yup.string().required("Required"),
   appldUnvsty: Yup.string().required("Required"),
   appldCourse: Yup.string().required("Required"),
   appldCourseTyp: Yup.string().required("Required"),
+  offrLtrStatus: Yup.string().required("Required"),
 });
 
 export default function CaptureApplicationDetailsComponent(props) {
@@ -69,6 +69,9 @@ export default function CaptureApplicationDetailsComponent(props) {
     application,
   } = props;
 
+  const handleClose = (value) => {
+    handleCloseApplicationDtlPopup(value);
+  };
   return (
     <div className={classes.root}>
       <Dialog
@@ -86,9 +89,11 @@ export default function CaptureApplicationDetailsComponent(props) {
           initialValues={application ? application : initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            submitApplicationDtls(values, setSubmitting, resetForm);
+            submitApplicationDtls(values, setSubmitting);
+            resetForm();
           }}
           validateOnBlur={false}
+          enableReinitialize={true}
         >
           {(formik) => (
             <form
@@ -196,7 +201,12 @@ export default function CaptureApplicationDetailsComponent(props) {
                     }
                   />
                 </MuiPickersUtilsProvider>
-                <FormControl component="fieldset">
+                <FormControl
+                  component="fieldset"
+                  error={Boolean(
+                    formik.errors.offrLtrStatus && formik.touched.offrLtrStatus
+                  )}
+                >
                   <FormLabel component="legend">Offer Letter Status</FormLabel>
                   <RadioGroup
                     row
@@ -217,6 +227,11 @@ export default function CaptureApplicationDetailsComponent(props) {
                       label="Not Received"
                     />
                   </RadioGroup>
+                  <FormHelperText>
+                    {formik.errors.offrLtrStatus &&
+                      formik.touched.offrLtrStatus &&
+                      formik.errors.offrLtrStatus}
+                  </FormHelperText>
                 </FormControl>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
@@ -314,10 +329,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                 />
               </DialogContent>
               <DialogActions>
-                <Button
-                  onClick={() => handleCloseApplicationDtlPopup(false)}
-                  color="primary"
-                >
+                <Button onClick={() => handleClose(false)} color="primary">
                   Cancel
                 </Button>
                 <Button color="primary" type="submit">

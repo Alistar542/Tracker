@@ -13,7 +13,7 @@ export function updatePrivilege(ability, user) {
     //can("view", "travelled");
   } else {
     can("read", "all");
-    cannot("view", "travelled");
+    cannot("view", "enrolled");
     cannot("view", "settings");
   }
 
@@ -23,6 +23,6 @@ export function updatePrivilege(ability, user) {
 export const ability = defineAbility((can, cannot) => {
   cannot("manage", "all");
   cannot("read", "all");
-  cannot("view", "travelled");
+  cannot("view", "enrolled");
   cannot("view", "settings");
 });

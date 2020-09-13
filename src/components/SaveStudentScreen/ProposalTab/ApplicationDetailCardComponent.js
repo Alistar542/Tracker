@@ -6,6 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { APPLIED_COURSE_TYP } from "../../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,14 +23,14 @@ export default function ApplicationDetailCardComponent(props) {
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {`Application Id : ${application.applnId}`}
+            {application.appldUnvsty}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {`Applied University : ${application.appldUnvsty}`}
+            {application.appldCourse}
             <br></br>
-            {`Applied Course : ${application.appldCourse}`}
-            <br></br>
-            {`Applied Course Type : ${application.appldCourseTyp}`}
+            {`Applied Course Type : ${
+              APPLIED_COURSE_TYP[application.appldCourseTyp]
+            }`}
             <br></br>
           </Typography>
         </CardContent>

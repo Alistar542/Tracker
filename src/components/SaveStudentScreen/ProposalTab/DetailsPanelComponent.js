@@ -45,6 +45,8 @@ export default function DetailsPanelComponent(props) {
 
   const openCaptureApplicationDetailsPopup = (value) => {
     setOpenApplicationDtlPopup(value);
+    setApplication(null);
+    setIndex(null);
   };
 
   const viewApplicationDetailsPopup = (value, application, index) => {
@@ -53,7 +55,7 @@ export default function DetailsPanelComponent(props) {
     setOpenApplicationDtlPopup(value);
   };
 
-  const submitApplicationDtls = (values, setSubmitting, resetForm) => {
+  const submitApplicationDtls = (values, setSubmitting) => {
     let applicationDtlCopy = [...applicationDtl];
     if (index != null) {
       applicationDtlCopy[index] = values;

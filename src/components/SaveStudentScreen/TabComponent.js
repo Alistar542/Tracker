@@ -75,9 +75,9 @@ export default function TabComponent(props) {
             {...a11yProps(1)}
             // disabled={status === STATUS.NEW || status === null}
           />
-          {ability.can("view", "travelled") && (
+          {ability.can("view", "enrolled") && (
             <Tab
-              label="Travelled"
+              label="Enrolled"
               {...a11yProps(2)}
               // disabled={
               //   status === STATUS.NEW ||
