@@ -8,8 +8,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Switch from "@material-ui/core/Switch";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -17,10 +21,14 @@ import {
 } from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  root: {},
+  formDiv: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 200,
+    },
+    "& .MuiFormControl-root": {
+      margin: theme.spacing(1),
     },
   },
   radioComponent: {
@@ -32,20 +40,25 @@ const initialValues = {
   applnId: "",
   appldUnvsty: "",
   appldCourse: "",
-  appldCourseTyp: false,
+  appldCourseTyp: "",
   appldDate: null,
-  offrLtrStatus: false,
+  offrLtrStatus: "",
   offrLtrDate: null,
-  visaLtrStatus: false,
+  visaLtrStatus: "",
   visaLtrDate: null,
-  feesPaid: false,
+  feesPaid: "",
   courseStrtDate: null,
   stdUsrName: "",
   stdPwd: "",
-  applStatus: false,
+  applStatus: "",
 };
 
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+  applnId: Yup.string().required("Required"),
+  appldUnvsty: Yup.string().required("Required"),
+  appldCourse: Yup.string().required("Required"),
+  appldCourseTyp: Yup.string().required("Required"),
+});
 
 export default function CaptureApplicationDetailsComponent(props) {
   const classes = useStyles();
@@ -53,7 +66,9 @@ export default function CaptureApplicationDetailsComponent(props) {
     openApplicationDtlPopup,
     handleCloseApplicationDtlPopup,
     submitApplicationDtls,
+    application,
   } = props;
+
   return (
     <div className={classes.root}>
       <Dialog
@@ -68,7 +83,7 @@ export default function CaptureApplicationDetailsComponent(props) {
         </DialogTitle>
 
         <Formik
-          initialValues={initialValues}
+          initialValues={application ? application : initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             submitApplicationDtls(values, setSubmitting, resetForm);
@@ -76,7 +91,11 @@ export default function CaptureApplicationDetailsComponent(props) {
           validateOnBlur={false}
         >
           {(formik) => (
-            <form autoComplete="off" onSubmit={formik.handleSubmit}>
+            <form
+              autoComplete="off"
+              onSubmit={formik.handleSubmit}
+              className={classes.formDiv}
+            >
               <DialogContent>
                 <TextField
                   autoFocus
@@ -85,6 +104,12 @@ export default function CaptureApplicationDetailsComponent(props) {
                   label="Application Id"
                   size="small"
                   name="applnId"
+                  error={formik.errors.applnId && formik.touched.applnId}
+                  helperText={
+                    formik.errors.applnId &&
+                    formik.touched.applnId &&
+                    formik.errors.applnId
+                  }
                   {...formik.getFieldProps("applnId")}
                 />
                 <TextField
@@ -93,6 +118,14 @@ export default function CaptureApplicationDetailsComponent(props) {
                   label="Applied University"
                   size="small"
                   name="appldUnvsty"
+                  error={
+                    formik.errors.appldUnvsty && formik.touched.appldUnvsty
+                  }
+                  helperText={
+                    formik.errors.appldUnvsty &&
+                    formik.touched.appldUnvsty &&
+                    formik.errors.appldUnvsty
+                  }
                   {...formik.getFieldProps("appldUnvsty")}
                 />
                 <TextField
@@ -101,14 +134,49 @@ export default function CaptureApplicationDetailsComponent(props) {
                   label="Applied Course"
                   size="small"
                   name="appldCourse"
+                  error={
+                    formik.errors.appldCourse && formik.touched.appldCourse
+                  }
+                  helperText={
+                    formik.errors.appldCourse &&
+                    formik.touched.appldCourse &&
+                    formik.errors.appldCourse
+                  }
                   {...formik.getFieldProps("appldCourse")}
                 />
-                <FormControlLabel
-                  value="appliedMajor"
-                  control={<Switch color="primary" />}
-                  label="Applied Major"
-                  labelPlacement="top"
-                />
+                <FormControl
+                  component="fieldset"
+                  error={Boolean(
+                    formik.errors.appldCourseTyp &&
+                      formik.touched.appldCourseTyp
+                  )}
+                >
+                  <FormLabel component="legend">Applied Course Type</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="appldCourseTyp"
+                    name="appldCourseTyp"
+                    {...formik.getFieldProps("appldCourseTyp")}
+                  >
+                    <FormControlLabel
+                      value="M"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Major"
+                    />
+                    <FormControlLabel
+                      value="D"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Degree"
+                    />
+                  </RadioGroup>
+                  <FormHelperText>
+                    {formik.errors.appldCourseTyp &&
+                      formik.touched.appldCourseTyp &&
+                      formik.errors.appldCourseTyp}
+                  </FormHelperText>
+                </FormControl>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     autoOk
@@ -116,20 +184,40 @@ export default function CaptureApplicationDetailsComponent(props) {
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="dense"
-                    id="applicationDate"
-                    name="applicationDate"
+                    id="appldDate"
+                    name="appldDate"
                     label="Application Date"
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
+                    value={formik.values.appldDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("appldDate", value)
+                    }
                   />
                 </MuiPickersUtilsProvider>
-                <FormControlLabel
-                  value="top"
-                  control={<Switch color="primary" />}
-                  label="Offer Letter Status"
-                  labelPlacement="top"
-                />
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Offer Letter Status</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="offrLtrStatus"
+                    name="offrLtrStatus"
+                    {...formik.getFieldProps("offrLtrStatus")}
+                  >
+                    <FormControlLabel
+                      value="Y"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Received"
+                    />
+                    <FormControlLabel
+                      value="N"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Not Received"
+                    />
+                  </RadioGroup>
+                </FormControl>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     autoOk
@@ -137,26 +225,62 @@ export default function CaptureApplicationDetailsComponent(props) {
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="dense"
-                    id="applicationDate"
-                    name="applicationDate"
+                    id="offrLtrDate"
+                    name="offrLtrDate"
                     label="Offer Letter Received Date"
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
+                    value={formik.values.offrLtrDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("offrLtrDate", value)
+                    }
                   />
                 </MuiPickersUtilsProvider>
-                <FormControlLabel
-                  value="top"
-                  control={<Switch color="primary" />}
-                  label="Visa Letter Status"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="top"
-                  control={<Switch color="primary" />}
-                  label="Tution Fees Paid"
-                  labelPlacement="top"
-                />
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Visa Letter Status</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="visaLtrStatus"
+                    name="visaLtrStatus"
+                    {...formik.getFieldProps("visaLtrStatus")}
+                  >
+                    <FormControlLabel
+                      value="Y"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Received"
+                    />
+                    <FormControlLabel
+                      value="N"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Not Received"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Tution Fees</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="feesPaid"
+                    name="feesPaid"
+                    {...formik.getFieldProps("feesPaid")}
+                  >
+                    <FormControlLabel
+                      value="Y"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Paid"
+                    />
+                    <FormControlLabel
+                      value="N"
+                      labelPlacement="start"
+                      control={<Radio color="primary" />}
+                      label="Un Paid"
+                    />
+                  </RadioGroup>
+                </FormControl>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     autoOk
@@ -164,12 +288,16 @@ export default function CaptureApplicationDetailsComponent(props) {
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="dense"
-                    id="applicationDate"
-                    name="applicationDate"
+                    id="courseStrtDate"
+                    name="courseStrtDate"
                     label="Course Starting Date"
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
+                    value={formik.values.courseStrtDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("courseStrtDate", value)
+                    }
                   />
                 </MuiPickersUtilsProvider>
                 <TextField

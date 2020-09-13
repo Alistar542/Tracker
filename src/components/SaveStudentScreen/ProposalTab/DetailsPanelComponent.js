@@ -35,22 +35,35 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DetailsPanelComponent(props) {
   const classes = useStyles();
-  const { formik } = props;
+  const { formik, applicationDtl, setApplicationDtl } = props;
   const [openApplicationDtlPopup, setOpenApplicationDtlPopup] = React.useState(
     false
   );
 
-  const [applicationDtl, setApplicationDtl] = React.useState([]);
+  const [application, setApplication] = React.useState(null);
+  const [index, setIndex] = React.useState(null);
 
   const openCaptureApplicationDetailsPopup = (value) => {
     setOpenApplicationDtlPopup(value);
   };
 
+  const viewApplicationDetailsPopup = (value, application, index) => {
+    setApplication(application);
+    setIndex(index);
+    setOpenApplicationDtlPopup(value);
+  };
+
   const submitApplicationDtls = (values, setSubmitting, resetForm) => {
     let applicationDtlCopy = [...applicationDtl];
-    applicationDtlCopy.push(values);
+    if (index != null) {
+      applicationDtlCopy[index] = values;
+    } else {
+      applicationDtlCopy.push(values);
+    }
     setApplicationDtl(applicationDtlCopy);
     openCaptureApplicationDetailsPopup(false);
+    setApplication(null);
+    setIndex(null);
   };
 
   return (
@@ -59,6 +72,7 @@ export default function DetailsPanelComponent(props) {
         openApplicationDtlPopup={openApplicationDtlPopup}
         handleCloseApplicationDtlPopup={openCaptureApplicationDetailsPopup}
         submitApplicationDtls={submitApplicationDtls}
+        application={application}
       />
       <div className={classes.mainDetailsDiv}>
         <VisaDetailsComponent formik={formik} />
@@ -77,9 +91,13 @@ export default function DetailsPanelComponent(props) {
         </div>
         <div className={classes.applicationBottomDiv}>
           {applicationDtl.length > 0 &&
-            applicationDtl.map((application) => {
+            applicationDtl.map((application, index) => {
               return (
-                <ApplicationDetailCardComponent application={application} />
+                <ApplicationDetailCardComponent
+                  application={application}
+                  viewApplicationDetailsPopup={viewApplicationDetailsPopup}
+                  index={index}
+                />
               );
             })}
         </div>

@@ -22,6 +22,7 @@ export const URL = {
   UPDATE_STATUS_OF_STUDENT:
     "http://localhost:5000/student/updateStatusOfStudent",
   FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
+  SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
 };
 
 export const OPERATION_FLAG = {
@@ -50,11 +51,11 @@ export const APPLICATION_STATUS = {
 };
 
 export const APPLICATION_STATUS_DESC = {
-  N: "NEW",
-  O: "POSTPONED",
-  P: "PROPOSED",
-  T: "TRAVELLED",
-  C: "CANCELLED",
+  N: "New",
+  O: "Postponed",
+  P: "Proposed",
+  T: "Travelled",
+  C: "Cancelled",
 };
 
 export const APPLICATION_STATUS_ARRAY = [

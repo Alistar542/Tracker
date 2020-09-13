@@ -36,6 +36,14 @@ export const updateStatusOfStudent = (studentObject, currentUser) => {
   );
 };
 
+export const saveProposalInfo = (proposalObject, currentUser) => {
+  return axios.post(
+    URL.SAVE_PROPOSAL_INFO,
+    proposalObject,
+    createAccessToken(currentUser)
+  );
+};
+
 function createAccessToken(currentUser) {
   return {
     headers: { Authorization: `Bearer ${currentUser.accessToken}` },

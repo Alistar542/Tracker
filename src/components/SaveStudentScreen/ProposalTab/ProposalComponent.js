@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DetailsPanelComponent from "./DetailsPanelComponent";
 import Button from "@material-ui/core/Button";
 import { STATUS } from "../../../constants";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { saveProposalInfo } from "../../../actions/studentactions";
+import { AuthContext } from "../../LoginScreen/context/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +49,8 @@ const validationSchema = Yup.object().shape({});
 export default function ProposalComponent(props) {
   const classes = useStyles();
   const { studentToUpdate } = props;
-
+  const [applicationDtl, setApplicationDtl] = React.useState([]);
+  const { currentUser } = useContext(AuthContext);
   // const handleStatusChange = () => {
   //   let studentToBeUpdated = { ...studentToUpdate };
   //   if (studentToUpdate.status === STATUS.DONE) {
@@ -79,6 +82,12 @@ export default function ProposalComponent(props) {
           //submitApplicationDtls(values, setSubmitting, resetForm);
           console.log("Inside Proposal Component Submit");
           console.log(values);
+          console.log(applicationDtl);
+          let proposalInfo = { ...values, applicationDetails: applicationDtl };
+          console.log(proposalInfo);
+          saveProposalInfo(proposalInfo, currentUser)
+            .then((res) => {})
+            .catch((err) => {});
         }}
         validateOnBlur={false}
       >
@@ -89,7 +98,11 @@ export default function ProposalComponent(props) {
             className={classes.innerDiv}
           >
             <div className={classes.detailsDiv}>
-              <DetailsPanelComponent formik={formik} />
+              <DetailsPanelComponent
+                formik={formik}
+                setApplicationDtl={setApplicationDtl}
+                applicationDtl={applicationDtl}
+              />
             </div>
             <div className={classes.bottomBar}>
               <Button variant="contained" color="primary">

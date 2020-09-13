@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ApplicationDetailCardComponent(props) {
   const classes = useStyles();
-  const { application } = props;
+  const { application, viewApplicationDetailsPopup, index } = props;
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -25,16 +25,21 @@ export default function ApplicationDetailCardComponent(props) {
             {`Application Id : ${application.applnId}`}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {`Applied University : ${application.appldUnvsty}`}
+            <br></br>
+            {`Applied Course : ${application.appldCourse}`}
+            <br></br>
+            {`Applied Course Type : ${application.appldCourseTyp}`}
+            <br></br>
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
-        <Button size="small" color="primary">
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => viewApplicationDetailsPopup(true, application, index)}
+        >
           View
         </Button>
       </CardActions>
