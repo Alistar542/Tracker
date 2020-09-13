@@ -34,9 +34,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    padding: theme.spacing(1),
+    "& .MuiButton-root": {
+      margin: theme.spacing(1),
+    },
     width: "100%",
-    minHeight: "70px",
+    minHeight: "53px",
     marginTop: "auto",
   },
   actionButton: {
@@ -113,12 +115,7 @@ export default function ProposalComponent(props) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          //submitApplicationDtls(values, setSubmitting, resetForm);
-          console.log("Inside Proposal Component Submit");
-          console.log(values);
-          console.log(applicationDtl);
           let proposalInfo = { ...values, applicationDetails: applicationDtl };
-          console.log(proposalInfo);
           saveProposalInfo(proposalInfo, currentUser)
             .then((res) => {})
             .catch((err) => {});

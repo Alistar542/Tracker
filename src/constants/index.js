@@ -23,6 +23,7 @@ export const URL = {
     "http://localhost:5000/student/updatestatusofstudent",
   FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
+  SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
 };
 
 export const OPERATION_FLAG = {
@@ -76,3 +77,5 @@ export const APPLCTN_STS_ARRY_PROPOSAL = [
   { status: "Enrolled", value: "E" },
   { status: "Cancelled", value: "C" },
 ];
+
+export const CURRENCY = ["USD", "CAD", "NZD", "AUD", "GBP", "EUR"];

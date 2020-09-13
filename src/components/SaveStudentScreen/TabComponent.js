@@ -8,7 +8,7 @@ import Box from "@material-ui/core/Box";
 import { grey } from "@material-ui/core/colors";
 import { ProspectusComponent } from "./ProspectusTab/ProspectusComponent";
 import ProposalComponent from "./ProposalTab/ProposalComponent";
-import TravelledComponent from "./TravelledTab/TravelledComponent";
+import EnrolledComponent from "./EnrolledTab/EnrolledComponent";
 import { AbilityContext } from "../../privilegehandler/privilegehandler";
 import { STATUS } from "../../constants";
 
@@ -95,7 +95,7 @@ export default function TabComponent(props) {
         <ProposalComponent />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TravelledComponent />
+        <EnrolledComponent />
       </TabPanel>
     </div>
   );

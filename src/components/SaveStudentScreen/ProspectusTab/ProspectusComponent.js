@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
     //width: `calc(100% - ${theme.spacing(7) + 1}px)`,
+    minHeight: "53px",
     width: "100%",
   },
   backdrop: {
@@ -295,8 +296,8 @@ export const ProspectusComponent = (props) => {
       wayOfContact: values.wayOfContact,
       counselor: values.counselor,
       priority: values.priority,
-      lastUpdateUser: "",
       followUpRemarks: followUpRemarks,
+      toDoRemarks: toDoRemarks,
       status: status,
     };
 
