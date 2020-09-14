@@ -78,4 +78,10 @@ export const APPLCTN_STS_ARRY_PROPOSAL = [
   { status: "Cancelled", value: "C" },
 ];
 
+export const APPLCTN_STS_ARRY_PROSPECTUS = [
+  { status: "Postponed", value: "X" },
+  { status: "Proposed", value: "P" },
+  { status: "Cancelled", value: "C" },
+];
+
 export const CURRENCY = ["USD", "CAD", "NZD", "AUD", "GBP", "EUR"];

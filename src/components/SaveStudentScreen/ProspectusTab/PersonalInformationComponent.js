@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function PersonalInformationComponent({
+export default function PersonalInformationComponent({
   touched,
   errors,
   values,

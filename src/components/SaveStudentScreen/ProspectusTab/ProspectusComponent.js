@@ -32,11 +32,19 @@ import * as Yup from "yup";
 import { PersonalInformationComponent } from "./PersonalInformationComponent";
 import { EnglishExamTypeComponent } from "./EnglishExamTypeComponent";
 import { green, indigo, red } from "@material-ui/core/colors";
-import { STATUS } from "../../../constants";
-import { updateStudent, saveStudent } from "../../../actions/studentactions";
+import {
+  STATUS,
+  OPERATION_FLAG,
+  APPLCTN_STS_ARRY_PROSPECTUS,
+} from "../../../constants";
+import {
+  updateStudent,
+  saveStudent,
+  updateStatusOfStudent,
+} from "../../../actions/studentactions";
 import { AuthContext } from "../../LoginScreen/context/auth";
 import SnackbarCommon from "../../Common/SnackbarCommon";
-import ToDoPopupComponent from "./Popups/ToDoPopupComponent";
+import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import { ToDoComponent } from "./ToDoComponent";
 import BlockRoundedIcon from "@material-ui/icons/BlockRounded";
 import UndoRoundedIcon from "@material-ui/icons/UndoRounded";
@@ -44,6 +52,15 @@ import AreasOfInterestComponent from "./AreasOfInterestComponent";
 import MarketingPurposeComponent from "./MarketingPurposeComponent";
 import EducationSummaryComponent from "./EducationSummaryComponent";
 import WorkExperienceComponent from "./WorkExperienceComponent";
+import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
+
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
+import MenuList from "@material-ui/core/MenuList";
+import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounded";
+import DetailsPanelComponent from "./DetailsPanelComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -221,6 +238,29 @@ export const ProspectusComponent = (props) => {
   const [submitted, setSubmitted] = React.useState(false);
   const [snackbarMessage, setSnackBarMessage] = React.useState("");
   const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleMenuItemClick = (value, index) => {
+    setOpen(false);
+    let updateStatusData = { ...studentFound };
+    updateStatusData.status = value;
+    updateStatusOfStudent(updateStatusData, currentUser)
+      .then((res) => {})
+      .catch((err) => {});
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleStatusChange = () => {
     let studentToBeUpdated = { ...formData };
@@ -424,18 +464,19 @@ export const ProspectusComponent = (props) => {
     }
   };
 
-  const handleSubmitFollowUp = (event) => {
-    event.preventDefault();
+  const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    remarksCopy.push(event.target.followupremarks.value);
+    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
   };
 
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    remarksCopy.push(remarks);
+    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
   };
 
@@ -457,45 +498,16 @@ export const ProspectusComponent = (props) => {
         {(formik) => (
           <form autoComplete="off" onSubmit={formik.handleSubmit}>
             <div id="rootDiv" className={classes.rootDiv}>
-              <div id="formDiv" className={classes.formDiv}>
-                <PersonalInformationComponent {...formik} />
-                <Divider />
-                <EnglishExamTypeComponent formik={formik} />
-                <Divider />
-                <EducationSummaryComponent
-                  formik={formik}
-                  countries={countries}
-                />
-                <Divider />
-                <WorkExperienceComponent formik={formik} />
-                <Divider />
-                <AreasOfInterestComponent
-                  formik={formik}
-                  countries={countries}
-                />
-                <Divider />
-
-                <MarketingPurposeComponent formik={formik} />
-                <Divider />
-                <FollowUpComponent followUpRemarks={followUpRemarks} />
-                <Divider />
-                <ToDoComponent toDoRemarks={toDoRemarks} />
-                {successOrFail ? (
-                  <SuccessDialog
-                    dialogState={dialogState}
-                    setDialogStateFn={setDialogState}
-                  />
-                ) : (
-                  <FailDialog
-                    dialogState={dialogState}
-                    setDialogStateFn={setDialogState}
-                  />
-                )}
-              </div>
+              <DetailsPanelComponent
+                formik={formik}
+                followUpRemarks={followUpRemarks}
+                toDoRemarks={toDoRemarks}
+                countries={countries}
+              />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}
             <div className={classes.appBar}>
-              <Button
+              {/* <Button
                 className={clsx(classes.rejectButton, {
                   [classes.acceptButton]: formData.status === STATUS.REJECTED,
                 })}
@@ -528,12 +540,63 @@ export const ProspectusComponent = (props) => {
                 }
               >
                 {" Mark As Proposed "}
+              </Button> */}
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                aria-controls={open ? "split-button-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-label="select merge strategy"
+                aria-haspopup="menu"
+                ref={anchorRef}
+                onClick={handleToggle}
+                className={classes.actionButton}
+                disabled={isActionsDisabled}
+                startIcon={<KeyboardArrowUpRoundedIcon />}
+              >
+                {`  Change Status to `}
               </Button>
+
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList id="split-button-menu">
+                          {APPLCTN_STS_ARRY_PROSPECTUS.map((option, index) => (
+                            <MenuItem
+                              key={index}
+                              onClick={(event) =>
+                                handleMenuItemClick(option.value)
+                              }
+                            >
+                              {option.status}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={openToDoPopupFn}
-                disabled={isActionsDisabled || status === STATUS.REJECTED}
+                disabled={status === STATUS.REJECTED}
               >
                 {" "}
                 To Do{" "}
@@ -542,7 +605,7 @@ export const ProspectusComponent = (props) => {
                 variant="contained"
                 color="primary"
                 onClick={openFollowUpPopupFn}
-                disabled={isActionsDisabled || status === STATUS.REJECTED}
+                disabled={status === STATUS.REJECTED}
               >
                 {" "}
                 Follow Up{" "}
@@ -562,41 +625,27 @@ export const ProspectusComponent = (props) => {
           </form>
         )}
       </Formik>
+      {successOrFail ? (
+        <SuccessDialog
+          dialogState={dialogState}
+          setDialogStateFn={setDialogState}
+        />
+      ) : (
+        <FailDialog
+          dialogState={dialogState}
+          setDialogStateFn={setDialogState}
+        />
+      )}
       <ToDoPopupComponent
         openToDoPopup={openToDoPopup}
         handleToDoClose={closeToDoPopupFn}
         handleSubmitToDo={handleSubmitToDo}
       />
-      <Dialog
-        open={openFollowUpPopup}
-        onClose={closeFollowUpPopupFn}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Follow Up</DialogTitle>
-        <form id="followUpForm" onSubmit={handleSubmitFollowUp}>
-          <DialogContent>
-            <DialogContentText>
-              Please enter the follow up details
-            </DialogContentText>
-            <TextField
-              required
-              autoFocus
-              margin="dense"
-              id="followupremarks"
-              label="Remarks"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeFollowUpPopupFn} color="primary">
-              Cancel
-            </Button>
-            <Button id="submitFollowUp" type="submit" color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      <FollowUpPopupComponent
+        openFollowUpPopup={openFollowUpPopup}
+        handleFollowUpClose={closeFollowUpPopupFn}
+        handleSubmitFollowUp={handleSubmitFollowUp}
+      />
 
       <Dialog
         open={openReject}

@@ -10,18 +10,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ToDoComponent(props) {
+export default function ToDoComponent(props) {
   const classes = useStyles();
   const { toDoRemarks } = props;
   return (
     <div>
       {toDoRemarks ? (
         <div className={classes.cardComponent}>
-          <Typography component="h6" variant="h7">
+          <Typography component="h7" variant="h7">
             To Do Remarks
           </Typography>
           {toDoRemarks.map((followUpRem) => {
-            return <li>{followUpRem}</li>;
+            return <li>{followUpRem.remark}</li>;
           })}
         </div>
       ) : (

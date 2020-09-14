@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function EnglishExamTypeComponent(props) {
+export default function EnglishExamTypeComponent(props) {
   const classes = useStyles();
   const formik = props.formik;
 

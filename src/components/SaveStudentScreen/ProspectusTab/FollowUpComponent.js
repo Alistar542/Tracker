@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function FollowUpComponent(props) {
+export default function FollowUpComponent(props) {
   const classes = useStyles();
 
   return (
@@ -25,7 +25,7 @@ export function FollowUpComponent(props) {
           </Typography>
           {/* <CardContent className={classes.cardContentDiv}> */}
           {props.followUpRemarks.map((followUpRem) => {
-            return <li>{followUpRem}</li>;
+            return <li>{followUpRem.remark}</li>;
           })}
           {/* </CardContent>
           </Card> */}

@@ -16,6 +16,7 @@ import MenuList from "@material-ui/core/MenuList";
 import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounded";
 import { updateStatusOfStudent } from "../../../actions/studentactions";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
+import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,11 +99,11 @@ export default function ProposalComponent(props) {
     setOpenToDoPopup(true);
   };
 
-  const handleSubmitFollowUp = (event) => {
-    event.preventDefault();
+  const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    remarksCopy.push(event.target.followupremarks.value);
+    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
   };
 
@@ -151,9 +152,11 @@ export default function ProposalComponent(props) {
             toDoRemarks: toDoRemarks,
             followUpRemarks: followUpRemarks,
           };
+          let saveData = { ...studentFound };
+          saveData.proposalInfo = proposalInfo;
           console.log("Proposal Info");
-          console.log(proposalInfo);
-          saveProposalInfo(proposalInfo, currentUser)
+          console.log(saveData);
+          saveProposalInfo(saveData, currentUser)
             .then((res) => {})
             .catch((err) => {});
         }}
@@ -234,6 +237,7 @@ export default function ProposalComponent(props) {
               <Button
                 variant="contained"
                 color="primary"
+                onClick={openFollowUpPopupFn}
                 className={classes.actionButton}
               >
                 {` Follow Up `}
@@ -255,6 +259,11 @@ export default function ProposalComponent(props) {
         openToDoPopup={openToDoPopup}
         handleToDoClose={closeToDoPopupFn}
         handleSubmitToDo={handleSubmitToDo}
+      />
+      <FollowUpPopupComponent
+        openFollowUpPopup={openFollowUpPopup}
+        handleFollowUpClose={closeFollowUpPopupFn}
+        handleSubmitFollowUp={handleSubmitFollowUp}
       />
     </div>
   );

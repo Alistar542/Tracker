@@ -7,39 +7,44 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function ToDoPopupComponent(props) {
-  const { openToDoPopup, handleToDoClose, handleSubmitToDo } = props;
-  const [toDoRemarks, setToDoRemarks] = React.useState();
+export default function FollowUpPopupComponent(props) {
+  const {
+    openFollowUpPopup,
+    handleFollowUpClose,
+    handleSubmitFollowUp,
+  } = props;
+  const [followUpRemarks, setFollowUpRemarks] = React.useState();
 
-  const onChangeToDoRemarks = (data) => {
-    setToDoRemarks(data.target.value);
+  const onChangeFollowUpRemarks = (data) => {
+    setFollowUpRemarks(data.target.value);
   };
 
   const handleSave = () => {
-    handleSubmitToDo(toDoRemarks);
+    handleSubmitFollowUp(followUpRemarks);
   };
   return (
     <div>
       <Dialog
-        open={openToDoPopup}
-        onClose={handleToDoClose}
+        open={openFollowUpPopup}
+        onClose={handleFollowUpClose}
         aria-labelledby="form-dialog-title"
+        fullWidth={true}
       >
-        <DialogTitle id="form-dialog-title">To Do Remarks</DialogTitle>
+        <DialogTitle id="form-dialog-title">Follow Up Remarks</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter To Do Remarks</DialogContentText>
+          <DialogContentText>Please enter Follow Up Remarks</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="To Do Remarks"
+            label="Follow Up Remarks"
             type="text"
             fullWidth
-            onChange={onChangeToDoRemarks}
+            onChange={onChangeFollowUpRemarks}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleToDoClose} color="primary">
+          <Button onClick={handleFollowUpClose} color="primary">
             Cancel
           </Button>
           <Button onClick={handleSave} color="primary">
