@@ -53,7 +53,7 @@ export const APPLICATION_STATUS = {
 
 export const APPLICATION_STATUS_DESC = {
   N: "New",
-  O: "Postponed",
+  X: "Postponed",
   P: "Proposed",
   E: "Enrolled",
   C: "Cancelled",

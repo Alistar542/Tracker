@@ -140,8 +140,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ProspectusComponent = (props) => {
-  let locationFound = useLocation();
-  let { studentFound } = locationFound.state ? locationFound.state : {};
+  //let locationFound = useLocation();
+  //let { studentFound } = locationFound.state ? locationFound.state : {};
+  let { studentFound, updateStudentFoundForSummary } = props;
   const classes = useStyles();
   const [dialogState, setDialogState] = React.useState(false);
   const [successOrFail, setSuccessOrFail] = React.useState(false);
@@ -197,6 +198,9 @@ export const ProspectusComponent = (props) => {
     wayOfContact: "",
     counselor: "",
     priority: "",
+    operationFlag: OPERATION_FLAG.INSERT,
+    proposalInfo: null,
+    enrolledInfo: null,
   };
 
   const validationSchema = Yup.object().shape({
@@ -244,11 +248,15 @@ export const ProspectusComponent = (props) => {
 
   const handleMenuItemClick = (value, index) => {
     setOpen(false);
+    setBackDropState(true);
     let updateStatusData = { ...studentFound };
     updateStatusData.status = value;
     updateStatusOfStudent(updateStatusData, currentUser)
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => {
+        updateStudentFoundForSummary(updateStatusData);
+      })
+      .catch((err) => {})
+      .finally(() => setBackDropState(false));
   };
 
   const handleToggle = () => {
@@ -350,11 +358,12 @@ export const ProspectusComponent = (props) => {
           setSuccessOrFail(true);
           setSubmitted(true);
           setSubmitting(false);
-          setBackDropState(false);
           resetForm(initialValues);
           setFollowUpRemarks(null);
           setToDoRemarks(null);
           resetValues();
+          //updateStudentFoundForSummary(userObject);
+          setBackDropState(false);
         })
         .catch((err) => {
           setDialogState(true);
@@ -372,6 +381,7 @@ export const ProspectusComponent = (props) => {
           setSuccessOrFail(true);
           setSubmitted(true);
           setSubmitting(true);
+          updateStudentFoundForSummary(userObject);
           setBackDropState(false);
         })
         .catch((err) => {

@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import { STATUS } from "../../../constants";
+import { OPERATION_FLAG } from "../../../constants";
 import DetailsComponent from "./DetailsComponent";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { saveEnrolledInfo } from "../../../actions/studentactions";
 import { AuthContext } from "../../LoginScreen/context/auth";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,23 +47,53 @@ const initialValues = {
   nextInvoiceDate: null,
   invoiceDate: null,
   currency: "",
+  operationFlag: OPERATION_FLAG.INSERT,
 };
 const validationSchema = Yup.object().shape({});
 
 export default function EnrolledComponent(props) {
   const classes = useStyles();
-  const { studentToUpdate } = props;
+  const { studentFound, updateStudentFoundForSummary } = props;
+  const [backDropState, setBackDropState] = React.useState(false);
   const { currentUser } = useContext(AuthContext);
+
+  const isUpdate = studentFound
+    ? studentFound.enrolledInfo
+      ? true
+      : false
+    : false;
 
   return (
     <div className={classes.root}>
       <Formik
-        initialValues={initialValues}
+        initialValues={
+          studentFound
+            ? studentFound.enrolledInfo
+              ? studentFound.enrolledInfo
+              : initialValues
+            : initialValues
+        }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveEnrolledInfo(values, currentUser)
-            .then((res) => {})
-            .catch((err) => {});
+          setBackDropState(true);
+          let enrolledInfo = {
+            ...values,
+          };
+          let saveData = { ...studentFound };
+          saveData.enrolledInfo = enrolledInfo;
+          saveEnrolledInfo(saveData, currentUser)
+            .then((res) => {
+              let tempData = {
+                ...saveData,
+                enrolledInfo: {
+                  ...enrolledInfo,
+                  operationFlag: OPERATION_FLAG.UPDATE,
+                },
+              };
+              updateStudentFoundForSummary(tempData);
+            })
+            .catch((err) => {})
+            .finally(() => setBackDropState(false));
         }}
         validateOnBlur={false}
       >
@@ -77,12 +109,15 @@ export default function EnrolledComponent(props) {
 
             <div className={classes.bottomBar}>
               <Button variant="contained" color="primary" type="submit">
-                {` Save Enrolled `}
+                {isUpdate ? ` Update Enrolled ` : ` Save Enrolled `}
               </Button>
             </div>
           </form>
         )}
       </Formik>
+      <Backdrop className={classes.backdrop} open={backDropState}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

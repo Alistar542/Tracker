@@ -17,6 +17,8 @@ import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounde
 import { updateStatusOfStudent } from "../../../actions/studentactions";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 }));
 
 const initialValues = {
@@ -56,14 +62,22 @@ const initialValues = {
   visaApplnPrcDate: null,
   visaApRjDate: null,
   travelDate: null,
+  operationFlag: OPERATION_FLAG.INSERT,
 };
 
 const validationSchema = Yup.object().shape({});
 
 export default function ProposalComponent(props) {
   const classes = useStyles();
-  const { studentFound } = props;
-  const [applicationDtl, setApplicationDtl] = React.useState([]);
+  const { studentFound, updateStudentFoundForSummary } = props;
+  const [backDropState, setBackDropState] = React.useState(false);
+  const [applicationDtl, setApplicationDtl] = React.useState(
+    studentFound
+      ? studentFound.proposalInfo
+        ? studentFound.proposalInfo.applicationDetails
+        : []
+      : []
+  );
   const { currentUser } = useContext(AuthContext);
   const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
   const [openToDoPopup, setOpenToDoPopup] = React.useState(false);
@@ -121,11 +135,15 @@ export default function ProposalComponent(props) {
 
   const handleMenuItemClick = (value, index) => {
     setOpen(false);
+    setBackDropState(true);
     let proposalInfo = { ...studentFound };
     proposalInfo.status = value;
     updateStatusOfStudent(proposalInfo, currentUser)
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => {
+        updateStudentFoundForSummary(proposalInfo);
+      })
+      .catch((err) => {})
+      .finally(() => setBackDropState(false));
   };
 
   const handleToggle = () => {
@@ -136,16 +154,28 @@ export default function ProposalComponent(props) {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
+
+  const isUpdate = studentFound
+    ? studentFound.proposalInfo
+      ? true
+      : false
+    : false;
 
   return (
     <div className={classes.root}>
       <Formik
-        initialValues={initialValues}
+        initialValues={
+          studentFound
+            ? studentFound.proposalInfo
+              ? studentFound.proposalInfo
+              : initialValues
+            : initialValues
+        }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          setBackDropState(true);
           let proposalInfo = {
             ...values,
             applicationDetails: applicationDtl,
@@ -157,8 +187,18 @@ export default function ProposalComponent(props) {
           console.log("Proposal Info");
           console.log(saveData);
           saveProposalInfo(saveData, currentUser)
-            .then((res) => {})
-            .catch((err) => {});
+            .then((res) => {
+              let tempData = {
+                ...saveData,
+                proposalInfo: {
+                  ...proposalInfo,
+                  operationFlag: OPERATION_FLAG.UPDATE,
+                },
+              };
+              updateStudentFoundForSummary(tempData);
+            })
+            .catch((err) => {})
+            .finally(() => setBackDropState(false));
         }}
         validateOnBlur={false}
       >
@@ -249,7 +289,7 @@ export default function ProposalComponent(props) {
                 type="submit"
                 className={classes.actionButton}
               >
-                {` Save Proposal `}
+                {isUpdate ? ` Update Proposal ` : ` Save Proposal `}
               </Button>
             </div>
           </form>
@@ -265,6 +305,9 @@ export default function ProposalComponent(props) {
         handleFollowUpClose={closeFollowUpPopupFn}
         handleSubmitFollowUp={handleSubmitFollowUp}
       />
+      <Backdrop className={classes.backdrop} open={backDropState}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

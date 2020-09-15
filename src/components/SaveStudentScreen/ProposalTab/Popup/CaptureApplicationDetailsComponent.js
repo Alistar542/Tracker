@@ -326,15 +326,19 @@ export default function CaptureApplicationDetailsComponent(props) {
                 </MuiPickersUtilsProvider>
                 <TextField
                   margin="dense"
-                  id="name"
+                  id="stdUsrName"
+                  name="stdUsrName"
                   label="Student Username"
                   size="small"
+                  {...formik.getFieldProps("stdUsrName")}
                 />
                 <TextField
                   margin="dense"
-                  id="name"
+                  id="stdPwd"
+                  name="stdPwd"
                   label="Student Password"
                   size="small"
+                  {...formik.getFieldProps("stdPwd")}
                 />
                 <FormControl
                   component="fieldset"
