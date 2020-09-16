@@ -5,18 +5,20 @@ import CaptureApplicationDetailsComponent from "./Popup/CaptureApplicationDetail
 import ApplicationDetailCardComponent from "./ApplicationDetailCardComponent";
 import Divider from "@material-ui/core/Divider";
 import VisaDetailsComponent from "./VisaDetailsComponent";
+import FollowUpComponent from "../Common/FollowUpComponent";
+import ToDoComponent from "../Common/ToDoComponent";
 
 const useStyles = makeStyles((theme) => ({
   detailsPanelDiv: {
     display: "flex",
     flexDirection: "column",
+    padding: theme.spacing(1),
   },
   mainDetailsDiv: {
     display: "flex",
     flexDirection: "row",
     minHeight: "100px",
     overflow: "auto",
-    padding: theme.spacing(1),
   },
   applicationDetailsDiv: {
     display: "flex",
@@ -35,7 +37,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DetailsPanelComponent(props) {
   const classes = useStyles();
-  const { formik, applicationDtl, setApplicationDtl } = props;
+  const {
+    formik,
+    applicationDtl,
+    setApplicationDtl,
+    followUpRemarks,
+    toDoRemarks,
+  } = props;
   const [openApplicationDtlPopup, setOpenApplicationDtlPopup] = React.useState(
     false
   );
@@ -103,7 +111,10 @@ export default function DetailsPanelComponent(props) {
               );
             })}
         </div>
+        <Divider />
       </div>
+      <FollowUpComponent followUpRemarks={followUpRemarks} />
+      <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>
   );
 }

@@ -26,7 +26,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useLocation } from "react-router";
-import { FollowUpComponent } from "./FollowUpComponent";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { PersonalInformationComponent } from "./PersonalInformationComponent";
@@ -45,7 +44,6 @@ import {
 import { AuthContext } from "../../LoginScreen/context/auth";
 import SnackbarCommon from "../../Common/SnackbarCommon";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
-import { ToDoComponent } from "./ToDoComponent";
 import BlockRoundedIcon from "@material-ui/icons/BlockRounded";
 import UndoRoundedIcon from "@material-ui/icons/UndoRounded";
 import AreasOfInterestComponent from "./AreasOfInterestComponent";

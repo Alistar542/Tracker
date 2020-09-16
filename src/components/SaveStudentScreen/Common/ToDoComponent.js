@@ -5,7 +5,9 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   cardContentDiv: {},
   cardComponent: {
-    padding: theme.spacing(1),
+    "& .li": {
+      padding: theme.spacing(1),
+    },
     marginRight: theme.spacing(1),
   },
 }));

@@ -6,8 +6,8 @@ import EducationSummaryComponent from "./EducationSummaryComponent";
 import WorkExperienceComponent from "./WorkExperienceComponent";
 import PersonalInformationComponent from "./PersonalInformationComponent";
 import EnglishExamTypeComponent from "./EnglishExamTypeComponent";
-import FollowUpComponent from "./FollowUpComponent";
-import ToDoComponent from "./ToDoComponent";
+import FollowUpComponent from "../Common/FollowUpComponent";
+import ToDoComponent from "../Common/ToDoComponent";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,6 @@ export default function DetailsPanelComponent(props) {
       <MarketingPurposeComponent formik={formik} />
       <Divider />
       <FollowUpComponent followUpRemarks={followUpRemarks} />
-      <Divider />
       <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>
   );

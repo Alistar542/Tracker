@@ -84,4 +84,6 @@ export const APPLCTN_STS_ARRY_PROSPECTUS = [
   { status: "Cancelled", value: "C" },
 ];
 
+export const APPLCTN_STS_ARRY_ENROLLED = [{ status: "Cancelled", value: "C" }];
+
 export const CURRENCY = ["USD", "CAD", "NZD", "AUD", "GBP", "EUR"];

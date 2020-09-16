@@ -213,6 +213,8 @@ export default function ProposalComponent(props) {
                 formik={formik}
                 setApplicationDtl={setApplicationDtl}
                 applicationDtl={applicationDtl}
+                followUpRemarks={followUpRemarks}
+                toDoRemarks={toDoRemarks}
               />
             </div>
             <div className={classes.bottomBar}>
