@@ -76,6 +76,15 @@ export default function DetailsPanelComponent(props) {
     setIndex(null);
   };
 
+  const deleteApplication = () => {
+    let applicationDtlCopy = [...applicationDtl];
+    applicationDtlCopy.splice(index, 1);
+    setApplicationDtl(applicationDtlCopy);
+    openCaptureApplicationDetailsPopup(false);
+    setApplication(null);
+    setIndex(null);
+  };
+
   return (
     <div className={classes.detailsPanelDiv}>
       <CaptureApplicationDetailsComponent
@@ -83,6 +92,7 @@ export default function DetailsPanelComponent(props) {
         handleCloseApplicationDtlPopup={openCaptureApplicationDetailsPopup}
         submitApplicationDtls={submitApplicationDtls}
         application={application}
+        deleteApplication={deleteApplication}
       />
       <div className={classes.mainDetailsDiv}>
         <VisaDetailsComponent formik={formik} />

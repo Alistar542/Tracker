@@ -19,6 +19,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { red } from "@material-ui/core/colors";
+import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
+import AlertDialog from "../../../Common/AlertDialog";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
     marginTop: theme.spacing(1),
+  },
+  deleteButton: {
+    color: "white",
+    backgroundColor: red[500],
+    "&:hover": {
+      backgroundColor: red[700],
+    },
   },
 }));
 
@@ -68,16 +79,30 @@ export default function CaptureApplicationDetailsComponent(props) {
     handleCloseApplicationDtlPopup,
     submitApplicationDtls,
     application,
+    deleteApplication,
   } = props;
+  const [showAlertDialog, setShowAlertDialog] = React.useState(false);
 
   const handleClose = (value) => {
     handleCloseApplicationDtlPopup(value);
   };
+
+  const openAlertDialog = () => {
+    setShowAlertDialog(true);
+  };
+
+  const closeAlertDialog = (openDialog, submitValue) => {
+    setShowAlertDialog(openDialog);
+    if (submitValue) {
+      deleteApplication();
+    }
+  };
+  const isUpdate = application ? true : false;
+
   return (
     <div className={classes.root}>
       <Dialog
         open={openApplicationDtlPopup}
-        onClose={() => handleCloseApplicationDtlPopup(false)}
         aria-labelledby="form-dialog-title"
         fullWidth={true}
         maxWidth="md"
@@ -366,18 +391,37 @@ export default function CaptureApplicationDetailsComponent(props) {
                   </RadioGroup>
                 </FormControl>
               </DialogContent>
+              <Divider />
               <DialogActions>
                 <Button onClick={() => handleClose(false)} color="primary">
                   Cancel
                 </Button>
-                <Button color="primary" type="submit">
-                  Save
+                {isUpdate ? (
+                  <Button
+                    variant="contained"
+                    className={classes.deleteButton}
+                    onClick={() => openAlertDialog(true)}
+                    startIcon={<DeleteRoundedIcon />}
+                  >
+                    Delete
+                  </Button>
+                ) : (
+                  ""
+                )}
+
+                <Button variant="contained" color="primary" type="submit">
+                  {isUpdate ? "Update" : "Save"}
                 </Button>
               </DialogActions>
             </form>
           )}
         </Formik>
       </Dialog>
+      <AlertDialog
+        openDialog={showAlertDialog}
+        dialogTitleText={"Are you sure to delete ?"}
+        handleCloseDialog={closeAlertDialog}
+      />
     </div>
   );
 }
