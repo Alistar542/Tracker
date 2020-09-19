@@ -220,9 +220,7 @@ export const ProspectusComponent = (props) => {
       })
       .required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
-    phoneNumber: Yup.string()
-      .matches(/^[0-9]*$/, { message: "Must be a number" })
-      .required("Required"),
+    phoneNumber: Yup.string().required("Required"),
     requestedCourseDetails: Yup.array().of(
       Yup.object().shape({
         requestedCourse: Yup.string().required("Requested Course is required"),

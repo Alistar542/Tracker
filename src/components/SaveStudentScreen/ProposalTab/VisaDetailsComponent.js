@@ -13,9 +13,15 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
     "& .MuiFormControl-root": {
       margin: theme.spacing(1),
     },
+    "& .MuiTextField-root": {
+      width: 250,
+    },
+    alignItems: "center",
+    flexWrap: "wrap",
   },
   radioComponent: {
     marginLeft: theme.spacing(2),
@@ -56,6 +62,7 @@ export default function VisaDetailsComponent(props) {
           autoOk
           openTo="year"
           variant="inline"
+          inputVariant="outlined"
           format="dd/MM/yyyy"
           margin="dense"
           id="visaApplnPrcDate"
@@ -97,6 +104,7 @@ export default function VisaDetailsComponent(props) {
           autoOk
           openTo="year"
           variant="inline"
+          inputVariant="outlined"
           format="dd/MM/yyyy"
           margin="dense"
           id="visaApRjDate"
@@ -114,6 +122,7 @@ export default function VisaDetailsComponent(props) {
           autoOk
           openTo="year"
           variant="inline"
+          inputVariant="outlined"
           format="dd/MM/yyyy"
           margin="dense"
           id="travelDate"

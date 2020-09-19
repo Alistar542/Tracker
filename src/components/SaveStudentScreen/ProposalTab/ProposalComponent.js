@@ -19,6 +19,7 @@ import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SnackbarCommon from "../../Common/SnackbarCommon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,13 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
   },
 }));
+
+const validateMandatoryData = (applicationDtl) => {
+  if (applicationDtl.length <= 0) {
+    return false;
+  }
+  return true;
+};
 
 const initialValues = {
   visaApplnStatus: "",
@@ -95,9 +103,16 @@ export default function ProposalComponent(props) {
         : null
       : null
   );
+  const [snackbarMessage, setSnackBarMessage] = React.useState("");
+  const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+
+  const snackbarClose = () => {
+    setSnackBarMessage("");
+    setSnackbarOpenState(false);
+  };
 
   const openFollowUpPopupFn = (event) => {
     event.preventDefault();
@@ -175,6 +190,11 @@ export default function ProposalComponent(props) {
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          if (applicationDtl.length <= 0) {
+            setSnackBarMessage("Application Detail is Mandatory");
+            setSnackbarOpenState(true);
+            return;
+          }
           setBackDropState(true);
           let proposalInfo = {
             ...values,
@@ -310,6 +330,11 @@ export default function ProposalComponent(props) {
       <Backdrop className={classes.backdrop} open={backDropState}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      <SnackbarCommon
+        message={snackbarMessage}
+        handleClose={snackbarClose}
+        openState={snackbarOpenState}
+      />
     </div>
   );
 }
