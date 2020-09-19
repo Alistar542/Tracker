@@ -27,17 +27,34 @@ import Divider from "@material-ui/core/Divider";
 const useStyles = makeStyles((theme) => ({
   root: {},
   formDiv: {
+    display: "flex",
+    flexDirection: "column",
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 200,
     },
   },
-  innerDiv: {},
+  innerDiv: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+  actionBar: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
   radioComponent: {
     "& .MuiFormLabel-root": {
       marginLeft: theme.spacing(2),
     },
+    "& .MuiFormHelperText-root": {
+      marginLeft: theme.spacing(2),
+    },
     marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    minWidth: 200,
   },
   deleteButton: {
     color: "white",
@@ -108,7 +125,9 @@ export default function CaptureApplicationDetailsComponent(props) {
         maxWidth="md"
       >
         <DialogTitle id="form-dialog-title">
-          Capture Application Details
+          {isUpdate
+            ? "View Application Details"
+            : "Capture Application Details"}
         </DialogTitle>
 
         <Formik
@@ -129,8 +148,8 @@ export default function CaptureApplicationDetailsComponent(props) {
             >
               <DialogContent className={classes.innerDiv}>
                 <TextField
-                  autoFocus
                   margin="dense"
+                  variant="outlined"
                   id="applnId"
                   label="Application Id"
                   size="small"
@@ -145,6 +164,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                 />
                 <TextField
                   margin="dense"
+                  variant="outlined"
                   id="appldUnvsty"
                   label="Applied University"
                   size="small"
@@ -161,6 +181,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                 />
                 <TextField
                   margin="dense"
+                  variant="outlined"
                   id="appldCourse"
                   label="Applied Course"
                   size="small"
@@ -175,6 +196,26 @@ export default function CaptureApplicationDetailsComponent(props) {
                   }
                   {...formik.getFieldProps("appldCourse")}
                 />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    autoOk
+                    openTo="year"
+                    variant="inline"
+                    inputVariant="outlined"
+                    format="dd/MM/yyyy"
+                    margin="dense"
+                    id="appldDate"
+                    name="appldDate"
+                    label="Application Date"
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    value={formik.values.appldDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("appldDate", value)
+                    }
+                  />
+                </MuiPickersUtilsProvider>
                 <FormControl
                   component="fieldset"
                   error={Boolean(
@@ -209,25 +250,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                       formik.errors.appldCourseTyp}
                   </FormHelperText>
                 </FormControl>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    autoOk
-                    openTo="year"
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="dense"
-                    id="appldDate"
-                    name="appldDate"
-                    label="Application Date"
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                    value={formik.values.appldDate}
-                    onChange={(value) =>
-                      formik.setFieldValue("appldDate", value)
-                    }
-                  />
-                </MuiPickersUtilsProvider>
+
                 <FormControl
                   component="fieldset"
                   error={Boolean(
@@ -261,25 +284,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                       formik.errors.offrLtrStatus}
                   </FormHelperText>
                 </FormControl>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    autoOk
-                    openTo="year"
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="dense"
-                    id="offrLtrDate"
-                    name="offrLtrDate"
-                    label="Offer Letter Rcvd Date"
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                    value={formik.values.offrLtrDate}
-                    onChange={(value) =>
-                      formik.setFieldValue("offrLtrDate", value)
-                    }
-                  />
-                </MuiPickersUtilsProvider>
+
                 <FormControl
                   component="fieldset"
                   className={classes.radioComponent}
@@ -310,6 +315,27 @@ export default function CaptureApplicationDetailsComponent(props) {
                     autoOk
                     openTo="year"
                     variant="inline"
+                    inputVariant="outlined"
+                    format="dd/MM/yyyy"
+                    margin="dense"
+                    id="offrLtrDate"
+                    name="offrLtrDate"
+                    label="Offer Letter Date"
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    value={formik.values.offrLtrDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("offrLtrDate", value)
+                    }
+                  />
+                </MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    autoOk
+                    openTo="year"
+                    variant="inline"
+                    inputVariant="outlined"
                     format="dd/MM/yyyy"
                     margin="dense"
                     id="visaLtrDate"
@@ -324,6 +350,45 @@ export default function CaptureApplicationDetailsComponent(props) {
                     }
                   />
                 </MuiPickersUtilsProvider>
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    autoOk
+                    openTo="year"
+                    variant="inline"
+                    inputVariant="outlined"
+                    format="dd/MM/yyyy"
+                    margin="dense"
+                    id="courseStrtDate"
+                    name="courseStrtDate"
+                    label="Course Start Date"
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    value={formik.values.courseStrtDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("courseStrtDate", value)
+                    }
+                  />
+                </MuiPickersUtilsProvider>
+                <TextField
+                  margin="dense"
+                  variant="outlined"
+                  id="stdUsrName"
+                  name="stdUsrName"
+                  label="Student Username"
+                  size="small"
+                  {...formik.getFieldProps("stdUsrName")}
+                />
+                <TextField
+                  margin="dense"
+                  variant="outlined"
+                  id="stdPwd"
+                  name="stdPwd"
+                  label="Student Password"
+                  size="small"
+                  {...formik.getFieldProps("stdPwd")}
+                />
                 <FormControl
                   component="fieldset"
                   className={classes.radioComponent}
@@ -349,41 +414,6 @@ export default function CaptureApplicationDetailsComponent(props) {
                     />
                   </RadioGroup>
                 </FormControl>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    autoOk
-                    openTo="year"
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="dense"
-                    id="courseStrtDate"
-                    name="courseStrtDate"
-                    label="Course Starting Date"
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                    value={formik.values.courseStrtDate}
-                    onChange={(value) =>
-                      formik.setFieldValue("courseStrtDate", value)
-                    }
-                  />
-                </MuiPickersUtilsProvider>
-                <TextField
-                  margin="dense"
-                  id="stdUsrName"
-                  name="stdUsrName"
-                  label="Student Username"
-                  size="small"
-                  {...formik.getFieldProps("stdUsrName")}
-                />
-                <TextField
-                  margin="dense"
-                  id="stdPwd"
-                  name="stdPwd"
-                  label="Student Password"
-                  size="small"
-                  {...formik.getFieldProps("stdPwd")}
-                />
                 <FormControl
                   component="fieldset"
                   className={classes.radioComponent}
@@ -411,8 +441,12 @@ export default function CaptureApplicationDetailsComponent(props) {
                 </FormControl>
               </DialogContent>
               <Divider />
-              <DialogActions>
-                <Button onClick={() => handleClose(false)} color="primary">
+              <DialogActions className={classes.actionBar}>
+                <Button
+                  variant="outlined"
+                  onClick={() => handleClose(false)}
+                  color="primary"
+                >
                   Cancel
                 </Button>
                 {isUpdate ? (

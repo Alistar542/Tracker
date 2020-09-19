@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EducationSummaryComponent(props) {
-  const { formik, countries } = props;
+  const { formik } = props;
   const classes = useStyles();
   return (
     <div className={classes.outerDiv}>
@@ -38,26 +38,12 @@ export default function EducationSummaryComponent(props) {
         Education Summary
       </Typography>
       <div className={classes.personalInfoDiv}>
-        <FormControl className={classes.formControlSelect}>
-          <InputLabel id="demo-simple-select-label">
-            Country Of Education
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="countryOfEducation"
-            name="countryOfEducation"
-            {...formik.getFieldProps("countryOfEducation")}
-          >
-            {countries.map((country, index) => {
-              return (
-                <MenuItem value={country.name} key={index}>
-                  {country.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-
+        <TextField
+          id="countryOfEducation"
+          label="Country Of Education"
+          name="countryOfEducation"
+          {...formik.getFieldProps("countryOfEducation")}
+        />
         <FormControl className={classes.formControlSelect}>
           <InputLabel id="demo-simple-select-label">
             Highest Level Of Education

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function DetailsPanelComponent(props) {
-  const { formik, countries, followUpRemarks, toDoRemarks } = props;
+  const { formik, followUpRemarks, toDoRemarks } = props;
   const classes = useStyles();
   return (
     <div id="formDiv" className={classes.formDiv}>
@@ -24,11 +24,11 @@ export default function DetailsPanelComponent(props) {
       <Divider />
       <EnglishExamTypeComponent formik={formik} />
       <Divider />
-      <EducationSummaryComponent formik={formik} countries={countries} />
+      <EducationSummaryComponent formik={formik} />
       <Divider />
       <WorkExperienceComponent formik={formik} />
       <Divider />
-      <AreasOfInterestComponent formik={formik} countries={countries} />
+      <AreasOfInterestComponent formik={formik} />
       <Divider />
       <MarketingPurposeComponent formik={formik} />
       <Divider />

@@ -154,7 +154,6 @@ export const ProspectusComponent = (props) => {
     studentFound ? studentFound.toDoRemarks : null
   );
   const [errorData, setErrorData] = React.useState({});
-  const countries = props.countries;
   const [status, setStatus] = React.useState(
     studentFound ? studentFound.status : STATUS.NEW
   );
@@ -508,7 +507,6 @@ export const ProspectusComponent = (props) => {
                 formik={formik}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
-                countries={countries}
               />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}

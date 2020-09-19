@@ -1,16 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import { FieldArray, getIn } from "formik";
-import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   areasOfInterestDiv: {
@@ -42,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AreasOfInterestComponent(props) {
   const classes = useStyles();
-  const { countries, formik } = props;
+  const { formik } = props;
 
   return (
     <div className={classes.outerDiv}>
@@ -91,37 +86,23 @@ export default function AreasOfInterestComponent(props) {
                           touchedRequestedCourse && errorRequestedCourse
                         )}
                       />
-                      <FormControl
-                        className={classes.formControlSelect}
+                      <TextField
+                        label="Preferred Country"
+                        name={preferredCountry}
+                        value={p.preferredCountry}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        required
+                        helperText={
+                          touchedPreferredCountry && errorPreferredCountry
+                            ? errorPreferredCountry
+                            : ""
+                        }
                         error={Boolean(
                           touchedPreferredCountry && errorPreferredCountry
                         )}
-                      >
-                        <InputLabel id="demo-simple-select-label">
-                          Preferred Country
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          name={preferredCountry}
-                          value={p.preferredCountry}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          required
-                        >
-                          {countries.map((country, index) => {
-                            return (
-                              <MenuItem value={country.name} key={index}>
-                                {country.name}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                        <FormHelperText>
-                          {touchedPreferredCountry && errorPreferredCountry
-                            ? errorPreferredCountry
-                            : ""}
-                        </FormHelperText>
-                      </FormControl>
+                      />
+
                       {formik.values.requestedCourseDetails.length !== 1 ? (
                         <IconButton
                           aria-label="delete"
