@@ -20,7 +20,7 @@ export const URL = {
   FIND_STUDENT_HISTORY:
     "http://localhost:5000/studenthistory/getstudenthistory",
   UPDATE_STATUS_OF_STUDENT:
-    "http://localhost:5000/student/updatestatusofstudent",
+    "http://localhost:5000/student/updatestatusofstudent/",
   FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
   SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
@@ -47,7 +47,7 @@ export const APPLICATION_STATUS = {
   NEW: "N",
   POSTPONED: "O",
   PROPOSED: "P",
-  TRAVELLED: "T",
+  ENROLLED: "E",
   CANCELLED: "C",
 };
 
