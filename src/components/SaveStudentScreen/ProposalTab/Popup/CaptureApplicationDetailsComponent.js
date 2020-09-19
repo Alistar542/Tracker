@@ -305,6 +305,25 @@ export default function CaptureApplicationDetailsComponent(props) {
                     />
                   </RadioGroup>
                 </FormControl>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    autoOk
+                    openTo="year"
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="dense"
+                    id="visaLtrDate"
+                    name="visaLtrDate"
+                    label="Visa Letter Date"
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    value={formik.values.visaLtrDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("visaLtrDate", value)
+                    }
+                  />
+                </MuiPickersUtilsProvider>
                 <FormControl
                   component="fieldset"
                   className={classes.radioComponent}

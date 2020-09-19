@@ -98,7 +98,6 @@ export default function PersonalInformationComponent({
         />
 
         <TextField
-          required
           id="additionalPhNo"
           error={errors.additionalPhNo && touched.additionalPhNo}
           label="Addl. Phone"

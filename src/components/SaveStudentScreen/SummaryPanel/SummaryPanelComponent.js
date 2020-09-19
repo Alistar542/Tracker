@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import { STATUS, APPLICATION_STATUS_DESC } from "../../../constants";
 import clsx from "clsx";
-import { green, indigo, red, cyan } from "@material-ui/core/colors";
+import { green, indigo, red, cyan, grey } from "@material-ui/core/colors";
 import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   namePanel: {
     display: "flex",
     flexWrap: "wrap",
+    alignItems: "baseline",
   },
   newStatus: {
     backgroundColor: cyan[500],
@@ -61,6 +62,15 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: theme.spacing(2, 2),
   },
+  applicationIdDiv: {
+    // borderWidth: "1px",
+    // borderColor: "black",
+    // borderStyle: "solid",
+    paddingLeft: "4px",
+    paddingRight: "4px",
+    marginLeft: theme.spacing(1),
+    color: grey[700],
+  },
 }));
 
 // eslint-disable-next-line no-extend-native
@@ -76,15 +86,22 @@ export default function SummaryPanelComponent(props) {
     <div className={classes.summaryPanelDiv}>
       {studentFound ? (
         <div className={classes.summaryDataDiv}>
-          <Typography component="h5" variant="h5" className={classes.namePanel}>
-            {studentFound.firstName.capitalize() +
-              " " +
-              (studentFound.middleName
-                ? studentFound.middleName.capitalize()
-                : "") +
-              " " +
-              studentFound.lastName.capitalize()}
-          </Typography>
+          <div className={classes.namePanel}>
+            <Typography component="h5" variant="h5">
+              {studentFound.firstName.capitalize() +
+                " " +
+                (studentFound.middleName
+                  ? studentFound.middleName.capitalize()
+                  : "") +
+                " " +
+                studentFound.lastName.capitalize()}
+            </Typography>
+            <div className={classes.applicationIdDiv}>
+              <Typography style={{ fontSize: "18px" }}>
+                {`# ${studentFound.studentId}`}
+              </Typography>
+            </div>
+          </div>
           <Chip
             className={clsx(classes.statusChip, {
               [classes.newStatus]: studentFound.status === STATUS.NEW,
