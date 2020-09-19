@@ -70,15 +70,15 @@ export default function EnrolledComponent(props) {
   const [openToDoPopup, setOpenToDoPopup] = React.useState(false);
   const [followUpRemarks, setFollowUpRemarks] = React.useState(
     studentFound
-      ? studentFound.proposalInfo
-        ? studentFound.proposalInfo.followUpRemarks
+      ? studentFound.enrolledInfo
+        ? studentFound.enrolledInfo.followUpRemarks
         : null
       : null
   );
   const [toDoRemarks, setToDoRemarks] = React.useState(
     studentFound
-      ? studentFound.proposalInfo
-        ? studentFound.proposalInfo.toDoRemarks
+      ? studentFound.enrolledInfo
+        ? studentFound.enrolledInfo.toDoRemarks
         : null
       : null
   );
