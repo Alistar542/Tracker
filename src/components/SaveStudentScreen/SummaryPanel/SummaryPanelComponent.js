@@ -2,9 +2,12 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
-import { STATUS_DESCRIPTION, STATUS } from "../../../constants";
+import {
+  APPLICATION_STATUS,
+  APPLICATION_STATUS_DESC,
+} from "../../../constants";
 import clsx from "clsx";
-import { green, indigo, red, cyan } from "@material-ui/core/colors";
+import { green, indigo, red, cyan, grey } from "@material-ui/core/colors";
 import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
   statusChip: {
     marginLeft: "auto",
     color: "white",
+    minWidth: "100px",
+    display: "flex",
   },
   cardDiv: {
     width: "100%",
@@ -31,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   namePanel: {
     display: "flex",
     flexWrap: "wrap",
+    alignItems: "baseline",
   },
   newStatus: {
     backgroundColor: cyan[500],
@@ -48,14 +54,25 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   emptyDivComponent: {
-    height: "75px",
+    display: "flex",
+    height: "50px",
     width: "100%",
+    padding: theme.spacing(2, 2),
   },
   summaryDataDiv: {
     display: "flex",
-    height: "75px",
+    height: "50px",
     width: "100%",
-    padding: "20px",
+    padding: theme.spacing(2, 2),
+  },
+  applicationIdDiv: {
+    // borderWidth: "1px",
+    // borderColor: "black",
+    // borderStyle: "solid",
+    paddingLeft: "4px",
+    paddingRight: "4px",
+    marginLeft: theme.spacing(1),
+    color: grey[700],
   },
 }));
 
@@ -67,38 +84,50 @@ String.prototype.capitalize = function () {
 export default function SummaryPanelComponent(props) {
   const classes = useStyles();
   const studentFound = props.studentFound;
+
   return (
     <div className={classes.summaryPanelDiv}>
       {studentFound ? (
         <div className={classes.summaryDataDiv}>
-          <Typography component="h4" variant="h4" className={classes.namePanel}>
-            {studentFound.firstName.capitalize() +
-              " " +
-              (studentFound.middleName
-                ? studentFound.middleName.capitalize()
-                : "") +
-              " " +
-              studentFound.lastName.capitalize()}
-          </Typography>
+          <div className={classes.namePanel}>
+            <Typography component="h5" variant="h5">
+              {studentFound.firstName.capitalize() +
+                " " +
+                (studentFound.middleName
+                  ? studentFound.middleName.capitalize()
+                  : "") +
+                " " +
+                studentFound.lastName.capitalize()}
+            </Typography>
+            <div className={classes.applicationIdDiv}>
+              <Typography style={{ fontSize: "18px" }}>
+                {`# ${studentFound.studentId}`}
+              </Typography>
+            </div>
+          </div>
           <Chip
             className={clsx(classes.statusChip, {
-              [classes.newStatus]: studentFound.status === STATUS.NEW,
-              [classes.doneStatus]: studentFound.status === STATUS.DONE,
-              [classes.proposedStatus]: studentFound.status === STATUS.PROPOSED,
-              [classes.rejectedStatus]: studentFound.status === STATUS.REJECTED,
+              [classes.newStatus]:
+                studentFound.status === APPLICATION_STATUS.NEW,
+              [classes.doneStatus]:
+                studentFound.status === APPLICATION_STATUS.ENROLLED,
+              [classes.proposedStatus]:
+                studentFound.status === APPLICATION_STATUS.PROPOSED,
+              [classes.rejectedStatus]:
+                studentFound.status === APPLICATION_STATUS.CANCELLED,
             })}
             avatar={
               <Avatar className={classes.avatarComponent}>
                 {studentFound.status}
               </Avatar>
             }
-            label={STATUS_DESCRIPTION[studentFound.status]}
+            label={`${APPLICATION_STATUS_DESC[studentFound.status]}`}
           />
         </div>
       ) : (
         <div className={classes.emptyDivComponent}>
-          <Typography component="h4" variant="h4" style={{ padding: "20px" }}>
-            Create a New Student
+          <Typography component="h5" variant="h5">
+            Create a New Application
           </Typography>
         </div>
       )}

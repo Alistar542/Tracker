@@ -3,16 +3,19 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   cardContentDiv: {},
   cardComponent: {
-    padding: theme.spacing(1),
+    "& .li": {
+      padding: theme.spacing(1),
+    },
     marginRight: theme.spacing(1),
   },
 }));
 
-export function FollowUpComponent(props) {
+export default function FollowUpComponent(props) {
   const classes = useStyles();
 
   return (
@@ -20,15 +23,17 @@ export function FollowUpComponent(props) {
       {props.followUpRemarks ? (
         <div className={classes.cardComponent}>
           {/* <Card className={classes.cardComponent}> */}
-          <Typography component="h6" variant="h6">
+          <Typography component="h7" variant="h7">
             Follow Up Remarks
           </Typography>
           {/* <CardContent className={classes.cardContentDiv}> */}
           {props.followUpRemarks.map((followUpRem) => {
-            return <li>{followUpRem}</li>;
+            return <li>{followUpRem.remark}</li>;
           })}
           {/* </CardContent>
           </Card> */}
+
+          <Divider />
         </div>
       ) : (
         <span></span>

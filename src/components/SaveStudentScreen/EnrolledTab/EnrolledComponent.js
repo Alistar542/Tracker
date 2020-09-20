@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import DetailsPanelComponent from "./DetailsPanelComponent";
 import Button from "@material-ui/core/Button";
-import { APPLCTN_STS_ARRY_PROPOSAL, OPERATION_FLAG } from "../../../constants";
+import { OPERATION_FLAG, APPLCTN_STS_ARRY_ENROLLED } from "../../../constants";
+import DetailsComponent from "./DetailsComponent";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { saveProposalInfo } from "../../../actions/studentactions";
+import { saveEnrolledInfo } from "../../../actions/studentactions";
 import { AuthContext } from "../../LoginScreen/context/auth";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
@@ -17,9 +19,6 @@ import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounde
 import { updateStatusOfStudent } from "../../../actions/studentactions";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import SnackbarCommon from "../../Common/SnackbarCommon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "53px",
     marginTop: "auto",
   },
-  actionButton: {
-    margin: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
@@ -58,54 +52,45 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialValues = {
-  visaApplnStatus: "",
-  visaStatus: "",
-  visaApplnPrcDate: null,
-  visaApRjDate: null,
-  travelDate: null,
+  totalTutionFees: "",
+  annualTutionFees: "",
+  totalCommission: "",
+  firstCommission: "",
+  balanceCommission: "",
+  courseStartingDate: null,
+  nextInvoiceDate: null,
+  invoiceDate: null,
+  currency: "",
   operationFlag: OPERATION_FLAG.INSERT,
 };
+const validationSchema = Yup.object().shape({
+  annualTutionFees: Yup.string().required("Required"),
+});
 
-const validationSchema = Yup.object().shape({});
-
-export default function ProposalComponent(props) {
+export default function EnrolledComponent(props) {
   const classes = useStyles();
   const { studentFound, updateStudentFoundForSummary } = props;
   const [backDropState, setBackDropState] = React.useState(false);
-  const [applicationDtl, setApplicationDtl] = React.useState(
-    studentFound
-      ? studentFound.proposalInfo
-        ? studentFound.proposalInfo.applicationDetails
-        : []
-      : []
-  );
   const { currentUser } = useContext(AuthContext);
   const [openFollowUpPopup, setOpenFollowUpPopup] = React.useState(false);
   const [openToDoPopup, setOpenToDoPopup] = React.useState(false);
   const [followUpRemarks, setFollowUpRemarks] = React.useState(
     studentFound
-      ? studentFound.proposalInfo
-        ? studentFound.proposalInfo.followUpRemarks
+      ? studentFound.enrolledInfo
+        ? studentFound.enrolledInfo.followUpRemarks
         : null
       : null
   );
   const [toDoRemarks, setToDoRemarks] = React.useState(
     studentFound
-      ? studentFound.proposalInfo
-        ? studentFound.proposalInfo.toDoRemarks
+      ? studentFound.enrolledInfo
+        ? studentFound.enrolledInfo.toDoRemarks
         : null
       : null
   );
-  const [snackbarMessage, setSnackBarMessage] = React.useState("");
-  const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-
-  const snackbarClose = () => {
-    setSnackBarMessage("");
-    setSnackbarOpenState(false);
-  };
 
   const openFollowUpPopupFn = (event) => {
     event.preventDefault();
@@ -144,11 +129,11 @@ export default function ProposalComponent(props) {
   const handleMenuItemClick = (value, index) => {
     setOpen(false);
     setBackDropState(true);
-    let proposalInfo = { ...studentFound };
-    proposalInfo.status = value;
-    updateStatusOfStudent(proposalInfo, currentUser)
+    let enrolledInfo = { ...studentFound };
+    enrolledInfo.status = value;
+    updateStatusOfStudent(enrolledInfo, currentUser)
       .then((res) => {
-        updateStudentFoundForSummary(proposalInfo);
+        updateStudentFoundForSummary(enrolledInfo);
       })
       .catch((err) => {})
       .finally(() => setBackDropState(false));
@@ -166,7 +151,7 @@ export default function ProposalComponent(props) {
   };
 
   const isUpdate = studentFound
-    ? studentFound.proposalInfo
+    ? studentFound.enrolledInfo
       ? true
       : false
     : false;
@@ -176,35 +161,27 @@ export default function ProposalComponent(props) {
       <Formik
         initialValues={
           studentFound
-            ? studentFound.proposalInfo
-              ? studentFound.proposalInfo
+            ? studentFound.enrolledInfo
+              ? studentFound.enrolledInfo
               : initialValues
             : initialValues
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          if (applicationDtl.length <= 0) {
-            setSnackBarMessage("Application Detail is Mandatory");
-            setSnackbarOpenState(true);
-            return;
-          }
           setBackDropState(true);
-          let proposalInfo = {
+          let enrolledInfo = {
             ...values,
-            applicationDetails: applicationDtl,
             toDoRemarks: toDoRemarks,
             followUpRemarks: followUpRemarks,
           };
           let saveData = { ...studentFound };
-          saveData.proposalInfo = proposalInfo;
-          console.log("Proposal Info");
-          console.log(saveData);
-          saveProposalInfo(saveData, currentUser)
+          saveData.enrolledInfo = enrolledInfo;
+          saveEnrolledInfo(saveData, currentUser)
             .then((res) => {
               let tempData = {
                 ...saveData,
-                proposalInfo: {
-                  ...proposalInfo,
+                enrolledInfo: {
+                  ...enrolledInfo,
                   operationFlag: OPERATION_FLAG.UPDATE,
                 },
               };
@@ -222,14 +199,13 @@ export default function ProposalComponent(props) {
             className={classes.innerDiv}
           >
             <div className={classes.detailsDiv}>
-              <DetailsPanelComponent
+              <DetailsComponent
                 formik={formik}
-                setApplicationDtl={setApplicationDtl}
-                applicationDtl={applicationDtl}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
               />
             </div>
+
             <div className={classes.bottomBar}>
               <Button
                 variant="contained"
@@ -265,7 +241,7 @@ export default function ProposalComponent(props) {
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList id="split-button-menu">
-                          {APPLCTN_STS_ARRY_PROPOSAL.map((option, index) => (
+                          {APPLCTN_STS_ARRY_ENROLLED.map((option, index) => (
                             <MenuItem
                               key={index}
                               onClick={(event) =>
@@ -297,14 +273,8 @@ export default function ProposalComponent(props) {
               >
                 {` Follow Up `}
               </Button>
-
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                className={classes.actionButton}
-              >
-                {isUpdate ? ` Update Proposal ` : ` Save Proposal `}
+              <Button variant="contained" color="primary" type="submit">
+                {isUpdate ? ` Update Enrolled ` : ` Save Enrolled `}
               </Button>
             </div>
           </form>
@@ -323,11 +293,6 @@ export default function ProposalComponent(props) {
       <Backdrop className={classes.backdrop} open={backDropState}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <SnackbarCommon
-        message={snackbarMessage}
-        handleClose={snackbarClose}
-        openState={snackbarOpenState}
-      />
     </div>
   );
 }

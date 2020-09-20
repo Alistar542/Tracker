@@ -26,11 +26,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
     },
   },
-  cardComponent: {
-    borderWidth: "1px",
-    borderRadius: "6px",
-    boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
-  },
+  cardComponent: {},
 }));
 
 export default function FilterComponent(props) {

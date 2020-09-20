@@ -24,6 +24,7 @@ export default function ToDoPopupComponent(props) {
         open={openToDoPopup}
         onClose={handleToDoClose}
         aria-labelledby="form-dialog-title"
+        fullWidth={true}
       >
         <DialogTitle id="form-dialog-title">To Do Remarks</DialogTitle>
         <DialogContent>

@@ -2,12 +2,17 @@ import React from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function SnackbarCommon(props) {
   return (
     <Snackbar
       anchorOrigin={{
-        vertical: "bottom",
+        vertical: "top",
         horizontal: "right",
       }}
       open={props.openState}
@@ -26,7 +31,11 @@ export default function SnackbarCommon(props) {
           </IconButton>
         </React.Fragment>
       }
-    ></Snackbar>
+    >
+      <Alert onClose={props.handleClose} severity="error">
+        {props.message}
+      </Alert>
+    </Snackbar>
   );
 }
 

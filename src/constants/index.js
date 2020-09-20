@@ -20,8 +20,10 @@ export const URL = {
   FIND_STUDENT_HISTORY:
     "http://localhost:5000/studenthistory/getstudenthistory",
   UPDATE_STATUS_OF_STUDENT:
-    "http://localhost:5000/student/updateStatusOfStudent",
+    "http://localhost:5000/student/updatestatusofstudent/",
   FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
+  SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
+  SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
 };
 
 export const OPERATION_FLAG = {
@@ -34,9 +36,63 @@ export const OPERATION_FLAG_DESC = {
   I: "Created",
   U: "Updated",
   D: "Deleted",
+  S: "Status Change",
 };
 
 export const USER_TYPE = {
   ADMINISTRATOR: "A",
   EMPLOYEE: "E",
 };
+
+export const APPLICATION_STATUS = {
+  NEW: "N",
+  POSTPONED: "X",
+  PROPOSED: "P",
+  ENROLLED: "E",
+  CANCELLED: "C",
+};
+
+export const APPLICATION_STATUS_DESC = {
+  N: "New",
+  X: "Postponed",
+  P: "Proposed",
+  E: "Enrolled",
+  C: "Cancelled",
+};
+
+export const APPLICATION_STATUS_ARRAY = [
+  { status: "New", value: "N" },
+  { status: "Postponed", value: "X" },
+  { status: "Proposed", value: "P" },
+  { status: "Enrolled", value: "E" },
+  { status: "Cancelled", value: "C" },
+];
+
+export const APPLIED_COURSE_TYP = {
+  M: "MAJOR",
+  D: "DEGREE",
+};
+
+export const APPLCTN_STS_ARRY_PROPOSAL = [
+  { status: "Postponed", value: "X" },
+  { status: "Enrolled", value: "E" },
+  { status: "Cancelled", value: "C" },
+];
+
+export const APPLCTN_STS_ARRY_PROSPECTUS = [
+  { status: "Postponed", value: "X" },
+  { status: "Proposed", value: "P" },
+  { status: "Cancelled", value: "C" },
+];
+
+export const APPLCTN_STS_ARRY_ENROLLED = [{ status: "Cancelled", value: "C" }];
+
+export const CURRENCY = ["USD", "CAD", "NZD", "AUD", "GBP", "EUR"];
+
+export const PRIORITY = { H: "High", M: "Medium", L: "Low" };
+
+export const PRIORITY_ARRAY = [
+  { priority: "High", value: "H" },
+  { priority: "Medium", value: "M" },
+  { priority: "Low", value: "L" },
+];

@@ -26,21 +26,39 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useLocation } from "react-router";
-import { FollowUpComponent } from "./FollowUpComponent";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { PersonalInformationComponent } from "./PersonalInformationComponent";
 import { EnglishExamTypeComponent } from "./EnglishExamTypeComponent";
 import { green, indigo, red } from "@material-ui/core/colors";
-import { STATUS } from "../../../constants";
-import { updateStudent, saveStudent } from "../../../actions/studentactions";
+import {
+  STATUS,
+  OPERATION_FLAG,
+  APPLCTN_STS_ARRY_PROSPECTUS,
+} from "../../../constants";
+import {
+  updateStudent,
+  saveStudent,
+  updateStatusOfStudent,
+} from "../../../actions/studentactions";
 import { AuthContext } from "../../LoginScreen/context/auth";
 import SnackbarCommon from "../../Common/SnackbarCommon";
-import ToDoPopupComponent from "./Popups/ToDoPopupComponent";
-import { ToDoComponent } from "./ToDoComponent";
+import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import BlockRoundedIcon from "@material-ui/icons/BlockRounded";
 import UndoRoundedIcon from "@material-ui/icons/UndoRounded";
 import AreasOfInterestComponent from "./AreasOfInterestComponent";
+import MarketingPurposeComponent from "./MarketingPurposeComponent";
+import EducationSummaryComponent from "./EducationSummaryComponent";
+import WorkExperienceComponent from "./WorkExperienceComponent";
+import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
+
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
+import MenuList from "@material-ui/core/MenuList";
+import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounded";
+import DetailsPanelComponent from "./DetailsPanelComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,16 +68,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rootDiv: {
-    margin: theme.spacing(3),
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0, 1),
       width: 200,
     },
-    height: `calc(100vh - 335px)`,
+    "& .MuiFormLabel-root": {
+      fontSize: "0.9rem",
+    },
+    height: `calc(100vh - 250px)`,
     overflow: "auto",
   },
   formDiv: {
-    margin: 0,
+    margin: theme.spacing(1),
     //marginBottom: theme.spacing(8),
   },
   personalInfoDiv: {
@@ -70,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
   },
   appBar: {
@@ -80,11 +100,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    padding: theme.spacing(1),
     "& .MuiButton-root": {
       margin: theme.spacing(1),
     },
     //width: `calc(100% - ${theme.spacing(7) + 1}px)`,
+    minHeight: "53px",
     width: "100%",
   },
   backdrop: {
@@ -118,8 +138,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ProspectusComponent = (props) => {
-  let locationFound = useLocation();
-  let { studentFound } = locationFound.state ? locationFound.state : {};
+  //let locationFound = useLocation();
+  //let { studentFound } = locationFound.state ? locationFound.state : {};
+  let { studentFound, updateStudentFoundForSummary } = props;
   const classes = useStyles();
   const [dialogState, setDialogState] = React.useState(false);
   const [successOrFail, setSuccessOrFail] = React.useState(false);
@@ -133,7 +154,6 @@ export const ProspectusComponent = (props) => {
     studentFound ? studentFound.toDoRemarks : null
   );
   const [errorData, setErrorData] = React.useState({});
-  const countries = props.countries;
   const [status, setStatus] = React.useState(
     studentFound ? studentFound.status : STATUS.NEW
   );
@@ -175,6 +195,9 @@ export const ProspectusComponent = (props) => {
     wayOfContact: "",
     counselor: "",
     priority: "",
+    operationFlag: OPERATION_FLAG.INSERT,
+    proposalInfo: null,
+    enrolledInfo: null,
   };
 
   const validationSchema = Yup.object().shape({
@@ -196,9 +219,7 @@ export const ProspectusComponent = (props) => {
       })
       .required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
-    phoneNumber: Yup.string()
-      .matches(/^[0-9]*$/, { message: "Must be a number" })
-      .required("Required"),
+    phoneNumber: Yup.string().required("Required"),
     requestedCourseDetails: Yup.array().of(
       Yup.object().shape({
         requestedCourse: Yup.string().required("Requested Course is required"),
@@ -216,6 +237,33 @@ export const ProspectusComponent = (props) => {
   const [submitted, setSubmitted] = React.useState(false);
   const [snackbarMessage, setSnackBarMessage] = React.useState("");
   const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleMenuItemClick = (value, index) => {
+    setOpen(false);
+    setBackDropState(true);
+    let updateStatusData = { ...studentFound };
+    updateStatusData.status = value;
+    updateStatusOfStudent(updateStatusData, currentUser)
+      .then((res) => {
+        updateStudentFoundForSummary(updateStatusData);
+      })
+      .catch((err) => {})
+      .finally(() => setBackDropState(false));
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleStatusChange = () => {
     let studentToBeUpdated = { ...formData };
@@ -291,8 +339,8 @@ export const ProspectusComponent = (props) => {
       wayOfContact: values.wayOfContact,
       counselor: values.counselor,
       priority: values.priority,
-      lastUpdateUser: "",
       followUpRemarks: followUpRemarks,
+      toDoRemarks: toDoRemarks,
       status: status,
     };
 
@@ -305,11 +353,12 @@ export const ProspectusComponent = (props) => {
           setSuccessOrFail(true);
           setSubmitted(true);
           setSubmitting(false);
-          setBackDropState(false);
           resetForm(initialValues);
           setFollowUpRemarks(null);
           setToDoRemarks(null);
           resetValues();
+          //updateStudentFoundForSummary(userObject);
+          setBackDropState(false);
         })
         .catch((err) => {
           setDialogState(true);
@@ -327,6 +376,12 @@ export const ProspectusComponent = (props) => {
           setSuccessOrFail(true);
           setSubmitted(true);
           setSubmitting(true);
+          let saveData = {
+            ...userObject,
+            proposalInfo: studentFound.proposalInfo,
+            enrolledInfo: studentFound.enrolledInfo,
+          };
+          updateStudentFoundForSummary(saveData);
           setBackDropState(false);
         })
         .catch((err) => {
@@ -419,18 +474,19 @@ export const ProspectusComponent = (props) => {
     }
   };
 
-  const handleSubmitFollowUp = (event) => {
-    event.preventDefault();
+  const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    remarksCopy.push(event.target.followupremarks.value);
+    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
   };
 
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    remarksCopy.push(remarks);
+    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
   };
 
@@ -452,263 +508,15 @@ export const ProspectusComponent = (props) => {
         {(formik) => (
           <form autoComplete="off" onSubmit={formik.handleSubmit}>
             <div id="rootDiv" className={classes.rootDiv}>
-              <div id="formDiv" className={classes.formDiv}>
-                <PersonalInformationComponent {...formik} />
-                <br></br>
-                <Divider />
-                <br></br>
-                <EnglishExamTypeComponent formik={formik} />
-                <br></br>
-                <br></br>
-                <Divider />
-                <br></br>
-                <Typography component={"span"} variant="h6">
-                  Education Summary
-                </Typography>
-                <div className={classes.personalInfoDiv}>
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Country Of Education
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="countryOfEducation"
-                      name="countryOfEducation"
-                      {...formik.getFieldProps("countryOfEducation")}
-                    >
-                      {countries.map((country,index) => {
-                        return (
-                          <MenuItem value={country.name} key={index}>
-                            {country.name}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Highest Level Of Education
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="highestLevelOfEducation"
-                      name="highestLevelOfEducation"
-                      {...formik.getFieldProps("highestLevelOfEducation")}
-                    >
-                      <MenuItem value={"sslc"}>SSLC</MenuItem>
-                      <MenuItem value={"higherSecondary"}>
-                        Higher Secondary
-                      </MenuItem>
-                      <MenuItem value={"diploma"}>Diploma</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Grading Scheme
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="gradingScheme"
-                      name="gradingScheme"
-                      {...formik.getFieldProps("gradingScheme")}
-                    >
-                      <MenuItem value={"cgpa"}>CGPA out of 10</MenuItem>
-                      <MenuItem value={"percentage"}>Percentage</MenuItem>
-                      <MenuItem value={"grade"}>Grade</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <TextField
-                    id="gradeAverage"
-                    label="Grade Average"
-                    name="gradeAverage"
-                    {...formik.getFieldProps("gradeAverage")}
-                  />
-
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      openTo="year"
-                      variant="inline"
-                      views={["year", "month"]}
-                      margin="normal"
-                      id="graduatedYear"
-                      name="graduatedYear"
-                      label="Graduated Year"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.graduatedYear}
-                      onChange={(value) =>
-                        formik.setFieldValue("graduatedYear", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
-                <br></br>
-                <br></br>
-                <Divider />
-                <br></br>
-                <Typography component={"span"} variant="h6">
-                  Work Experience
-                </Typography>
-                <div className={classes.personalInfoDiv}>
-                  <TextField
-                    id="companyName"
-                    label="Company Name"
-                    name="companyName"
-                    {...formik.getFieldProps("companyName")}
-                  />
-                  <TextField
-                    id="position"
-                    label="Postion"
-                    name="position"
-                    {...formik.getFieldProps("position")}
-                  />
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="endDate"
-                      name="endDate"
-                      label="End Date"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.endDate}
-                      onChange={(value) =>
-                        formik.setFieldValue("endDate", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="startDate"
-                      name="startDate"
-                      label="Start Date"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.startDate}
-                      onChange={(value) =>
-                        formik.setFieldValue("startDate", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-
-                  <TextField
-                    id="workAddress"
-                    label="Address"
-                    name="workAddress"
-                    {...formik.getFieldProps("workAddress")}
-                  />
-                </div>
-                <br></br>
-                <br></br>
-                <Divider />
-                <br></br>
-                <AreasOfInterestComponent
-                  formik={formik}
-                  countries={countries}
-                />
-                <br></br>
-                <br></br>
-                <Divider />
-                <br></br>
-
-                <Typography component={"span"} variant="h6">
-                  Marketing Purpose
-                </Typography>
-                <div className={classes.personalInfoDiv}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="dateOfRequest"
-                      name="dateOfRequest"
-                      label="Date Of Request"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      value={formik.values.dateOfRequest}
-                      onChange={(value) =>
-                        formik.setFieldValue("dateOfRequest", value)
-                      }
-                    />
-                  </MuiPickersUtilsProvider>
-                  <TextField
-                    id="source"
-                    label="Source"
-                    name="source"
-                    {...formik.getFieldProps("source")}
-                  />
-                  <TextField
-                    id="wayOfContact"
-                    label="Way Of Contact"
-                    name="wayOfContact"
-                    {...formik.getFieldProps("wayOfContact")}
-                  />
-                  <TextField
-                    id="counselor"
-                    label="Counselor"
-                    name="counselor"
-                    {...formik.getFieldProps("counselor")}
-                  />
-                  <FormControl className={classes.formControlSelect}>
-                    <InputLabel id="demo-simple-select-label">
-                      Priority
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="priority"
-                      name="priority"
-                      {...formik.getFieldProps("priority")}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="high">High</MenuItem>
-                      <MenuItem value="medium">Medium</MenuItem>
-                      <MenuItem value="low">Low</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <br></br>
-                <br></br>
-                <Divider />
-                <br></br>
-                <FollowUpComponent followUpRemarks={followUpRemarks} />
-                <br></br>
-                <br></br>
-                <Divider />
-                <br></br>
-                <ToDoComponent toDoRemarks={toDoRemarks} />
-                {successOrFail ? (
-                  <SuccessDialog
-                    dialogState={dialogState}
-                    setDialogStateFn={setDialogState}
-                  />
-                ) : (
-                  <FailDialog
-                    dialogState={dialogState}
-                    setDialogStateFn={setDialogState}
-                  />
-                )}
-              </div>
+              <DetailsPanelComponent
+                formik={formik}
+                followUpRemarks={followUpRemarks}
+                toDoRemarks={toDoRemarks}
+              />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}
             <div className={classes.appBar}>
-              <Button
+              {/* <Button
                 className={clsx(classes.rejectButton, {
                   [classes.acceptButton]: formData.status === STATUS.REJECTED,
                 })}
@@ -741,12 +549,63 @@ export const ProspectusComponent = (props) => {
                 }
               >
                 {" Mark As Proposed "}
+              </Button> */}
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                aria-controls={open ? "split-button-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-label="select merge strategy"
+                aria-haspopup="menu"
+                ref={anchorRef}
+                onClick={handleToggle}
+                className={classes.actionButton}
+                disabled={isActionsDisabled}
+                startIcon={<KeyboardArrowUpRoundedIcon />}
+              >
+                {`  Change Status to `}
               </Button>
+
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList id="split-button-menu">
+                          {APPLCTN_STS_ARRY_PROSPECTUS.map((option, index) => (
+                            <MenuItem
+                              key={index}
+                              onClick={(event) =>
+                                handleMenuItemClick(option.value)
+                              }
+                            >
+                              {option.status}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={openToDoPopupFn}
-                disabled={isActionsDisabled || status === STATUS.REJECTED}
+                disabled={status === STATUS.REJECTED}
               >
                 {" "}
                 To Do{" "}
@@ -755,7 +614,7 @@ export const ProspectusComponent = (props) => {
                 variant="contained"
                 color="primary"
                 onClick={openFollowUpPopupFn}
-                disabled={isActionsDisabled || status === STATUS.REJECTED}
+                disabled={status === STATUS.REJECTED}
               >
                 {" "}
                 Follow Up{" "}
@@ -766,48 +625,36 @@ export const ProspectusComponent = (props) => {
                 type="submit"
                 disabled={status === STATUS.REJECTED}
               >
-                {typeof studentFound === "undefined" ? " SAVE " : " UPDATE "}
+                {typeof studentFound === "undefined"
+                  ? " SAVE PROSPECTUS "
+                  : " UPDATE PROSPECTUS "}
               </Button>
               {/* </Toolbar> */}
             </div>
           </form>
         )}
       </Formik>
+      {successOrFail ? (
+        <SuccessDialog
+          dialogState={dialogState}
+          setDialogStateFn={setDialogState}
+        />
+      ) : (
+        <FailDialog
+          dialogState={dialogState}
+          setDialogStateFn={setDialogState}
+        />
+      )}
       <ToDoPopupComponent
         openToDoPopup={openToDoPopup}
         handleToDoClose={closeToDoPopupFn}
         handleSubmitToDo={handleSubmitToDo}
       />
-      <Dialog
-        open={openFollowUpPopup}
-        onClose={closeFollowUpPopupFn}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Follow Up</DialogTitle>
-        <form id="followUpForm" onSubmit={handleSubmitFollowUp}>
-          <DialogContent>
-            <DialogContentText>
-              Please enter the follow up details
-            </DialogContentText>
-            <TextField
-              required
-              autoFocus
-              margin="dense"
-              id="followupremarks"
-              label="Remarks"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeFollowUpPopupFn} color="primary">
-              Cancel
-            </Button>
-            <Button id="submitFollowUp" type="submit" color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      <FollowUpPopupComponent
+        openFollowUpPopup={openFollowUpPopup}
+        handleFollowUpClose={closeFollowUpPopupFn}
+        handleSubmitFollowUp={handleSubmitFollowUp}
+      />
 
       <Dialog
         open={openReject}

@@ -5,23 +5,25 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   cardContentDiv: {},
   cardComponent: {
-    padding: theme.spacing(1),
+    "& .li": {
+      padding: theme.spacing(1),
+    },
     marginRight: theme.spacing(1),
   },
 }));
 
-export function ToDoComponent(props) {
+export default function ToDoComponent(props) {
   const classes = useStyles();
   const { toDoRemarks } = props;
   return (
     <div>
       {toDoRemarks ? (
         <div className={classes.cardComponent}>
-          <Typography component="h6" variant="h6">
+          <Typography component="h7" variant="h7">
             To Do Remarks
           </Typography>
           {toDoRemarks.map((followUpRem) => {
-            return <li>{followUpRem}</li>;
+            return <li>{followUpRem.remark}</li>;
           })}
         </div>
       ) : (

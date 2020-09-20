@@ -1,20 +1,15 @@
-import React, { Fragment } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import { FieldArray, getIn } from "formik";
-import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   areasOfInterestDiv: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     display: "flex",
     flexDirection: "column",
   },
@@ -24,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
   },
   addButton: {
@@ -35,16 +30,19 @@ const useStyles = makeStyles((theme) => ({
   removeButton: {
     margin: theme.spacing(1),
   },
+  outerDiv: {
+    margin: theme.spacing(2, 0),
+  },
 }));
 
 export default function AreasOfInterestComponent(props) {
   const classes = useStyles();
-  const { countries, formik } = props;
+  const { formik } = props;
 
   return (
-    <Fragment>
-      <Typography component={"span"} variant="h6">
-        Areas of Interest
+    <div className={classes.outerDiv}>
+      <Typography component={"span"} variant="h7">
+        Interested Courses
       </Typography>
       <FieldArray name="requestedCourseDetails">
         {({ push, remove }) => (
@@ -88,37 +86,23 @@ export default function AreasOfInterestComponent(props) {
                           touchedRequestedCourse && errorRequestedCourse
                         )}
                       />
-                      <FormControl
-                        className={classes.formControlSelect}
+                      <TextField
+                        label="Preferred Country"
+                        name={preferredCountry}
+                        value={p.preferredCountry}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        required
+                        helperText={
+                          touchedPreferredCountry && errorPreferredCountry
+                            ? errorPreferredCountry
+                            : ""
+                        }
                         error={Boolean(
                           touchedPreferredCountry && errorPreferredCountry
                         )}
-                      >
-                        <InputLabel id="demo-simple-select-label">
-                          Preferred Country
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          name={preferredCountry}
-                          value={p.preferredCountry}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          required
-                        >
-                          {countries.map((country, index) => {
-                            return (
-                              <MenuItem value={country.name} key={index}>
-                                {country.name}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                        <FormHelperText>
-                          {touchedPreferredCountry && errorPreferredCountry
-                            ? errorPreferredCountry
-                            : ""}
-                        </FormHelperText>
-                      </FormControl>
+                      />
+
                       {formik.values.requestedCourseDetails.length !== 1 ? (
                         <IconButton
                           aria-label="delete"
@@ -147,6 +131,6 @@ export default function AreasOfInterestComponent(props) {
           </div>
         )}
       </FieldArray>
-    </Fragment>
+    </div>
   );
 }

@@ -14,25 +14,28 @@ import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
   personalInfoDiv: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "stretch",
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
+  },
+  outerDiv: {
+    margin: theme.spacing(2, 0),
   },
 }));
 
-export function EnglishExamTypeComponent(props) {
+export default function EnglishExamTypeComponent(props) {
   const classes = useStyles();
   const formik = props.formik;
 
   return (
-    <div>
-      <Typography component={"span"} variant="h6">
+    <div className={classes.outerDiv}>
+      <Typography component={"span"} variant="h7">
         English Exam Type
       </Typography>
       <div className={classes.personalInfoDiv}>

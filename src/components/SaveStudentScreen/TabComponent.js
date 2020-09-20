@@ -8,14 +8,19 @@ import Box from "@material-ui/core/Box";
 import { grey } from "@material-ui/core/colors";
 import { ProspectusComponent } from "./ProspectusTab/ProspectusComponent";
 import ProposalComponent from "./ProposalTab/ProposalComponent";
-import TravelledComponent from "./TravelledTab/TravelledComponent";
+import EnrolledComponent from "./EnrolledTab/EnrolledComponent";
 import { AbilityContext } from "../../privilegehandler/privilegehandler";
-import { STATUS } from "../../constants";
+import { APPLICATION_STATUS } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: grey[200],
+  },
+  tabStyle: {
+    "& .MuiTab-root": {
+      fontSize: "0.750rem",
+    },
   },
 }));
 
@@ -46,14 +51,35 @@ function TabPanel(props) {
   );
 }
 
+const findDefaultTab = (status, canViewEnrolled) => {
+  if (status == null) {
+    return 0;
+  } else {
+    if (status === APPLICATION_STATUS.NEW) {
+      return 0;
+    } else if (status === APPLICATION_STATUS.PROPOSED) {
+      return 1;
+    } else if (status === APPLICATION_STATUS.ENROLLED) {
+      if (canViewEnrolled) {
+        return 2;
+      }
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+};
+
 export default function TabComponent(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
   let status = props.studentFound ? props.studentFound.status : null;
+  const ability = useContext(AbilityContext);
+  const [value, setValue] = React.useState(
+    findDefaultTab(status, ability.can("view", "enrolled"))
+  );
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const ability = useContext(AbilityContext);
 
   return (
     <div className={classes.root}>
@@ -62,22 +88,23 @@ export default function TabComponent(props) {
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          classes={{ root: classes.tabStyle }}
         >
           <Tab label="Prospectus" {...a11yProps(0)} />
           <Tab
             label="Proposal"
             {...a11yProps(1)}
-            // disabled={status === STATUS.NEW || status === null}
+            disabled={status === APPLICATION_STATUS.NEW || status === null}
           />
-          {ability.can("view", "travelled") && (
+          {ability.can("view", "enrolled") && (
             <Tab
-              label="Travelled"
+              label="Enrolled"
               {...a11yProps(2)}
-              // disabled={
-              //   status === STATUS.NEW ||
-              //   status === STATUS.PROPOSED ||
-              //   status === null
-              // }
+              disabled={
+                status === APPLICATION_STATUS.NEW ||
+                status === APPLICATION_STATUS.PROPOSED ||
+                status === null
+              }
             />
           )}
         </Tabs>
@@ -86,10 +113,10 @@ export default function TabComponent(props) {
         <ProspectusComponent {...props} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProposalComponent />
+        <ProposalComponent {...props} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TravelledComponent />
+        <EnrolledComponent {...props} />
       </TabPanel>
     </div>
   );

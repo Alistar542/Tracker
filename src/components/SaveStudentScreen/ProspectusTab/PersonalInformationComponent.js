@@ -14,19 +14,22 @@ import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
   personalInfoDiv: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "stretch",
   },
   formControlSelect: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0, 1),
     width: 200,
+  },
+  outerDiv: {
+    margin: theme.spacing(2, 0),
   },
 }));
 
-export function PersonalInformationComponent({
+export default function PersonalInformationComponent({
   touched,
   errors,
   values,
@@ -36,8 +39,8 @@ export function PersonalInformationComponent({
   const classes = useStyles();
   console.log("rendering PersonalInfoComponent");
   return (
-    <div>
-      <Typography component={"span"} variant="h6">
+    <div className={classes.outerDiv}>
+      <Typography component={"span"} variant="h7">
         Personal Information
       </Typography>
       <div className={classes.personalInfoDiv}>
@@ -95,7 +98,6 @@ export function PersonalInformationComponent({
         />
 
         <TextField
-          required
           id="additionalPhNo"
           error={errors.additionalPhNo && touched.additionalPhNo}
           label="Addl. Phone"

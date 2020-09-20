@@ -17,8 +17,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FaceRoundedIcon from "@material-ui/icons/FaceRounded";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { UserComponent } from "../SaveUserScreen/UserComponent";
+import { Route, Switch } from "react-router-dom";
+//import { UserComponent } from "../SaveUserScreen/UserComponent";
 import { FetchUserComponent } from "../FindUsersScreen/FetchUserComponent";
 import { HomeComponent } from "../HomeScreen/HomeComponent";
 import SearchIcon from "@material-ui/icons/Search";
@@ -30,7 +30,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import { AuthContext } from "../LoginScreen/context/auth";
-import RestorePageRoundedIcon from "@material-ui/icons/RestorePageRounded";
 import StudentHistoryComponent from "../StudentHistory/StudentHistoryComponent";
 import DashboardRoundedIcon from "@material-ui/icons/DashboardRounded";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -218,12 +217,25 @@ export default function MiniDrawer() {
             </ListItem>
           </Tooltip>
 
-          <Tooltip title="Add New Student" arrow>
+          {/* <Tooltip title="Add New Student" arrow>
             <ListItem button key="addStudent" component={Link} to="/home/add">
               <ListItemIcon>
                 <FaceRoundedIcon />
               </ListItemIcon>
               <ListItemText primary="Add Student" />
+            </ListItem>
+          </Tooltip> */}
+          <Tooltip title="Save Student" arrow>
+            <ListItem
+              button
+              key="saveStudent"
+              component={Link}
+              to="/home/saveStudent"
+            >
+              <ListItemIcon>
+                <FaceRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Save Student" />
             </ListItem>
           </Tooltip>
 
@@ -251,19 +263,6 @@ export default function MiniDrawer() {
                 <TimelineIcon />
               </ListItemIcon>
               <ListItemText primary="Student History" />
-            </ListItem>
-          </Tooltip>
-          <Tooltip title="Save Student" arrow>
-            <ListItem
-              button
-              key="saveStudent"
-              component={Link}
-              to="/home/saveStudent"
-            >
-              <ListItemIcon>
-                <AddRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Save Student" />
             </ListItem>
           </Tooltip>
         </List>
@@ -296,9 +295,9 @@ export default function MiniDrawer() {
           <Route exact path={"/home"}>
             <HomeComponent />
           </Route>
-          <Route exact path={"/home/add"}>
+          {/* <Route exact path={"/home/add"}>
             <UserComponent />
-          </Route>
+          </Route> */}
           <Route exact path={"/home/fetchusercomponent"}>
             <FetchUserComponent />
           </Route>

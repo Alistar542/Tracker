@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import TabComponent from "./TabComponent";
 import SummaryPanelComponent from "./SummaryPanel/SummaryPanelComponent";
 import { useLocation } from "react-router";
-import { findCountries } from "../../actions/commonactions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,17 +26,6 @@ export default function SaveStudentComponent(props) {
   const updateStudentFoundForSummary = (student) => {
     setStudentFoundForSummary({ studentFound: student });
   };
-  const [countries, setCountries] = React.useState([]);
-
-  useEffect(() => {
-    findCountries()
-      .then((res) => {
-        setCountries(res.data);
-      })
-      .catch((err) => {
-        console.log("Error while finding Countries " + err);
-      });
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -52,7 +40,6 @@ export default function SaveStudentComponent(props) {
           studentFound={
             studentFoundForSummary && studentFoundForSummary.studentFound
           }
-          countries={countries}
         />
       </Paper>
     </div>

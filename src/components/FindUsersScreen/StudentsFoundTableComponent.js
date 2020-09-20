@@ -12,18 +12,19 @@ import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import { green, cyan, red, indigo } from "@material-ui/core/colors";
 import clsx from "clsx";
-import { STATUS, STATUS_DESCRIPTION } from "../../constants";
+import {
+  APPLICATION_STATUS,
+  APPLICATION_STATUS_DESC,
+  PRIORITY,
+} from "../../constants";
 import TablePaginationActions from "../Common/TablePaginationActions";
 import Tooltip from "@material-ui/core/Tooltip";
 import TablePagination from "@material-ui/core/TablePagination";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
-  },
+  root: {},
   tableContainer: {
-    borderRadius: "6px",
-    maxHeight: "670px",
+    height: `calc(100vh - 300px)`,
   },
   table: {
     minWidth: 650,
@@ -84,7 +85,7 @@ export function StudentsFoundTableComponent(props) {
                   <TableCell align="left">Student Id</TableCell>
                   <TableCell>Student Name</TableCell>
                   <TableCell align="left">Phone Number</TableCell>
-                  <TableCell align="left">Course Interested</TableCell>
+                  <TableCell align="left">Priority</TableCell>
                   <TableCell align="center">Status</TableCell>
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
@@ -103,19 +104,24 @@ export function StudentsFoundTableComponent(props) {
                       {row.firstName.capitalize()} {row.lastName}
                     </TableCell>
                     <TableCell align="left">{row.phoneNumber}</TableCell>
-                    <TableCell align="left">{row.courseInterested}</TableCell>
+                    <TableCell align="left">{PRIORITY[row.priority]}</TableCell>
                     <TableCell align="center">
-                      <Tooltip title={STATUS_DESCRIPTION[row.status]} arrow>
+                      <Tooltip
+                        title={APPLICATION_STATUS_DESC[row.status]}
+                        arrow
+                      >
                         <Chip
                           className={clsx(classes.statusChip, {
-                            [classes.newStatus]: row.status === STATUS.NEW,
-                            [classes.doneStatus]: row.status === STATUS.DONE,
+                            [classes.newStatus]:
+                              row.status === APPLICATION_STATUS.NEW,
+                            [classes.doneStatus]:
+                              row.status === APPLICATION_STATUS.ENROLLED,
                             [classes.rejectedStatus]:
-                              row.status === STATUS.REJECTED,
+                              row.status === APPLICATION_STATUS.CANCELLED,
                             [classes.proposedStatus]:
-                              row.status === STATUS.PROPOSED,
+                              row.status === APPLICATION_STATUS.PROPOSED,
                           })}
-                          label={STATUS_DESCRIPTION[row.status]}
+                          label={APPLICATION_STATUS_DESC[row.status]}
                         />
                       </Tooltip>
                     </TableCell>
@@ -134,7 +140,7 @@ export function StudentsFoundTableComponent(props) {
                   </TableRow>
                 ))}
                 {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableRow style={{ height: 60 * emptyRows }}>
                     <TableCell colSpan={7} />
                   </TableRow>
                 )}
