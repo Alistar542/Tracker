@@ -7,7 +7,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
-//import {useAuth} from '../LoginScreen/context/auth';
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,7 +17,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
 import ExportAsExcelComponent from "./ExportAsExcelComponent";
 import { teal } from "@material-ui/core/colors";
 import { APPLICATION_STATUS_ARRAY } from "../../constants";
@@ -148,6 +146,9 @@ export function FilterComponent(props) {
     setStatus();
     setFirstName("");
     setPhoneNumber("");
+    setCreationFromDate(null);
+    setCreationToDate(null);
+    setStudentId("");
     props.clearValues();
   };
 
@@ -161,6 +162,15 @@ export function FilterComponent(props) {
           onSubmit={handleSubmitForFetching}
         >
           <CardContent className={classes.cardContentDiv}>
+            <TextField
+              id="standard"
+              label="Student Id"
+              name="studentId"
+              variant="outlined"
+              margin="dense"
+              value={studentId}
+              onChange={handleStudentIdChange}
+            />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -281,15 +291,7 @@ export function FilterComponent(props) {
                 value={phoneNumber}
                 onChange={handlePhoneNumber}
               />
-              <TextField
-                id="standard"
-                label="Student Id"
-                name="studentId"
-                variant="outlined"
-                margin="dense"
-                value={studentId}
-                onChange={handleStudentIdChange}
-              />
+
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
