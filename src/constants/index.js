@@ -36,6 +36,7 @@ export const OPERATION_FLAG_DESC = {
   I: "Created",
   U: "Updated",
   D: "Deleted",
+  S: "Status Change",
 };
 
 export const USER_TYPE = {
