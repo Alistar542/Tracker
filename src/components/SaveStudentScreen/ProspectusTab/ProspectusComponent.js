@@ -376,7 +376,12 @@ export const ProspectusComponent = (props) => {
           setSuccessOrFail(true);
           setSubmitted(true);
           setSubmitting(true);
-          updateStudentFoundForSummary(userObject);
+          let saveData = {
+            ...userObject,
+            proposalInfo: studentFound.proposalInfo,
+            enrolledInfo: studentFound.enrolledInfo,
+          };
+          updateStudentFoundForSummary(saveData);
           setBackDropState(false);
         })
         .catch((err) => {

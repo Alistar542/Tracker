@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     backgroundPosition: "center",
     background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+    display: "flex",
   },
   buttonProgress: {
     color: green[500],
@@ -78,10 +79,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(10),
   },
   innerDiv: {
-    marginTop: "10%",
-    marginBottom: "10%",
     display: "flex",
     flexDirection: "row",
+    marginTop: theme.spacing(5),
+    height: "70%",
+    width: "30%",
   },
   innerFormDiv: {
     margin: theme.spacing(8, 4),
@@ -124,71 +126,70 @@ export default function LoginComponent() {
   }
 
   return (
-    // <div className={classes.back}>
-    <Grid container component="main" className={classes.back}>
-      <Container className={classes.innerDiv}>
-        <Grid item xs={false} sm={4} md={7} className={classes.back_img} />
-        <Grid item xs={12} sm={8} md={5} component={Paper} square>
-          {/* <Paper className={classes.containerDiv}> */}
-          {/* <div className={classes.back_img} /> */}
-          <div className={classes.innerFormDiv}>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form
-              className={classes.root}
-              autoComplete="off"
-              onSubmit={handleSubmit}
-            >
-              <TextField
-                required
-                fullWidth
-                id="outlined-required"
-                label="Username"
-                name="userName"
-                variant="outlined"
-                margin="normal"
-                error={error ? true : false}
-                helperText={error ? "Incorrect username or password" : ""}
-              />
+    <div className={classes.back}>
+      {/* <Grid container component="main" className={classes.back}> */}
+      <Container component={Paper} className={classes.innerDiv}>
+        {/* <Grid item xs={12} sm={8} md={5} component={Paper} square> */}
+        {/* <Paper className={classes.containerDiv}> */}
+        {/* <div className={classes.back_img} /> */}
+        <Container className={classes.innerFormDiv}>
+          <Typography component="h1" variant="h5">
+            Student Tracker
+          </Typography>
+          <form
+            className={classes.root}
+            autoComplete="off"
+            onSubmit={handleSubmit}
+          >
+            <TextField
+              required
+              fullWidth
+              id="outlined-required"
+              label="Username"
+              name="userName"
+              variant="outlined"
+              margin="normal"
+              error={error ? true : false}
+              helperText={error ? "Incorrect username or password" : ""}
+            />
 
-              <TextField
-                required
+            <TextField
+              required
+              fullWidth
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              variant="outlined"
+              margin="normal"
+            />
+            <br></br>
+            <div className={classes.wrapper}>
+              <Button
                 fullWidth
-                id="outlined-password-input"
-                label="Password"
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                variant="outlined"
-                margin="normal"
-              />
-              <br></br>
-              <div className={classes.wrapper}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  className={classes.submit}
-                  color="primary"
-                  disabled={loading}
-                  type="submit"
-                >
-                  {" "}
-                  LOGIN{" "}
-                </Button>
-                {loading && (
-                  <CircularProgress
-                    size={24}
-                    className={classes.buttonProgress}
-                  />
-                )}
-              </div>
-            </form>
-          </div>
-        </Grid>
+                variant="contained"
+                className={classes.submit}
+                color="primary"
+                disabled={loading}
+                type="submit"
+              >
+                {" "}
+                LOGIN{" "}
+              </Button>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
+            </div>
+          </form>
+        </Container>
+        {/* </Grid> */}
         {/* </Paper> */}
       </Container>
-    </Grid>
-    // </div>
+      {/* </Grid> */}
+    </div>
   );
 }
