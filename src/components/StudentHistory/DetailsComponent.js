@@ -12,12 +12,9 @@ import TablePaginationActions from "../Common/TablePaginationActions";
 import TablePagination from "@material-ui/core/TablePagination";
 
 const useStyles = makeStyles({
-  root: {
-    boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
-  },
+  root: {},
   tableContainer: {
-    borderRadius: "6px",
-    maxHeight: "670px",
+    height: `calc(100vh - 300px)`,
   },
   table: {
     minWidth: 650,
@@ -90,7 +87,7 @@ export default function DetailsComponent(props) {
                   </TableRow>
                 ))}
                 {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableRow style={{ height: 60 * emptyRows }}>
                     <TableCell colSpan={7} />
                   </TableRow>
                 )}

@@ -11,7 +11,7 @@ import { UserComponent } from "../SaveUserScreen/UserComponent";
 import { FetchUserComponent } from "../FindUsersScreen/FetchUserComponent";
 import StudentHistoryComponent from "../StudentHistory/StudentHistoryComponent";
 import { Route, Switch } from "react-router-dom";
-import blue from "@material-ui/core/colors/blue";
+import grey from "@material-ui/core/colors/grey";
 import cyan from "@material-ui/core/colors/cyan";
 import amber from "@material-ui/core/colors/amber";
 
@@ -24,16 +24,16 @@ const useStyles = makeStyles((theme) => ({
   },
   cardComponent: {
     width: "25%",
-    height: "50%",
+    height: "30%",
     margin: "20px",
-    minHeight: "300px",
+    minHeight: "200px",
     flexGrow: 1,
   },
   cardContent: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "60px",
+    padding: "40px",
   },
 }));
 
@@ -44,12 +44,12 @@ export function HomeComponent() {
       <Card
         key="addStudent"
         component={Link}
-        to="/home/add"
+        to="/home/saveStudent"
         className={classes.cardComponent}
-        style={{ backgroundColor: blue[500], color: "white" }}
+        style={{ color: grey[800] }}
       >
         <CardContent className={classes.cardContent}>
-          <AddRoundedIcon style={{ fontSize: 100 }} />
+          <AddRoundedIcon style={{ fontSize: 60 }} />
           <Typography variant="h5" component="h2">
             Add a Student
           </Typography>
@@ -60,10 +60,10 @@ export function HomeComponent() {
         component={Link}
         to="/home/fetchusercomponent"
         className={classes.cardComponent}
-        style={{ backgroundColor: cyan[500], color: "white" }}
+        style={{ color: grey[800] }}
       >
         <CardContent className={classes.cardContent}>
-          <SearchIcon style={{ fontSize: 100 }} />
+          <SearchIcon style={{ fontSize: 60 }} />
           <Typography variant="h5" component="h2">
             Find Students
           </Typography>
@@ -74,10 +74,10 @@ export function HomeComponent() {
         component={Link}
         to="/home/studentHistory"
         className={classes.cardComponent}
-        style={{ backgroundColor: amber[900], color: "white" }}
+        style={{ color: grey[800] }}
       >
         <CardContent className={classes.cardContent}>
-          <RestorePageRoundedIcon style={{ fontSize: 100 }} />
+          <RestorePageRoundedIcon style={{ fontSize: 60 }} />
           <Typography variant="h5" component="h2">
             Student History
           </Typography>
