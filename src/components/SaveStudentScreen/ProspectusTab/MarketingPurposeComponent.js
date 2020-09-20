@@ -83,9 +83,9 @@ export default function MarketingPurposeComponent(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value="high">High</MenuItem>
-            <MenuItem value="medium">Medium</MenuItem>
-            <MenuItem value="low">Low</MenuItem>
+            <MenuItem value="H">High</MenuItem>
+            <MenuItem value="M">Medium</MenuItem>
+            <MenuItem value="L">Low</MenuItem>
           </Select>
         </FormControl>
       </div>

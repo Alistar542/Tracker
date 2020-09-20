@@ -45,7 +45,7 @@ export const USER_TYPE = {
 
 export const APPLICATION_STATUS = {
   NEW: "N",
-  POSTPONED: "O",
+  POSTPONED: "X",
   PROPOSED: "P",
   ENROLLED: "E",
   CANCELLED: "C",
@@ -87,3 +87,11 @@ export const APPLCTN_STS_ARRY_PROSPECTUS = [
 export const APPLCTN_STS_ARRY_ENROLLED = [{ status: "Cancelled", value: "C" }];
 
 export const CURRENCY = ["USD", "CAD", "NZD", "AUD", "GBP", "EUR"];
+
+export const PRIORITY = { H: "High", M: "Medium", L: "Low" };
+
+export const PRIORITY_ARRAY = [
+  { priority: "High", value: "H" },
+  { priority: "Medium", value: "M" },
+  { priority: "Low", value: "L" },
+];

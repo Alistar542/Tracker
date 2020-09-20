@@ -21,7 +21,7 @@ import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import ExportAsExcelComponent from "./ExportAsExcelComponent";
 import { teal } from "@material-ui/core/colors";
-import { STATUS } from "../../constants";
+import { APPLICATION_STATUS_ARRAY } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   buttonStyle: {
@@ -54,13 +54,9 @@ const useStyles = makeStyles((theme) => ({
   },
   formControlSelect: {
     minWidth: 200,
-    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
-  cardComponent: {
-    borderWidth: "1px",
-    borderRadius: "6px",
-    boxShadow: "0 1px 15px rgba(27,31,35,.15),0 0 1px rgba(106,115,125,.35)",
-  },
+  cardComponent: {},
   selectField: {
     height: 40,
   },
@@ -82,11 +78,14 @@ const useStyles = makeStyles((theme) => ({
 export function FilterComponent(props) {
   const classes = useStyles();
   const [dateToFetch, setSelectedDateToFetch] = React.useState(null);
-  const [status, setStatus] = React.useState(STATUS.NEW);
+  const [status, setStatus] = React.useState(APPLICATION_STATUS_ARRAY[0].value);
   const [firstName, setFirstName] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [priority, setPriority] = React.useState("");
+  const [studentId, setStudentId] = React.useState("");
+  const [creationFromDate, setCreationFromDate] = React.useState(null);
+  const [creationToDate, setCreationToDate] = React.useState(null);
 
   const handleDateChangeToFetch = (date) => {
     if (date) {
@@ -116,6 +115,18 @@ export function FilterComponent(props) {
     setExpanded(!expanded);
   };
 
+  const handleStudentIdChange = (event) => {
+    setStudentId(event.target.value);
+  };
+
+  const handleCreatedFromDate = (date) => {
+    setCreationFromDate(date);
+  };
+
+  const handleCreatedToDate = (date) => {
+    setCreationToDate(date);
+  };
+
   const handleSubmitForFetching = (event) => {
     event.preventDefault();
     const fetchObject = {
@@ -125,6 +136,9 @@ export function FilterComponent(props) {
       currentUser: "admin",
       firstName: firstName,
       phoneNumber: phoneNumber,
+      studentId: studentId,
+      creationFromDate: creationFromDate,
+      creationToDate: creationToDate,
     };
     props.handleSubmitForFetching(fetchObject);
   };
@@ -181,10 +195,13 @@ export function FilterComponent(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="N">New</MenuItem>
-                <MenuItem value="P">Proposed</MenuItem>
-                <MenuItem value="D">Done</MenuItem>
-                <MenuItem value="R">Rejected</MenuItem>
+                {APPLICATION_STATUS_ARRAY.map((applicationStatus) => {
+                  return (
+                    <MenuItem value={applicationStatus.value}>
+                      {applicationStatus.status}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
             <FormControl
@@ -230,21 +247,7 @@ export function FilterComponent(props) {
                 studentsFound={props.studentsFound}
               ></ExportAsExcelComponent>
             ) : (
-              <span>
-                -- OR --
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.createButtonStyle}
-                  component={Link}
-                  to={{
-                    pathname: "/home/add",
-                    state: { studentFound: null },
-                  }}
-                >
-                  Create New Student
-                </Button>
-              </span>
+              ""
             )}
             <IconButton
               className={clsx(classes.expand, {
@@ -261,7 +264,7 @@ export function FilterComponent(props) {
             <CardContent className={classes.cardContentDiv}>
               <TextField
                 id="standard"
-                label="Stundent Name"
+                label="Student Name"
                 name="firstName"
                 variant="outlined"
                 margin="dense"
@@ -278,6 +281,49 @@ export function FilterComponent(props) {
                 value={phoneNumber}
                 onChange={handlePhoneNumber}
               />
+              <TextField
+                id="standard"
+                label="Student Id"
+                name="studentId"
+                variant="outlined"
+                margin="dense"
+                value={studentId}
+                onChange={handleStudentIdChange}
+              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  autoOk
+                  variant="inline"
+                  inputVariant="outlined"
+                  format="dd/MM/yyyy"
+                  margin="dense"
+                  id="date-picker-inline"
+                  label="Created From Date"
+                  value={creationFromDate}
+                  onChange={handleCreatedFromDate}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  autoOk
+                  variant="inline"
+                  inputVariant="outlined"
+                  format="dd/MM/yyyy"
+                  margin="dense"
+                  id="date-picker-inline"
+                  label="Created To Date"
+                  value={creationToDate}
+                  onChange={handleCreatedToDate}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
             </CardContent>
           </Collapse>
         </form>

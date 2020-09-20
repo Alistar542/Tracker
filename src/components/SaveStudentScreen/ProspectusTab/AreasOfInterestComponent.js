@@ -42,7 +42,7 @@ export default function AreasOfInterestComponent(props) {
   return (
     <div className={classes.outerDiv}>
       <Typography component={"span"} variant="h7">
-        Areas of Interest
+        Interested Courses
       </Typography>
       <FieldArray name="requestedCourseDetails">
         {({ push, remove }) => (

@@ -49,33 +49,37 @@ export default function WorkExperienceComponent(props) {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             autoOk
-            variant="inline"
-            format="dd/MM/yyyy"
-            margin="normal"
-            id="endDate"
-            name="endDate"
-            label="End Date"
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-            value={formik.values.endDate}
-            onChange={(value) => formik.setFieldValue("endDate", value)}
-          />
-        </MuiPickersUtilsProvider>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            autoOk
+            openTo="year"
             variant="inline"
             format="dd/MM/yyyy"
             margin="normal"
             id="startDate"
             name="startDate"
             label="Start Date"
+            views={["year", "month", "date"]}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
             value={formik.values.startDate}
             onChange={(value) => formik.setFieldValue("startDate", value)}
+          />
+        </MuiPickersUtilsProvider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            autoOk
+            openTo="year"
+            variant="inline"
+            format="dd/MM/yyyy"
+            margin="normal"
+            id="endDate"
+            name="endDate"
+            label="End Date"
+            views={["year", "month", "date"]}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+            value={formik.values.endDate}
+            onChange={(value) => formik.setFieldValue("endDate", value)}
           />
         </MuiPickersUtilsProvider>
 

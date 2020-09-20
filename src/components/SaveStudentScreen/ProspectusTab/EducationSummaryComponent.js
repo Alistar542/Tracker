@@ -57,6 +57,8 @@ export default function EducationSummaryComponent(props) {
             <MenuItem value={"sslc"}>SSLC</MenuItem>
             <MenuItem value={"higherSecondary"}>Higher Secondary</MenuItem>
             <MenuItem value={"diploma"}>Diploma</MenuItem>
+            <MenuItem value={"btech"}>B Tech</MenuItem>
+            <MenuItem value={"degree"}>Degree</MenuItem>
           </Select>
         </FormControl>
 
