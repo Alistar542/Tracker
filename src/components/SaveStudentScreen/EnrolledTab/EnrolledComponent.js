@@ -123,11 +123,11 @@ export default function EnrolledComponent(props) {
   const handleMenuItemClick = (value, index) => {
     setOpen(false);
     setBackDropState(true);
-    let proposalInfo = { ...studentFound };
-    proposalInfo.status = value;
-    updateStatusOfStudent(proposalInfo, currentUser)
+    let enrolledInfo = { ...studentFound };
+    enrolledInfo.status = value;
+    updateStatusOfStudent(enrolledInfo, currentUser)
       .then((res) => {
-        updateStudentFoundForSummary(proposalInfo);
+        updateStudentFoundForSummary(enrolledInfo);
       })
       .catch((err) => {})
       .finally(() => setBackDropState(false));
@@ -165,6 +165,8 @@ export default function EnrolledComponent(props) {
           setBackDropState(true);
           let enrolledInfo = {
             ...values,
+            toDoRemarks: toDoRemarks,
+            followUpRemarks: followUpRemarks,
           };
           let saveData = { ...studentFound };
           saveData.enrolledInfo = enrolledInfo;

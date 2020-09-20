@@ -57,13 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const validateMandatoryData = (applicationDtl) => {
-  if (applicationDtl.length <= 0) {
-    return false;
-  }
-  return true;
-};
-
 const initialValues = {
   visaApplnStatus: "",
   visaStatus: "",
