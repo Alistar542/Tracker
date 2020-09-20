@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "53px",
     marginTop: "auto",
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 }));
 
 const initialValues = {
@@ -59,7 +63,9 @@ const initialValues = {
   currency: "",
   operationFlag: OPERATION_FLAG.INSERT,
 };
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+  annualTutionFees: Yup.string().required("Required"),
+});
 
 export default function EnrolledComponent(props) {
   const classes = useStyles();
