@@ -24,6 +24,7 @@ export const URL = {
   FIND_COUNTRIES: "https://restcountries.eu/rest/v2/all?fields=name",
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
   SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
+  CREATE_NEW_USER: "http://localhost:5000/student/create",
 };
 
 export const OPERATION_FLAG = {
