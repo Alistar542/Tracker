@@ -40,6 +40,8 @@ import {
   updateStudent,
   saveStudent,
   updateStatusOfStudent,
+  validatePhoneNumber,
+  validateEmail,
 } from "../../../actions/studentactions";
 import { AuthContext } from "../../LoginScreen/context/auth";
 import SnackbarCommon from "../../Common/SnackbarCommon";
@@ -200,6 +202,50 @@ export const ProspectusComponent = (props) => {
     enrolledInfo: null,
   };
 
+  const validatePhoneNumberOnBlur = (value) => {
+    return new Promise((resolve, reject) => {
+      if (typeof studentFound != "undefined") {
+        resolve(true);
+      }
+      validatePhoneNumber({ phoneNumber: value }, currentUser)
+        .then((res) => {
+          if (res.data.length > 0) {
+            console.log("FOUND phone");
+            resolve(false);
+          } else {
+            console.log("NOT FOUND phone");
+            resolve(true);
+          }
+        })
+        .catch((err) => {
+          console.log("ERR" + err);
+          resolve(true);
+        });
+    });
+  };
+
+  const validateEmailOnBlur = (value) => {
+    return new Promise((resolve, reject) => {
+      if (typeof studentFound != "undefined") {
+        resolve(true);
+      }
+      validateEmail({ email: value }, currentUser)
+        .then((res) => {
+          if (res.data.length > 0) {
+            console.log("FOUND email");
+            resolve(false);
+          } else {
+            console.log("NOT FOUND email");
+            resolve(true);
+          }
+        })
+        .catch((err) => {
+          console.log("ERR" + err);
+          resolve(true);
+        });
+    });
+  };
+
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .max(15, "Must be 15 characters or less")
@@ -218,8 +264,17 @@ export const ProspectusComponent = (props) => {
         message: "Only alphabetic characters allowed",
       })
       .required("Required"),
-    email: Yup.string().email("Invalid email address").required("Required"),
-    phoneNumber: Yup.string().required("Required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Required")
+      .test("phoneNumber", "Email already in use", function (value) {
+        return validateEmailOnBlur(value);
+      }),
+    phoneNumber: Yup.string()
+      .required("Required")
+      .test("phoneNumber", "Phone Number already in use", function (value) {
+        return validatePhoneNumberOnBlur(value);
+      }),
     requestedCourseDetails: Yup.array().of(
       Yup.object().shape({
         requestedCourse: Yup.string().required("Requested Course is required"),
@@ -503,7 +558,8 @@ export const ProspectusComponent = (props) => {
         onSubmit={(values, { setSubmitting, resetForm }) => {
           onFinalSubmit(values, setSubmitting, resetForm);
         }}
-        validateOnBlur={false}
+        validateOnBlur={true}
+        validateOnChange={false}
       >
         {(formik) => (
           <form autoComplete="off" onSubmit={formik.handleSubmit}>
