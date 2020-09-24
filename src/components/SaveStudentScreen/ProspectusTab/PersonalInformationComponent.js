@@ -87,7 +87,7 @@ export default function PersonalInformationComponent({
 
         <TextField
           required
-          id="ohoneNumber"
+          id="phoneNumber"
           error={errors.phoneNumber && touched.phoneNumber}
           label="Phone"
           name="phoneNumber"
@@ -152,7 +152,7 @@ export default function PersonalInformationComponent({
             {...getFieldProps("maritalStatus")}
           >
             <MenuItem value={"M"}>Married</MenuItem>
-            <MenuItem value={"F"}>Un-Married</MenuItem>
+            <MenuItem value={"U"}>Un-Married</MenuItem>
           </Select>
         </FormControl>
 
