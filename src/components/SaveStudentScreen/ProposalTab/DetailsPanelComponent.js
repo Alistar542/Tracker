@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import VisaDetailsComponent from "./VisaDetailsComponent";
 import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
+import ProspectusSummaryComponent from "../Common/ProspectusSummaryComponent";
 
 const useStyles = makeStyles((theme) => ({
   detailsPanelDiv: {
@@ -16,8 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mainDetailsDiv: {
     display: "flex",
-    flexDirection: "row",
-    minHeight: "100px",
+    flexDirection: "column",
     overflow: "auto",
   },
   applicationDetailsDiv: {
@@ -43,6 +43,7 @@ export default function DetailsPanelComponent(props) {
     setApplicationDtl,
     followUpRemarks,
     toDoRemarks,
+    studentFound,
   } = props;
   const [openApplicationDtlPopup, setOpenApplicationDtlPopup] = React.useState(
     false
@@ -95,6 +96,7 @@ export default function DetailsPanelComponent(props) {
         deleteApplication={deleteApplication}
       />
       <div className={classes.mainDetailsDiv}>
+        <ProspectusSummaryComponent studentFound={studentFound} />
         <VisaDetailsComponent formik={formik} />
       </div>
       <Divider />
@@ -106,7 +108,7 @@ export default function DetailsPanelComponent(props) {
             onClick={() => openCaptureApplicationDetailsPopup(true)}
             className={classes.captureApplicationBtn}
           >
-            Capture Application Details
+            Add Course Details
           </Button>
         </div>
         <div className={classes.applicationBottomDiv}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,10 @@ import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { USER_TYPE } from "../../constants";
+import { AuthContext } from "../LoginScreen/context/auth";
+import { createNewUser } from "../../actions/useractions";
+import * as Yup from "yup";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   userSettingsDiv: {
@@ -19,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 200,
     },
-    alignItems: "center",
     flexWrap: "wrap",
   },
   formDiv: {
@@ -30,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   rootPaper: {
-    borderWidth: "1px",
-    borderColor: "black",
-    borderStyle: "solid",
+    //borderWidth: "1px",
+    //borderColor: "black",
+    //borderStyle: "solid",
     padding: theme.spacing(2),
   },
   firstDiv: {
@@ -42,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   secondDiv: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "flex-start",
   },
   actionButtonDiv: {
     display: "flex",
@@ -56,12 +60,21 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   userName: "",
   password: "",
+  companyCode: "",
   userType: "",
   userStatus: "A",
 };
+const validationSchema = Yup.object().shape({
+  userName: Yup.string().required("Required"),
+  password: Yup.string().required("Required"),
+  companyCode: Yup.string().required("Required"),
+  userType: Yup.string().required("Required"),
+  userStatus: Yup.string().required("Required"),
+});
 
 export default function UserSettingsComponent() {
   const classes = useStyles();
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <div>
@@ -69,8 +82,15 @@ export default function UserSettingsComponent() {
         <Typography component={"span"}>Create a new user</Typography>
         <Formik
           initialValues={initialValues}
-          onSubmit={(values) => {
+          validationSchema={validationSchema}
+          onSubmit={(values, { resetForm }) => {
             console.log(JSON.stringify(values, null, 2));
+            createNewUser({ ...values }, currentUser)
+              .then((res) => {
+                console.log("Success");
+                resetForm(initialValues);
+              })
+              .catch((err) => {});
           }}
         >
           {(formik) => (
@@ -88,6 +108,12 @@ export default function UserSettingsComponent() {
                     name="userName"
                     variant="outlined"
                     margin="dense"
+                    error={formik.errors.userName && formik.touched.userName}
+                    helperText={
+                      formik.errors.userName &&
+                      formik.touched.userName &&
+                      formik.errors.userName
+                    }
                     {...formik.getFieldProps("userName")}
                   />
                   <TextField
@@ -97,11 +123,38 @@ export default function UserSettingsComponent() {
                     type="password"
                     variant="outlined"
                     margin="dense"
+                    error={formik.errors.password && formik.touched.password}
+                    helperText={
+                      formik.errors.password &&
+                      formik.touched.password &&
+                      formik.errors.password
+                    }
                     {...formik.getFieldProps("password")}
+                  />
+                  <TextField
+                    id="standard"
+                    label="Company"
+                    name="companyCode"
+                    variant="outlined"
+                    margin="dense"
+                    error={
+                      formik.errors.companyCode && formik.touched.companyCode
+                    }
+                    helperText={
+                      formik.errors.companyCode &&
+                      formik.touched.companyCode &&
+                      formik.errors.companyCode
+                    }
+                    {...formik.getFieldProps("companyCode")}
                   />
                 </div>
                 <div className={classes.secondDiv}>
-                  <FormControl margin="dense" variant="outlined">
+                  <FormControl
+                    margin="dense"
+                    variant="outlined"
+                    className={classes.userTypeSelect}
+                    error={formik.errors.userType && formik.touched.userType}
+                  >
                     <InputLabel id="demo-simple-select-label">
                       User Type
                     </InputLabel>
@@ -112,7 +165,6 @@ export default function UserSettingsComponent() {
                       label="User Type"
                       variant="outlined"
                       margin="dense"
-                      className={classes.userTypeSelect}
                       {...formik.getFieldProps("userType")}
                     >
                       <MenuItem value={USER_TYPE.ADMINISTRATOR}>
@@ -120,8 +172,17 @@ export default function UserSettingsComponent() {
                       </MenuItem>
                       <MenuItem value={USER_TYPE.EMPLOYEE}>EMPLOYEE</MenuItem>
                     </Select>
+                    <FormHelperText>
+                      {formik.errors.userType &&
+                        formik.touched.userType &&
+                        formik.errors.userType}
+                    </FormHelperText>
                   </FormControl>
-                  <FormControl margin="dense" variant="outlined">
+                  <FormControl
+                    margin="dense"
+                    variant="outlined"
+                    className={classes.userTypeSelect}
+                  >
                     <InputLabel id="demo-simple-select-label">
                       Status
                     </InputLabel>
@@ -132,7 +193,14 @@ export default function UserSettingsComponent() {
                       label="User Status"
                       variant="outlined"
                       margin="dense"
-                      className={classes.userTypeSelect}
+                      error={
+                        formik.errors.userStatus && formik.touched.userStatus
+                      }
+                      helperText={
+                        formik.errors.userStatus &&
+                        formik.touched.userStatus &&
+                        formik.errors.userStatus
+                      }
                       {...formik.getFieldProps("userStatus")}
                     >
                       <MenuItem value={"A"}>ACTIVE</MenuItem>
