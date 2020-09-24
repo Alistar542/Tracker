@@ -228,6 +228,7 @@ export default function ProposalComponent(props) {
                 applicationDtl={applicationDtl}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                studentFound={studentFound}
               />
             </div>
             <div className={classes.bottomBar}>

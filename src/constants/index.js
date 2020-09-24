@@ -56,7 +56,7 @@ export const APPLICATION_STATUS = {
 };
 
 export const APPLICATION_STATUS_DESC = {
-  N: "New",
+  N: "Prospectus",
   X: "Postponed",
   P: "Proposed",
   E: "Enrolled",
@@ -64,7 +64,7 @@ export const APPLICATION_STATUS_DESC = {
 };
 
 export const APPLICATION_STATUS_ARRAY = [
-  { status: "New", value: "N" },
+  { status: "Prospectus", value: "N" },
   { status: "Postponed", value: "X" },
   { status: "Proposed", value: "P" },
   { status: "Enrolled", value: "E" },
@@ -98,4 +98,30 @@ export const PRIORITY_ARRAY = [
   { priority: "High", value: "H" },
   { priority: "Medium", value: "M" },
   { priority: "Low", value: "L" },
+];
+
+export const GENDER = {
+  M: "Male",
+  F: "Female",
+  O: "Other",
+};
+
+export const MARITAL_STATUS = {
+  M: "Married",
+  U: "Un Married",
+};
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];

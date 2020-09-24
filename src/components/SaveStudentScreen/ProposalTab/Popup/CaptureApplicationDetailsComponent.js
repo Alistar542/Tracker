@@ -125,9 +125,7 @@ export default function CaptureApplicationDetailsComponent(props) {
         maxWidth="md"
       >
         <DialogTitle id="form-dialog-title">
-          {isUpdate
-            ? "View Application Details"
-            : "Capture Application Details"}
+          {isUpdate ? "View Course Details" : "Add Course Details"}
         </DialogTitle>
 
         <Formik
