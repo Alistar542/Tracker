@@ -15,6 +15,7 @@ import Divider from "@material-ui/core/Divider";
 import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
 import ProspectusSummaryComponent from "../Common/ProspectusSummaryComponent";
+import ProposalSummaryComponent from "../Common/ProposalSummaryComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,7 @@ export default function DetailsComponent(props) {
   return (
     <div className={classes.root}>
       <ProspectusSummaryComponent studentFound={studentFound} />
+      <ProposalSummaryComponent studentFound={studentFound} />
       <div className={classes.mainDetailsDiv}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
