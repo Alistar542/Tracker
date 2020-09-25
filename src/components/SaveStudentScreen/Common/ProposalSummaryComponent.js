@@ -35,7 +35,7 @@ export default function ProposalSummaryComponent(props) {
   const classes = useStyles();
   return (
     <div>
-      {selectedCourse && selectedCourse.length > 0 && (
+      {selectedCourse && selectedCourse[0] && (
         <Paper className={classes.root}>
           <div className={classes.sectionDiv}>
             <Typography component={"span"} variant="body1">
