@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DetailsPanelComponent from "./DetailsPanelComponent";
 import Button from "@material-ui/core/Button";
-import { APPLCTN_STS_ARRY_PROPOSAL, OPERATION_FLAG } from "../../../constants";
+import {
+  APPLCTN_STS_ARRY_PROPOSAL,
+  OPERATION_FLAG,
+  APPLICATION_STATUS,
+} from "../../../constants";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { saveProposalInfo } from "../../../actions/studentactions";
@@ -144,11 +148,33 @@ export default function ProposalComponent(props) {
   const handleMenuItemClick = (value, index) => {
     setOpen(false);
     setBackDropState(true);
-    let proposalInfo = { ...studentFound };
-    proposalInfo.status = value;
-    updateStatusOfStudent(proposalInfo, currentUser)
+    let saveData = { ...studentFound };
+    let applicationDetailsData = saveData.proposalInfo
+      ? saveData.proposalInfo.applicationDetails
+      : null;
+    let continueFlag = 0;
+    if (value === APPLICATION_STATUS.ENROLLED) {
+      applicationDetailsData &&
+        applicationDetailsData.length > 0 &&
+        applicationDetailsData.forEach((course, index) => {
+          if (course.applStatus === "Y") {
+            continueFlag++;
+            if (continueFlag > 1) {
+              return;
+            }
+          }
+        });
+    }
+    if (continueFlag > 1) {
+      setSnackBarMessage("Only One Course Can be Continue");
+      setSnackbarOpenState(true);
+      setBackDropState(false);
+      return;
+    }
+    saveData.status = value;
+    updateStatusOfStudent(saveData, currentUser)
       .then((res) => {
-        updateStudentFoundForSummary(proposalInfo);
+        updateStudentFoundForSummary(saveData);
       })
       .catch((err) => {})
       .finally(() => setBackDropState(false));
