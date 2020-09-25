@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
 export default function SaveStudentComponent(props) {
   const classes = useStyles();
   let locationFound = useLocation();
-  let { studentFound } = locationFound.state ? locationFound.state : {};
+  const [studentFoundForSummary, setStudentFoundForSummary] = React.useState(
+    locationFound.state ? locationFound.state : {}
+  );
+  let { studentFound } = studentFoundForSummary;
   let courseDetails = studentFound
     ? studentFound.proposalInfo
       ? studentFound.proposalInfo.applicationDetails
@@ -36,13 +39,11 @@ export default function SaveStudentComponent(props) {
       ? studentFound.enrolledInfo
       : {}
     : {};
-  enrolledInfo.selectedCourse = { ...selectedCourse };
+  enrolledInfo.selectedCourse = selectedCourse;
   studentFound.enrolledInfo = enrolledInfo;
   console.log("------------------------------");
   console.log(studentFound);
-  const [studentFoundForSummary, setStudentFoundForSummary] = React.useState(
-    locationFound.state ? locationFound.state : {}
-  );
+
   const updateStudentFoundForSummary = (student) => {
     setStudentFoundForSummary({ studentFound: student });
   };

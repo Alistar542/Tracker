@@ -58,7 +58,7 @@ export default function ProposalSummaryComponent(props) {
                   Applied Course Type : {selectedCourse[0].appldCourseTyp}
                 </Typography>
               )}
-              {selectedCourse[0].offrLtrStatus && (
+              {/* {selectedCourse[0].offrLtrStatus && (
                 <Typography component={"span"} variant="body2">
                   Offer Letter Status : {selectedCourse[0].offrLtrStatus}
                 </Typography>
@@ -72,7 +72,7 @@ export default function ProposalSummaryComponent(props) {
                 <Typography component={"span"} variant="body2">
                   Fees Paid : {selectedCourse[0].feesPaid}
                 </Typography>
-              )}
+              )} */}
               {selectedCourse[0].stdUsrName && (
                 <Typography component={"span"} variant="body2">
                   Student User Name : {selectedCourse[0].stdUsrName}
