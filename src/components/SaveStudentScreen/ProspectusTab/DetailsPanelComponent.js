@@ -22,9 +22,9 @@ export default function DetailsPanelComponent(props) {
     <div id="formDiv" className={classes.formDiv}>
       <PersonalInformationComponent {...formik} />
       <Divider />
-      <EnglishExamTypeComponent formik={formik} />
-      <Divider />
       <EducationSummaryComponent formik={formik} />
+      <Divider />
+      <EnglishExamTypeComponent formik={formik} />
       <Divider />
       <WorkExperienceComponent formik={formik} />
       <Divider />
@@ -32,8 +32,8 @@ export default function DetailsPanelComponent(props) {
       <Divider />
       <MarketingPurposeComponent formik={formik} />
       <Divider />
-      <FollowUpComponent followUpRemarks={followUpRemarks} />
       <ToDoComponent toDoRemarks={toDoRemarks} />
+      <FollowUpComponent followUpRemarks={followUpRemarks} />
     </div>
   );
 }
