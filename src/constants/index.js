@@ -25,6 +25,8 @@ export const URL = {
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
   SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
   CREATE_NEW_USER: "http://localhost:5000/student/create",
+  VALIDATE_PHONENUMBER: "http://localhost:5000/student/validatephonenumber",
+  VALIDATE_EMAIL: "http://localhost:5000/student/validateemail",
 };
 
 export const OPERATION_FLAG = {
@@ -54,7 +56,7 @@ export const APPLICATION_STATUS = {
 };
 
 export const APPLICATION_STATUS_DESC = {
-  N: "New",
+  N: "Prospectus",
   X: "Postponed",
   P: "Proposed",
   E: "Enrolled",
@@ -62,7 +64,7 @@ export const APPLICATION_STATUS_DESC = {
 };
 
 export const APPLICATION_STATUS_ARRAY = [
-  { status: "New", value: "N" },
+  { status: "Prospectus", value: "N" },
   { status: "Postponed", value: "X" },
   { status: "Proposed", value: "P" },
   { status: "Enrolled", value: "E" },
@@ -96,4 +98,30 @@ export const PRIORITY_ARRAY = [
   { priority: "High", value: "H" },
   { priority: "Medium", value: "M" },
   { priority: "Low", value: "L" },
+];
+
+export const GENDER = {
+  M: "Male",
+  F: "Female",
+  O: "Other",
+};
+
+export const MARITAL_STATUS = {
+  M: "Married",
+  U: "Un Married",
+};
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];

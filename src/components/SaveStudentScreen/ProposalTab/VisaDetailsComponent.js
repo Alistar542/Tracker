@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     },
     alignItems: "center",
     flexWrap: "wrap",
+    flexDirection: "row",
+    minHeight: "100px",
   },
   radioComponent: {
     marginLeft: theme.spacing(2),

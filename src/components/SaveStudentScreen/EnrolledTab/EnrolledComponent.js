@@ -203,6 +203,7 @@ export default function EnrolledComponent(props) {
                 formik={formik}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                studentFound={studentFound}
               />
             </div>
 

@@ -52,6 +52,22 @@ export const saveEnrolledInfo = (enrolledObject, currentUser) => {
   );
 };
 
+export const validatePhoneNumber = (studentObject, currentUser) => {
+  return axios.post(
+    URL.VALIDATE_PHONENUMBER,
+    studentObject,
+    createAccessToken(currentUser)
+  );
+};
+
+export const validateEmail = (studentObject, currentUser) => {
+  return axios.post(
+    URL.VALIDATE_EMAIL,
+    studentObject,
+    createAccessToken(currentUser)
+  );
+};
+
 function createAccessToken(currentUser) {
   return {
     headers: { Authorization: `Bearer ${currentUser.accessToken}` },
