@@ -22,7 +22,9 @@ export default function SaveStudentComponent(props) {
   const [studentFoundForSummary, setStudentFoundForSummary] = React.useState(
     locationFound.state ? locationFound.state : {}
   );
-  let { studentFound } = studentFoundForSummary;
+  let studentFound = studentFoundForSummary.studentFound
+    ? studentFoundForSummary.studentFound
+    : {};
   let courseDetails = studentFound
     ? studentFound.proposalInfo
       ? studentFound.proposalInfo.applicationDetails
