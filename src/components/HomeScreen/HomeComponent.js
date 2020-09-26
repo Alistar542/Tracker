@@ -14,6 +14,7 @@ import { Route, Switch } from "react-router-dom";
 import grey from "@material-ui/core/colors/grey";
 import cyan from "@material-ui/core/colors/cyan";
 import amber from "@material-ui/core/colors/amber";
+import TimelineIcon from "@material-ui/icons/Timeline";
 
 const useStyles = makeStyles((theme) => ({
   outerDiv: {
@@ -77,7 +78,7 @@ export function HomeComponent() {
         style={{ color: grey[800] }}
       >
         <CardContent className={classes.cardContent}>
-          <RestorePageRoundedIcon style={{ fontSize: 60 }} />
+          <TimelineIcon style={{ fontSize: 60 }} />
           <Typography variant="h5" component="h2">
             Student History
           </Typography>
