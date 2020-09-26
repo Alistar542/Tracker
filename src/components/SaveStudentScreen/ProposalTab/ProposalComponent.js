@@ -128,7 +128,10 @@ export default function ProposalComponent(props) {
   const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    let newRemarks = { remark: (remarksCopy.length+1)+"."+remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
   };
@@ -140,7 +143,10 @@ export default function ProposalComponent(props) {
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    let newRemarks = { remark: (remarksCopy.length+1)+"."+remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
   };
@@ -154,6 +160,12 @@ export default function ProposalComponent(props) {
       : null;
     let continueFlag = 0;
     if (value === APPLICATION_STATUS.ENROLLED) {
+      if (!applicationDetailsData) {
+        setSnackBarMessage("Please save atleast one course");
+        setSnackbarOpenState(true);
+        setBackDropState(false);
+        return;
+      }
       applicationDetailsData &&
         applicationDetailsData.length > 0 &&
         applicationDetailsData.forEach((course, index) => {
@@ -165,8 +177,8 @@ export default function ProposalComponent(props) {
           }
         });
     }
-    if (continueFlag > 1) {
-      setSnackBarMessage("Only One Course Can be Continue");
+    if (continueFlag !== 1) {
+      setSnackBarMessage("Please select one course with status continue");
       setSnackbarOpenState(true);
       setBackDropState(false);
       return;

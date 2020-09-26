@@ -27,11 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProposalSummaryComponent(props) {
   const { studentFound } = props;
-  const selectedCourse = studentFound
-    ? studentFound.enrolledInfo
-      ? studentFound.enrolledInfo.selectedCourse
-      : null
-    : null;
+  const selectedCourse = studentFound ? studentFound.selectedCourse : null;
   const classes = useStyles();
   return (
     <div>

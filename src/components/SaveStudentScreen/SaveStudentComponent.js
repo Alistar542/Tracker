@@ -36,13 +36,13 @@ export default function SaveStudentComponent(props) {
     return course.applStatus === "Y";
   });
 
-  let enrolledInfo = studentFound
-    ? studentFound.enrolledInfo
-      ? studentFound.enrolledInfo
-      : {}
-    : {};
-  enrolledInfo.selectedCourse = selectedCourse;
-  studentFound.enrolledInfo = enrolledInfo;
+  // let enrolledInfo = studentFound
+  //   ? studentFound.enrolledInfo
+  //     ? studentFound.enrolledInfo
+  //     : {}
+  //   : {};
+  //enrolledInfo.selectedCourse = selectedCourse;
+  studentFound.selectedCourse = selectedCourse;
   console.log("------------------------------");
   console.log(studentFound);
 

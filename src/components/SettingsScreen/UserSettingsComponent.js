@@ -60,14 +60,14 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   userName: "",
   password: "",
-  companyCode: "",
+  officeCode: "",
   userType: "",
   userStatus: "A",
 };
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Required"),
   password: Yup.string().required("Required"),
-  companyCode: Yup.string().required("Required"),
+  officeCode: Yup.string().required("Required"),
   userType: Yup.string().required("Required"),
   userStatus: Yup.string().required("Required"),
 });
@@ -83,14 +83,17 @@ export default function UserSettingsComponent() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => {
+          onSubmit={(values, { resetForm, setFieldError }) => {
             console.log(JSON.stringify(values, null, 2));
             createNewUser({ ...values }, currentUser)
               .then((res) => {
                 console.log("Success");
                 resetForm(initialValues);
               })
-              .catch((err) => {});
+              .catch((err) => {
+                console.log("ERROR creating user");
+                setFieldError("userName", err.response.data);
+              });
           }}
         >
           {(formik) => (
@@ -133,19 +136,19 @@ export default function UserSettingsComponent() {
                   />
                   <TextField
                     id="standard"
-                    label="Company"
-                    name="companyCode"
+                    label="Office Code"
+                    name="officeCode"
                     variant="outlined"
                     margin="dense"
                     error={
-                      formik.errors.companyCode && formik.touched.companyCode
+                      formik.errors.officeCode && formik.touched.officeCode
                     }
                     helperText={
-                      formik.errors.companyCode &&
-                      formik.touched.companyCode &&
-                      formik.errors.companyCode
+                      formik.errors.officeCode &&
+                      formik.touched.officeCode &&
+                      formik.errors.officeCode
                     }
-                    {...formik.getFieldProps("companyCode")}
+                    {...formik.getFieldProps("officeCode")}
                   />
                 </div>
                 <div className={classes.secondDiv}>
