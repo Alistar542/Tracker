@@ -532,7 +532,7 @@ export const ProspectusComponent = (props) => {
   const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = { remark: (remarksCopy.length+1)+"."+remarks, operationFlag: OPERATION_FLAG.INSERT };
     remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
   };
@@ -540,7 +540,7 @@ export const ProspectusComponent = (props) => {
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = { remark: (remarksCopy.length+1)+"."+remarks, operationFlag: OPERATION_FLAG.INSERT };
     remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
   };

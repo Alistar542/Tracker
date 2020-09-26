@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { AuthContext } from "../../LoginScreen/context/auth";
 
 export default function FollowUpPopupComponent(props) {
   const {
@@ -14,13 +15,22 @@ export default function FollowUpPopupComponent(props) {
     handleSubmitFollowUp,
   } = props;
   const [followUpRemarks, setFollowUpRemarks] = React.useState();
+  const { currentUser } = useContext(AuthContext);
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()} ${current.getHours()}:${current.getMinutes()}`;
 
   const onChangeFollowUpRemarks = (data) => {
     setFollowUpRemarks(data.target.value);
   };
 
   const handleSave = () => {
-    handleSubmitFollowUp(followUpRemarks);
+    if(followUpRemarks){
+      let followUpRemarksConcated=currentUser.userName+" @"+date+": "+`"`+followUpRemarks+`"`;
+      handleSubmitFollowUp(followUpRemarksConcated);
+    }
+    else{
+      handleFollowUpClose();
+    }
   };
   return (
     <div>
@@ -48,7 +58,7 @@ export default function FollowUpPopupComponent(props) {
             Cancel
           </Button>
           <Button onClick={handleSave} color="primary">
-            Save
+            Ok
           </Button>
         </DialogActions>
       </Dialog>
