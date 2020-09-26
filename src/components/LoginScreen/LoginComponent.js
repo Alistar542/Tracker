@@ -104,10 +104,11 @@ export default function LoginComponent() {
     event.preventDefault();
     setLoading(true);
     setError(null);
-    const { userName, password } = event.target.elements;
+    const { userName, password, officeCode } = event.target.elements;
     const user = {
       userName: userName.value.trim(),
       password: password.value,
+      officeCode:officeCode.value
     };
     loginUser(user)
       .then((res) => {
@@ -150,7 +151,7 @@ export default function LoginComponent() {
               variant="outlined"
               margin="normal"
               error={error ? true : false}
-              helperText={error ? "Incorrect username or password" : ""}
+              helperText={error ? "Incorrect login credentials" : ""}
             />
 
             <TextField
@@ -160,6 +161,16 @@ export default function LoginComponent() {
               label="Password"
               type="password"
               name="password"
+              autoComplete="current-password"
+              variant="outlined"
+              margin="normal"
+            />
+            <TextField
+              required
+              fullWidth
+              id="outlined-required"
+              label="Office Code"
+              name="officeCode"
               autoComplete="current-password"
               variant="outlined"
               margin="normal"
