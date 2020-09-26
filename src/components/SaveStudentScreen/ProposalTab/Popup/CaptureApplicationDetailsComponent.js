@@ -15,6 +15,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import DateFnsUtils from "@date-io/date-fns";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -222,26 +225,26 @@ export default function CaptureApplicationDetailsComponent(props) {
                   )}
                   className={classes.radioComponent}
                 >
-                  <FormLabel>Applied Course Type</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-label="appldCourseTyp"
+                  <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Applied Course Type
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="appldCourseTyp"
                     name="appldCourseTyp"
+                    margin="dense"
+                    variant="outlined"
                     {...formik.getFieldProps("appldCourseTyp")}
                   >
-                    <FormControlLabel
-                      value="M"
-                      labelPlacement="start"
-                      control={<Radio color="primary" />}
-                      label="Major"
-                    />
-                    <FormControlLabel
-                      value="D"
-                      labelPlacement="start"
-                      control={<Radio color="primary" />}
-                      label="Degree"
-                    />
-                  </RadioGroup>
+                    <MenuItem value={"B"}>Bachelor</MenuItem>
+                    <MenuItem value={"D"}>Diploma</MenuItem>
+                    <MenuItem value={"M"}>Master </MenuItem>
+                    <MenuItem value={"P"}>PhD </MenuItem>
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    
+                  </Select>
+                </FormControl>
                   <FormHelperText>
                     {formik.errors.appldCourseTyp &&
                       formik.touched.appldCourseTyp &&
