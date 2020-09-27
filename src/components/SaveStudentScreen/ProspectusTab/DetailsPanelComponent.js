@@ -8,6 +8,7 @@ import PersonalInformationComponent from "./PersonalInformationComponent";
 import EnglishExamTypeComponent from "./EnglishExamTypeComponent";
 import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
+import RemarksComponent from "../Common/RemarksComponent";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +17,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function DetailsPanelComponent(props) {
-  const { formik, followUpRemarks, toDoRemarks } = props;
+  const {
+    formik,
+    followUpRemarks,
+    toDoRemarks,
+    remarksStatus,
+    openFollowUpPopupFn,
+  } = props;
   const classes = useStyles();
   return (
     <div id="formDiv" className={classes.formDiv}>
@@ -31,6 +38,12 @@ export default function DetailsPanelComponent(props) {
       <AreasOfInterestComponent formik={formik} />
       <Divider />
       <MarketingPurposeComponent formik={formik} />
+      <Divider />
+      <RemarksComponent
+        formik={formik}
+        remarksStatus={remarksStatus}
+        openFollowUpPopupFn={openFollowUpPopupFn}
+      />
       <Divider />
       <ToDoComponent toDoRemarks={toDoRemarks} />
       <FollowUpComponent followUpRemarks={followUpRemarks} />

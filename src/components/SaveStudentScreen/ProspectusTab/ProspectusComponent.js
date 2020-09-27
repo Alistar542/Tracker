@@ -28,8 +28,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useLocation } from "react-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { PersonalInformationComponent } from "./PersonalInformationComponent";
-import { EnglishExamTypeComponent } from "./EnglishExamTypeComponent";
 import { green, indigo, red } from "@material-ui/core/colors";
 import {
   STATUS,
@@ -46,12 +44,6 @@ import {
 import { AuthContext } from "../../LoginScreen/context/auth";
 import SnackbarCommon from "../../Common/SnackbarCommon";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
-import BlockRoundedIcon from "@material-ui/icons/BlockRounded";
-import UndoRoundedIcon from "@material-ui/icons/UndoRounded";
-import AreasOfInterestComponent from "./AreasOfInterestComponent";
-import MarketingPurposeComponent from "./MarketingPurposeComponent";
-import EducationSummaryComponent from "./EducationSummaryComponent";
-import WorkExperienceComponent from "./WorkExperienceComponent";
 import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
 
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -155,6 +147,9 @@ export const ProspectusComponent = (props) => {
   const [toDoRemarks, setToDoRemarks] = React.useState(
     studentFound ? studentFound.toDoRemarks : null
   );
+  const [remarksStatus, setRemarksStatus] = React.useState(
+    studentFound ? studentFound.remarksStatus : "N"
+  );
   const [errorData, setErrorData] = React.useState({});
   const [status, setStatus] = React.useState(
     studentFound ? studentFound.status : STATUS.NEW
@@ -162,7 +157,7 @@ export const ProspectusComponent = (props) => {
   let isActionsDisabled = typeof studentFound === "undefined";
   const [openReject, setOpenReject] = React.useState(false);
   const { currentUser } = useContext(AuthContext);
-
+  const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
   const initialValues = {
     firstName: "",
     middleName: "",
@@ -197,6 +192,8 @@ export const ProspectusComponent = (props) => {
     wayOfContact: "",
     counselor: "",
     priority: "",
+    currentState: "",
+    remarks: "",
     operationFlag: OPERATION_FLAG.INSERT,
     proposalInfo: null,
     enrolledInfo: null,
@@ -320,37 +317,6 @@ export const ProspectusComponent = (props) => {
     setOpen(false);
   };
 
-  const handleStatusChange = () => {
-    let studentToBeUpdated = { ...formData };
-    if (formData.status === STATUS.NEW) {
-      studentToBeUpdated.status = STATUS.PROPOSED;
-      studentToBeUpdated.remarks = "Status Changed to Proposed";
-    }
-    // else if (formData.status === STATUS.PROPOSED) {
-    //   studentToBeUpdated.status = STATUS.DONE;
-    //   studentToBeUpdated.remarks = "Status Changed to Done";
-    // } else if (formData.status === STATUS.DONE) {
-    //   setSnackBarMessage("Already Marked as Done");
-    //   setSnackbarOpenState(true);
-    //   return;
-    // }
-    setBackDropState(true);
-    updateStudent(studentToBeUpdated, currentUser)
-      .then((res) => {
-        setFormData((previousStudentData) => ({
-          ...previousStudentData,
-          status: studentToBeUpdated.status,
-        }));
-        props.updateStudentFoundForSummary(studentToBeUpdated);
-        setBackDropState(false);
-        return res;
-      })
-      .catch((err) => {
-        setBackDropState(false);
-        return err;
-      });
-  };
-
   const onFinalSubmit = (values, setSubmitting, resetForm) => {
     setBackDropState(true);
     setSubmitting(true);
@@ -394,6 +360,9 @@ export const ProspectusComponent = (props) => {
       wayOfContact: values.wayOfContact,
       counselor: values.counselor,
       priority: values.priority,
+      currentState: values.currentState,
+      remarks: values.remarks,
+      remarksStatus: remarksStatus,
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,
       status: status,
@@ -433,6 +402,7 @@ export const ProspectusComponent = (props) => {
           setSubmitting(true);
           let saveData = {
             ...userObject,
+            remarksStatus: studentFound.remarksStatus,
             proposalInfo: studentFound.proposalInfo,
             enrolledInfo: studentFound.enrolledInfo,
           };
@@ -478,13 +448,17 @@ export const ProspectusComponent = (props) => {
       wayOfContact: "",
       counselor: "",
       priority: "",
+      currentState: "",
+      remarks: "",
     });
     setFollowUpRemarks(null);
     setToDoRemarks(null);
+    setRemarksStatus("N");
   };
 
-  const openFollowUpPopupFn = (event) => {
-    event.preventDefault();
+  const openFollowUpPopupFn = (event, id) => {
+    //event.preventDefault();
+    setRemarkTriggerPoint(id);
     setOpenFollowUpPopup(true);
   };
 
@@ -501,48 +475,30 @@ export const ProspectusComponent = (props) => {
     setOpenToDoPopup(false);
   };
 
-  const handleRejectStatus = () => {
-    setOpenReject(true);
-  };
-
-  const handleRejectClose = (event) => {
-    setOpenReject(false);
-    if (event.target.innerHTML === "Yes") {
-      setBackDropState(true);
-      setStatus(STATUS.REJECTED);
-      let studentObjectToBeUpdated = { ...studentFound };
-      studentObjectToBeUpdated.status = STATUS.REJECTED;
-      studentObjectToBeUpdated.remarks = "Status changed to Rejected";
-      updateStudent(studentObjectToBeUpdated, currentUser)
-        .then((res) => {
-          setFormData((previousStudent) => ({
-            ...previousStudent,
-            status: STATUS.REJECTED,
-          }));
-          setBackDropState(false);
-          return res;
-        })
-        .catch((err) => {
-          setBackDropState(false);
-          return err;
-        });
-    }
-  };
-
   const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    let newRemarks = { remark: (remarksCopy.length+1)+"."+remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
+    if (remarkTriggerPoint === "remarksDoneButton") {
+      setRemarksStatus("Y");
+    }
   };
 
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    let newRemarks = { remark: (remarksCopy.length+1)+"."+remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
+    setRemarksStatus("N");
   };
 
   const snackbarClose = () => {
@@ -568,6 +524,8 @@ export const ProspectusComponent = (props) => {
                 formik={formik}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                remarksStatus={remarksStatus}
+                openFollowUpPopupFn={openFollowUpPopupFn}
               />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}
@@ -669,7 +627,8 @@ export const ProspectusComponent = (props) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={openFollowUpPopupFn}
+                id="followUpButton"
+                onClick={(e) => openFollowUpPopupFn(e, "followUpButton")}
                 disabled={status === STATUS.REJECTED}
               >
                 {" "}
@@ -711,36 +670,6 @@ export const ProspectusComponent = (props) => {
         handleFollowUpClose={closeFollowUpPopupFn}
         handleSubmitFollowUp={handleSubmitFollowUp}
       />
-
-      <Dialog
-        open={openReject}
-        onClose={handleRejectClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure to reject this application ?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure to reject this application ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleRejectClose} name="no" color="primary">
-            No
-          </Button>
-          <Button
-            onClick={handleRejectClose}
-            name="yes"
-            color="primary"
-            autoFocus
-          >
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-
       <Backdrop className={classes.backdrop} open={backDropState}>
         <CircularProgress color="inherit" />
       </Backdrop>
