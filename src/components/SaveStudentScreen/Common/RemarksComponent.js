@@ -65,7 +65,7 @@ export default function RemarksComponent(props) {
         <Button
           variant="contained"
           id="remarksDoneButton"
-          disabled={remarksStatus === "Y"}
+          disabled={remarksStatus !== "N"}
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
           {remarksStatus === "N" ? "Mark as Done" : "Done"}
