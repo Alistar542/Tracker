@@ -84,7 +84,7 @@ export function StudentsFoundTableComponent(props) {
                 <TableRow>
                   <TableCell align="left">Student Id</TableCell>
                   <TableCell>Student Name</TableCell>
-                  <TableCell align="left">Phone Number</TableCell>
+                  <TableCell align="left">Current Status</TableCell>
                   <TableCell align="left">Priority</TableCell>
                   <TableCell align="center">Status</TableCell>
                   <TableCell align="right">Actions</TableCell>
@@ -99,11 +99,12 @@ export function StudentsFoundTableComponent(props) {
                   : rows
                 ).map((row) => (
                   <TableRow key={row.id} hover>
-                    <TableCell align="left">{`# ${row.studentId}`}</TableCell>
+                    {row.remarksStatus==="N"?<TableCell style={{color: "red"}} align="left">{`# ${row.studentId}`}</TableCell>:<TableCell style={{color: "green"}} align="left">{`# ${row.studentId}`}</TableCell>}
+                    
                     <TableCell component="th" scope="row">
                       {row.firstName.capitalize()} {row.lastName}
                     </TableCell>
-                    <TableCell align="left">{row.phoneNumber}</TableCell>
+                    <TableCell align="left">{row.currentState}</TableCell>
                     <TableCell align="left">{PRIORITY[row.priority]}</TableCell>
                     <TableCell align="center">
                       <Tooltip
