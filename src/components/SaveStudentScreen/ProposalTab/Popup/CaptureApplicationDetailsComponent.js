@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     minWidth: 200,
   },
+  formControlSelect: {
+    margin: theme.spacing(0, 1),
+    width: 200,
+  },
   deleteButton: {
     color: "white",
     backgroundColor: red[500],
@@ -223,7 +227,7 @@ export default function CaptureApplicationDetailsComponent(props) {
                     formik.errors.appldCourseTyp &&
                       formik.touched.appldCourseTyp
                   )}
-                  className={classes.radioComponent}
+                  className={classes.formControlSelect}
                 >
                   <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="demo-simple-select-outlined-label">

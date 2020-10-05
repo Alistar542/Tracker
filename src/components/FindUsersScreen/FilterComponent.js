@@ -159,6 +159,7 @@ export function FilterComponent(props) {
     setCreationToDate(null);
     setStudentId("");
     setCourseStartDate(null);
+    setPriority();
     props.clearValues();
   };
 
