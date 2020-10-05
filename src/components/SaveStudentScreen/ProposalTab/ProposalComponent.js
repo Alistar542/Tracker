@@ -68,6 +68,10 @@ const initialValues = {
   visaApRjDate: null,
   travelDate: null,
   operationFlag: OPERATION_FLAG.INSERT,
+  currentState: "",
+  studentRemarks: "",
+  remarksStatus: false,
+  followUpDate: null,
 };
 
 const validationSchema = Yup.object().shape({});
@@ -100,6 +104,10 @@ export default function ProposalComponent(props) {
         : null
       : null
   );
+  const [remarksStatus, setRemarksStatus] = React.useState(
+    studentFound ? studentFound.remarksStatus : "N"
+  );
+  const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
   const [snackbarMessage, setSnackBarMessage] = React.useState("");
   const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
 
@@ -111,8 +119,9 @@ export default function ProposalComponent(props) {
     setSnackbarOpenState(false);
   };
 
-  const openFollowUpPopupFn = (event) => {
-    event.preventDefault();
+  const openFollowUpPopupFn = (event, id) => {
+    //event.preventDefault();
+    setRemarkTriggerPoint(id);
     setOpenFollowUpPopup(true);
   };
 
@@ -134,6 +143,9 @@ export default function ProposalComponent(props) {
     };
     remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
+    if (remarkTriggerPoint === "remarksDoneButton") {
+      setRemarksStatus("Y");
+    }
   };
 
   const closeToDoPopupFn = (event) => {
@@ -149,6 +161,7 @@ export default function ProposalComponent(props) {
     };
     remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
+    setRemarksStatus("N");
   };
 
   const handleMenuItemClick = (value, index) => {
@@ -232,6 +245,7 @@ export default function ProposalComponent(props) {
             applicationDetails: applicationDtl,
             toDoRemarks: toDoRemarks,
             followUpRemarks: followUpRemarks,
+            remarksStatus: remarksStatus,
           };
           let saveData = { ...studentFound };
           saveData.proposalInfo = proposalInfo;
@@ -267,6 +281,8 @@ export default function ProposalComponent(props) {
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
                 studentFound={studentFound}
+                remarksStatus={remarksStatus}
+                openFollowUpPopupFn={openFollowUpPopupFn}
               />
             </div>
             <div className={classes.bottomBar}>
@@ -331,7 +347,8 @@ export default function ProposalComponent(props) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={openFollowUpPopupFn}
+                id="followUpButton"
+                onClick={(e) => openFollowUpPopupFn(e, "followUpButton")}
                 className={classes.actionButton}
               >
                 {` Follow Up `}

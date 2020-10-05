@@ -16,6 +16,7 @@ import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
 import ProspectusSummaryComponent from "../Common/ProspectusSummaryComponent";
 import ProposalSummaryComponent from "../Common/ProposalSummaryComponent";
+import RemarksComponent from "../Common/RemarksComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
   formControlSelect: {
     margin: theme.spacing(1),
     width: 200,
+  },
+  remarksDiv: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 }));
 
@@ -199,6 +205,13 @@ export default function DetailsComponent(props) {
         />
       </div>
       <Divider />
+      <div className={classes.remarksDiv}>
+        <RemarksComponent
+          formik={formik}
+          remarksStatus={props.remarksStatus}
+          openFollowUpPopupFn={props.openFollowUpPopupFn}
+        />
+      </div>
       <FollowUpComponent followUpRemarks={followUpRemarks} />
       <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>

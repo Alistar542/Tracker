@@ -16,9 +16,23 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "stretch",
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 200,
+    },
   },
   outerDiv: {
     margin: theme.spacing(2, 0),
+  },
+  studentRemarksField: {
+    margin: theme.spacing(0, 1),
+    display: "flex",
+    flexDirection: "row",
+    flexGrow: 1,
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "100%",
+    },
   },
 }));
 
@@ -54,14 +68,7 @@ export default function RemarksComponent(props) {
           name="currentState"
           {...formik.getFieldProps("currentState")}
         />
-        <TextField
-          id="standard-textarea"
-          label="Remarks"
-          placeholder="Remarks"
-          name="remarks"
-          multiline
-          {...formik.getFieldProps("remarks")}
-        />
+
         <Button
           variant="contained"
           id="remarksDoneButton"
@@ -70,6 +77,16 @@ export default function RemarksComponent(props) {
         >
           {remarksStatus === "N" ? "Mark as Done" : "Done"}
         </Button>
+      </div>
+      <div className={classes.studentRemarksField}>
+        <TextField
+          id="standard-textarea"
+          label="Remarks"
+          placeholder="Remarks"
+          name="studentRemarks"
+          multiline
+          {...formik.getFieldProps("studentRemarks")}
+        />
       </div>
     </div>
   );

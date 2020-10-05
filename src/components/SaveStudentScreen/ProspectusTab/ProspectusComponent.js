@@ -193,7 +193,7 @@ export const ProspectusComponent = (props) => {
     counselor: "",
     priority: "",
     currentState: "",
-    remarks: "",
+    studentRemarks: "",
     operationFlag: OPERATION_FLAG.INSERT,
     proposalInfo: null,
     enrolledInfo: null,
@@ -361,7 +361,7 @@ export const ProspectusComponent = (props) => {
       counselor: values.counselor,
       priority: values.priority,
       currentState: values.currentState,
-      remarks: values.remarks,
+      studentRemarks: values.remarks,
       remarksStatus: remarksStatus,
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,
@@ -449,7 +449,7 @@ export const ProspectusComponent = (props) => {
       counselor: "",
       priority: "",
       currentState: "",
-      remarks: "",
+      studentRemarks: "",
     });
     setFollowUpRemarks(null);
     setToDoRemarks(null);
@@ -530,40 +530,6 @@ export const ProspectusComponent = (props) => {
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}
             <div className={classes.appBar}>
-              {/* <Button
-                className={clsx(classes.rejectButton, {
-                  [classes.acceptButton]: formData.status === STATUS.REJECTED,
-                })}
-                variant="contained"
-                color="primary"
-                onClick={handleRejectStatus}
-                disabled={isActionsDisabled}
-                startIcon={
-                  status === STATUS.REJECTED ? (
-                    <UndoRoundedIcon />
-                  ) : (
-                    <BlockRoundedIcon />
-                  )
-                }
-              >
-                {status === STATUS.REJECTED ? " Accept " : " Reject "}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                className={clsx(classes.doneButton, {
-                  [classes.proposedButton]: formData.status === STATUS.NEW,
-                })}
-                onClick={handleStatusChange}
-                disabled={
-                  isActionsDisabled ||
-                  status === STATUS.PROPOSED ||
-                  status === STATUS.DONE ||
-                  status === STATUS.REJECTED
-                }
-              >
-                {" Mark As Proposed "}
-              </Button> */}
               <Button
                 variant="contained"
                 color="primary"
