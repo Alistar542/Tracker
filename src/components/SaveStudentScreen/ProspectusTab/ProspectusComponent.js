@@ -361,7 +361,7 @@ export const ProspectusComponent = (props) => {
       counselor: values.counselor,
       priority: values.priority,
       currentState: values.currentState,
-      studentRemarks: values.remarks,
+      studentRemarks: values.studentRemarks,
       remarksStatus: remarksStatus,
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,

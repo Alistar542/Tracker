@@ -185,6 +185,7 @@ export function FilterComponent(props) {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
+                autoOk
                 variant="inline"
                 inputVariant="outlined"
                 format="dd/MM/yyyy"
