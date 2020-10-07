@@ -7,11 +7,23 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { APPLIED_COURSE_TYP } from "../../../constants";
+import clsx from "clsx";
+import { green, red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     margin: theme.spacing(1),
+  },
+  continueBorder: {
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: green[500],
+  },
+  cancelledBorder: {
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: red[500],
   },
 }));
 
@@ -19,7 +31,12 @@ export default function ApplicationDetailCardComponent(props) {
   const classes = useStyles();
   const { application, viewApplicationDetailsPopup, index } = props;
   return (
-    <Card className={classes.root}>
+    <Card
+      className={clsx(classes.root, {
+        [classes.continueBorder]: application.applStatus === "Y",
+        [classes.cancelledBorder]: application.applStatus === "N",
+      })}
+    >
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">

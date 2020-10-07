@@ -8,6 +8,7 @@ import VisaDetailsComponent from "./VisaDetailsComponent";
 import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
 import ProspectusSummaryComponent from "../Common/ProspectusSummaryComponent";
+import RemarksComponent from "../Common/RemarksComponent";
 
 const useStyles = makeStyles((theme) => ({
   detailsPanelDiv: {
@@ -29,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   applicationBottomDiv: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  remarksDiv: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -98,6 +104,14 @@ export default function DetailsPanelComponent(props) {
       <div className={classes.mainDetailsDiv}>
         <ProspectusSummaryComponent studentFound={studentFound} />
         <VisaDetailsComponent formik={formik} />
+        <Divider />
+      </div>
+      <div className={classes.remarksDiv}>
+        <RemarksComponent
+          formik={formik}
+          remarksStatus={props.remarksStatus}
+          openFollowUpPopupFn={props.openFollowUpPopupFn}
+        />
       </div>
       <Divider />
       <div className={classes.applicationDetailsDiv}>

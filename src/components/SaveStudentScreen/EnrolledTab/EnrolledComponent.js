@@ -62,6 +62,10 @@ const initialValues = {
   invoiceDate: null,
   currency: "",
   operationFlag: OPERATION_FLAG.INSERT,
+  currentState: "",
+  studentRemarks: "",
+  remarksStatus: false,
+  followUpDate: null,
 };
 const validationSchema = Yup.object().shape({
   annualTutionFees: Yup.string().required("Required"),
@@ -89,11 +93,17 @@ export default function EnrolledComponent(props) {
       : null
   );
 
+  const [remarksStatus, setRemarksStatus] = React.useState(
+    studentFound ? studentFound.remarksStatus : "N"
+  );
+  const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
+
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const openFollowUpPopupFn = (event) => {
-    event.preventDefault();
+  const openFollowUpPopupFn = (event, id) => {
+    //event.preventDefault();
+    setRemarkTriggerPoint(id);
     setOpenFollowUpPopup(true);
   };
 
@@ -109,9 +119,15 @@ export default function EnrolledComponent(props) {
   const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
+    if (remarkTriggerPoint === "remarksDoneButton") {
+      setRemarksStatus("Y");
+    }
   };
 
   const closeToDoPopupFn = (event) => {
@@ -121,9 +137,13 @@ export default function EnrolledComponent(props) {
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
+    setRemarksStatus("N");
   };
 
   const handleMenuItemClick = (value, index) => {
@@ -171,6 +191,7 @@ export default function EnrolledComponent(props) {
           setBackDropState(true);
           let enrolledInfo = {
             ...values,
+            remarksStatus: remarksStatus,
             toDoRemarks: toDoRemarks,
             followUpRemarks: followUpRemarks,
           };
@@ -204,6 +225,8 @@ export default function EnrolledComponent(props) {
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
                 studentFound={studentFound}
+                remarksStatus={remarksStatus}
+                openFollowUpPopupFn={openFollowUpPopupFn}
               />
             </div>
 
@@ -269,7 +292,7 @@ export default function EnrolledComponent(props) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={openFollowUpPopupFn}
+                onClick={(e) => openFollowUpPopupFn(e, "followUpButton")}
                 className={classes.actionButton}
               >
                 {` Follow Up `}

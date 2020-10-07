@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
       width: 200,
       marginRight: theme.spacing(1),
     },
+    "& .MuiIconButton-root": {
+      marginRight: -theme.spacing(1),
+    },
   },
   formControlSelect: {
     minWidth: 200,
@@ -84,6 +87,7 @@ export function FilterComponent(props) {
   const [studentId, setStudentId] = React.useState("");
   const [creationFromDate, setCreationFromDate] = React.useState(null);
   const [creationToDate, setCreationToDate] = React.useState(null);
+  const [courseStartDate, setCourseStartDate] = React.useState(null);
 
   const handleDateChangeToFetch = (date) => {
     if (date) {
@@ -125,6 +129,10 @@ export function FilterComponent(props) {
     setCreationToDate(date);
   };
 
+  const handleCourseStartDate = (date) => {
+    setCourseStartDate(date);
+  };
+
   const handleSubmitForFetching = (event) => {
     event.preventDefault();
     const fetchObject = {
@@ -137,6 +145,7 @@ export function FilterComponent(props) {
       studentId: studentId,
       creationFromDate: creationFromDate,
       creationToDate: creationToDate,
+      courseStartDate: courseStartDate,
     };
     props.handleSubmitForFetching(fetchObject);
   };
@@ -149,6 +158,8 @@ export function FilterComponent(props) {
     setCreationFromDate(null);
     setCreationToDate(null);
     setStudentId("");
+    setCourseStartDate(null);
+    setPriority();
     props.clearValues();
   };
 
@@ -174,6 +185,7 @@ export function FilterComponent(props) {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
+                autoOk
                 variant="inline"
                 inputVariant="outlined"
                 format="dd/MM/yyyy"
@@ -193,14 +205,14 @@ export function FilterComponent(props) {
               className={classes.formControlSelect}
             >
               <InputLabel id="demo-simple-select-outlined-label">
-                Status
+                Application Stage
               </InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
                 value={status}
                 onChange={handleStatusChange}
-                label="Status"
+                label="Application Stage"
               >
                 <MenuItem value="">
                   <em>None</em>
@@ -231,9 +243,9 @@ export function FilterComponent(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="high">High</MenuItem>
-                <MenuItem value="medium">Medium</MenuItem>
-                <MenuItem value="low">Low</MenuItem>
+                <MenuItem value="H">High</MenuItem>
+                <MenuItem value="M">Medium</MenuItem>
+                <MenuItem value="L">Low</MenuItem>
               </Select>
             </FormControl>
             <Button
@@ -274,7 +286,7 @@ export function FilterComponent(props) {
             <CardContent className={classes.cardContentDiv}>
               <TextField
                 id="standard"
-                label="Student Name"
+                label="Student First Name"
                 name="firstName"
                 variant="outlined"
                 margin="dense"
@@ -321,6 +333,23 @@ export function FilterComponent(props) {
                   label="Created To Date"
                   value={creationToDate}
                   onChange={handleCreatedToDate}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  autoOk
+                  variant="inline"
+                  inputVariant="outlined"
+                  format="dd/MM/yyyy"
+                  margin="dense"
+                  id="date-picker-inline"
+                  label="Course Start Date"
+                  value={courseStartDate}
+                  onChange={handleCourseStartDate}
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}

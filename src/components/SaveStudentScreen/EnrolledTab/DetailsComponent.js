@@ -15,6 +15,8 @@ import Divider from "@material-ui/core/Divider";
 import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
 import ProspectusSummaryComponent from "../Common/ProspectusSummaryComponent";
+import ProposalSummaryComponent from "../Common/ProposalSummaryComponent";
+import RemarksComponent from "../Common/RemarksComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: 200,
   },
+  remarksDiv: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 }));
 
 export default function DetailsComponent(props) {
@@ -43,6 +50,7 @@ export default function DetailsComponent(props) {
   return (
     <div className={classes.root}>
       <ProspectusSummaryComponent studentFound={studentFound} />
+      <ProposalSummaryComponent studentFound={studentFound} />
       <div className={classes.mainDetailsDiv}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
@@ -197,6 +205,13 @@ export default function DetailsComponent(props) {
         />
       </div>
       <Divider />
+      <div className={classes.remarksDiv}>
+        <RemarksComponent
+          formik={formik}
+          remarksStatus={props.remarksStatus}
+          openFollowUpPopupFn={props.openFollowUpPopupFn}
+        />
+      </div>
       <FollowUpComponent followUpRemarks={followUpRemarks} />
       <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>

@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DetailsPanelComponent from "./DetailsPanelComponent";
 import Button from "@material-ui/core/Button";
-import { APPLCTN_STS_ARRY_PROPOSAL, OPERATION_FLAG } from "../../../constants";
+import {
+  APPLCTN_STS_ARRY_PROPOSAL,
+  OPERATION_FLAG,
+  APPLICATION_STATUS,
+} from "../../../constants";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { saveProposalInfo } from "../../../actions/studentactions";
@@ -64,6 +68,10 @@ const initialValues = {
   visaApRjDate: null,
   travelDate: null,
   operationFlag: OPERATION_FLAG.INSERT,
+  currentState: "",
+  studentRemarks: "",
+  remarksStatus: false,
+  followUpDate: null,
 };
 
 const validationSchema = Yup.object().shape({});
@@ -96,6 +104,10 @@ export default function ProposalComponent(props) {
         : null
       : null
   );
+  const [remarksStatus, setRemarksStatus] = React.useState(
+    studentFound ? studentFound.remarksStatus : "N"
+  );
+  const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
   const [snackbarMessage, setSnackBarMessage] = React.useState("");
   const [snackbarOpenState, setSnackbarOpenState] = React.useState(false);
 
@@ -107,8 +119,9 @@ export default function ProposalComponent(props) {
     setSnackbarOpenState(false);
   };
 
-  const openFollowUpPopupFn = (event) => {
-    event.preventDefault();
+  const openFollowUpPopupFn = (event, id) => {
+    //event.preventDefault();
+    setRemarkTriggerPoint(id);
     setOpenFollowUpPopup(true);
   };
 
@@ -124,9 +137,15 @@ export default function ProposalComponent(props) {
   const handleSubmitFollowUp = (remarks) => {
     setOpenFollowUpPopup(false);
     let remarksCopy = followUpRemarks ? followUpRemarks : [];
-    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setFollowUpRemarks(remarksCopy);
+    if (remarkTriggerPoint === "remarksDoneButton") {
+      setRemarksStatus("Y");
+    }
   };
 
   const closeToDoPopupFn = (event) => {
@@ -136,19 +155,51 @@ export default function ProposalComponent(props) {
   const handleSubmitToDo = (remarks) => {
     setOpenToDoPopup(false);
     let remarksCopy = toDoRemarks ? toDoRemarks : [];
-    let newRemarks = { remark: remarks, operationFlag: OPERATION_FLAG.INSERT };
+    let newRemarks = {
+      remark: remarksCopy.length + 1 + "." + remarks,
+      operationFlag: OPERATION_FLAG.INSERT,
+    };
     remarksCopy.push(newRemarks);
     setToDoRemarks(remarksCopy);
+    setRemarksStatus("N");
   };
 
   const handleMenuItemClick = (value, index) => {
     setOpen(false);
     setBackDropState(true);
-    let proposalInfo = { ...studentFound };
-    proposalInfo.status = value;
-    updateStatusOfStudent(proposalInfo, currentUser)
+    let saveData = { ...studentFound };
+    let applicationDetailsData = saveData.proposalInfo
+      ? saveData.proposalInfo.applicationDetails
+      : null;
+    let continueFlag = 0;
+    if (value === APPLICATION_STATUS.ENROLLED) {
+      if (!applicationDetailsData) {
+        setSnackBarMessage("Please save atleast one course");
+        setSnackbarOpenState(true);
+        setBackDropState(false);
+        return;
+      }
+      applicationDetailsData &&
+        applicationDetailsData.length > 0 &&
+        applicationDetailsData.forEach((course, index) => {
+          if (course.applStatus === "Y") {
+            continueFlag++;
+            if (continueFlag > 1) {
+              return;
+            }
+          }
+        });
+    }
+    if (continueFlag !== 1) {
+      setSnackBarMessage("Please select one course with status continue");
+      setSnackbarOpenState(true);
+      setBackDropState(false);
+      return;
+    }
+    saveData.status = value;
+    updateStatusOfStudent(saveData, currentUser)
       .then((res) => {
-        updateStudentFoundForSummary(proposalInfo);
+        updateStudentFoundForSummary(saveData);
       })
       .catch((err) => {})
       .finally(() => setBackDropState(false));
@@ -194,6 +245,7 @@ export default function ProposalComponent(props) {
             applicationDetails: applicationDtl,
             toDoRemarks: toDoRemarks,
             followUpRemarks: followUpRemarks,
+            remarksStatus: remarksStatus,
           };
           let saveData = { ...studentFound };
           saveData.proposalInfo = proposalInfo;
@@ -229,6 +281,8 @@ export default function ProposalComponent(props) {
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
                 studentFound={studentFound}
+                remarksStatus={remarksStatus}
+                openFollowUpPopupFn={openFollowUpPopupFn}
               />
             </div>
             <div className={classes.bottomBar}>
@@ -293,7 +347,8 @@ export default function ProposalComponent(props) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={openFollowUpPopupFn}
+                id="followUpButton"
+                onClick={(e) => openFollowUpPopupFn(e, "followUpButton")}
                 className={classes.actionButton}
               >
                 {` Follow Up `}

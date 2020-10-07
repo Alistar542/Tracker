@@ -156,7 +156,7 @@ export default function PersonalInformationComponent({
           </Select>
         </FormControl>
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             autoOk
             variant="inline"
@@ -171,7 +171,7 @@ export default function PersonalInformationComponent({
               "aria-label": "change date",
             }}
           />
-        </MuiPickersUtilsProvider>
+        </MuiPickersUtilsProvider> */}
       </div>
     </div>
   );

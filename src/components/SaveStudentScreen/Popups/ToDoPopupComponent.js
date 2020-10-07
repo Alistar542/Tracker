@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useContext}from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,17 +6,26 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { AuthContext } from "../../LoginScreen/context/auth";
 
 export default function ToDoPopupComponent(props) {
   const { openToDoPopup, handleToDoClose, handleSubmitToDo } = props;
   const [toDoRemarks, setToDoRemarks] = React.useState();
+  const { currentUser } = useContext(AuthContext);
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()} ${current.getHours()}:${current.getMinutes()}`;
 
   const onChangeToDoRemarks = (data) => {
     setToDoRemarks(data.target.value);
   };
 
   const handleSave = () => {
-    handleSubmitToDo(toDoRemarks);
+    if(toDoRemarks){
+      let toDoRemarksConcated=currentUser.userName+" @"+date+": "+`"`+toDoRemarks+`"`;
+      handleSubmitToDo(toDoRemarksConcated);
+    }else{
+      handleToDoClose();
+    }
   };
   return (
     <div>
@@ -44,7 +53,7 @@ export default function ToDoPopupComponent(props) {
             Cancel
           </Button>
           <Button onClick={handleSave} color="primary">
-            Save
+            Ok
           </Button>
         </DialogActions>
       </Dialog>

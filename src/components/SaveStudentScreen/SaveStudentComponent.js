@@ -19,10 +19,33 @@ const useStyles = makeStyles((theme) => ({
 export default function SaveStudentComponent(props) {
   const classes = useStyles();
   let locationFound = useLocation();
-  //let { studentFound } = locationFound.state ? locationFound.state : {};
   const [studentFoundForSummary, setStudentFoundForSummary] = React.useState(
     locationFound.state ? locationFound.state : {}
   );
+  let studentFound = studentFoundForSummary.studentFound
+    ? studentFoundForSummary.studentFound
+    : {};
+  let courseDetails = studentFound
+    ? studentFound.proposalInfo
+      ? studentFound.proposalInfo.applicationDetails
+        ? studentFound.proposalInfo.applicationDetails
+        : []
+      : []
+    : [];
+  let selectedCourse = courseDetails.filter((course) => {
+    return course.applStatus === "Y";
+  });
+
+  // let enrolledInfo = studentFound
+  //   ? studentFound.enrolledInfo
+  //     ? studentFound.enrolledInfo
+  //     : {}
+  //   : {};
+  //enrolledInfo.selectedCourse = selectedCourse;
+  studentFound.selectedCourse = selectedCourse;
+  console.log("------------------------------");
+  console.log(studentFound);
+
   const updateStudentFoundForSummary = (student) => {
     setStudentFoundForSummary({ studentFound: student });
   };
