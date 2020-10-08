@@ -35,14 +35,14 @@ export default function ToDoPopupComponent(props) {
         aria-labelledby="form-dialog-title"
         fullWidth={true}
       >
-        <DialogTitle id="form-dialog-title">To Do Remarks</DialogTitle>
+        <DialogTitle id="form-dialog-title">To Do Comments</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter To Do Remarks</DialogContentText>
+          <DialogContentText>Please enter To Do Comments</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="To Do Remarks"
+            label="To Do Comments"
             type="text"
             fullWidth
             onChange={onChangeToDoRemarks}

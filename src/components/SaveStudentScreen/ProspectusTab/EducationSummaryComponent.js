@@ -54,11 +54,14 @@ export default function EducationSummaryComponent(props) {
             name="highestLevelOfEducation"
             {...formik.getFieldProps("highestLevelOfEducation")}
           >
-            <MenuItem value={"sslc"}>SSLC</MenuItem>
-            <MenuItem value={"higherSecondary"}>Higher Secondary</MenuItem>
-            <MenuItem value={"diploma"}>Diploma</MenuItem>
-            <MenuItem value={"btech"}>B Tech</MenuItem>
-            <MenuItem value={"degree"}>Degree</MenuItem>
+            <MenuItem value={"secSchool"}>Secondary School</MenuItem>
+            <MenuItem value={"higherSecondary"}>Higher Secondary School</MenuItem>
+            <MenuItem value={"1ydiploma"}>1 Year Diploma</MenuItem>
+            <MenuItem value={"2ydiploma"}>2 Year Diploma</MenuItem>
+            <MenuItem value={"3ydiploma"}>3 Year Diploma</MenuItem>
+            <MenuItem value={"bachelor"}>Bachelor</MenuItem>
+            <MenuItem value={"master"}>Master</MenuItem>
+            <MenuItem value={"phd"}>PhD</MenuItem>
           </Select>
         </FormControl>
 
@@ -70,8 +73,10 @@ export default function EducationSummaryComponent(props) {
             name="gradingScheme"
             {...formik.getFieldProps("gradingScheme")}
           >
-            <MenuItem value={"cgpa"}>CGPA out of 10</MenuItem>
-            <MenuItem value={"percentage"}>Percentage</MenuItem>
+            <MenuItem value={"gpa4"}>GPA out of 4</MenuItem>
+            <MenuItem value={"gpa5"}>GPA out of 5</MenuItem>
+            <MenuItem value={"gpa10"}>GPA out of 10</MenuItem>
+            <MenuItem value={"percent"}>Percentage</MenuItem>
             <MenuItem value={"grade"}>Grade</MenuItem>
           </Select>
         </FormControl>

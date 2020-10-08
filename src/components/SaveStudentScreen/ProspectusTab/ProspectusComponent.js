@@ -588,7 +588,7 @@ export const ProspectusComponent = (props) => {
                 disabled={status === STATUS.REJECTED}
               >
                 {" "}
-                To Do{" "}
+                Add To Do Comment{" "}
               </Button>
               <Button
                 variant="contained"
@@ -598,7 +598,7 @@ export const ProspectusComponent = (props) => {
                 disabled={status === STATUS.REJECTED}
               >
                 {" "}
-                Follow Up{" "}
+                Add Follow Up Comment{" "}
               </Button>
               <Button
                 variant="contained"

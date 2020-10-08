@@ -47,7 +47,7 @@ export default function ExpansionPanelForFetchUserComponent(props) {
             Phone Number: {data.phoneNumber} Course Interested : {data.courseInterested}
             <br></br>
             {data.followUpRemarks?<div>
-            Follow Up Remarks : {
+            Follow Up Comments : {
               data.followUpRemarks.map(remarks => {
               return <li>{remarks}</li>
               })

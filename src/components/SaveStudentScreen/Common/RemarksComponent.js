@@ -43,7 +43,7 @@ export default function RemarksComponent(props) {
   return (
     <div className={classes.outerDiv}>
       <Typography component={"span"} variant="h7">
-        Remarks
+        Follow Up Reminder
       </Typography>
       <div className={classes.personalInfoDiv}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -54,7 +54,7 @@ export default function RemarksComponent(props) {
             margin="normal"
             id="followUpDate"
             name="followUpDate"
-            label="Follow Up Date"
+            label="Next Follow Up Date"
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
@@ -64,7 +64,7 @@ export default function RemarksComponent(props) {
         </MuiPickersUtilsProvider>
         <TextField
           id="currentState"
-          label="Current State"
+          label="Student Remarks"
           name="currentState"
           {...formik.getFieldProps("currentState")}
         />
@@ -81,7 +81,7 @@ export default function RemarksComponent(props) {
       <div className={classes.studentRemarksField}>
         <TextField
           id="standard-textarea"
-          label="Remarks"
+          label="Additional Info/Comments"
           placeholder="Remarks"
           name="studentRemarks"
           multiline

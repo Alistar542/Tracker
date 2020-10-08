@@ -40,14 +40,14 @@ export default function FollowUpPopupComponent(props) {
         aria-labelledby="form-dialog-title"
         fullWidth={true}
       >
-        <DialogTitle id="form-dialog-title">Follow Up Remarks</DialogTitle>
+        <DialogTitle id="form-dialog-title">Follow Up Comments</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter Follow Up Remarks</DialogContentText>
+          <DialogContentText>Please enter Follow Up Comments</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Follow Up Remarks"
+            label="Follow Up Comments"
             type="text"
             fullWidth
             onChange={onChangeFollowUpRemarks}

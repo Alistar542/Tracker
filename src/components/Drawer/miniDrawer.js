@@ -225,7 +225,7 @@ export default function MiniDrawer() {
               <ListItemText primary="Add Student" />
             </ListItem>
           </Tooltip> */}
-          <Tooltip title="Save Student" arrow>
+          <Tooltip title="New Student" arrow>
             <ListItem
               button
               key="saveStudent"
@@ -235,7 +235,7 @@ export default function MiniDrawer() {
               <ListItemIcon>
                 <FaceRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Save Student" />
+              <ListItemText primary="New Student" />
             </ListItem>
           </Tooltip>
 

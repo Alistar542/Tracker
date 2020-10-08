@@ -24,7 +24,7 @@ export function FollowUpComponent(props){
         {props.followUpRemarks?<div>
             <Card className={classes.cardComponent}>
             <Typography component = "h6" variant = "h6" >
-                Follow Up Remarks
+                Follow Up Comments
             </Typography>
                 <CardContent className={classes.cardContentDiv}>
                 {props.followUpRemarks.map((followUpRem) =>{

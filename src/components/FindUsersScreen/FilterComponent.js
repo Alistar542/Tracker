@@ -174,6 +174,16 @@ export function FilterComponent(props) {
         >
           <CardContent className={classes.cardContentDiv}>
             <TextField
+                id="standard"
+                label="Student First Name"
+                name="firstName"
+                variant="outlined"
+                margin="dense"
+                value={firstName}
+                onChange={handleFirstNameChange}
+              />
+
+            <TextField
               id="standard"
               label="Student Id"
               name="studentId"
@@ -226,28 +236,7 @@ export function FilterComponent(props) {
                 })}
               </Select>
             </FormControl>
-            <FormControl
-              margin="dense"
-              variant="outlined"
-              className={classes.formControlSelect}
-            >
-              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="priority"
-                name="priority"
-                value={priority}
-                onChange={handlePriorityChange}
-                label="Priority"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="H">High</MenuItem>
-                <MenuItem value="M">Medium</MenuItem>
-                <MenuItem value="L">Low</MenuItem>
-              </Select>
-            </FormControl>
+            
             <Button
               variant="contained"
               color="primary"
@@ -284,16 +273,28 @@ export function FilterComponent(props) {
           </CardContent>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent className={classes.cardContentDiv}>
-              <TextField
-                id="standard"
-                label="Student First Name"
-                name="firstName"
-                variant="outlined"
-                margin="dense"
-                value={firstName}
-                onChange={handleFirstNameChange}
-              />
-
+            <FormControl
+              margin="dense"
+              variant="outlined"
+              className={classes.formControlSelect}
+            >
+              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="priority"
+                name="priority"
+                value={priority}
+                onChange={handlePriorityChange}
+                label="Priority"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="H">High</MenuItem>
+                <MenuItem value="M">Medium</MenuItem>
+                <MenuItem value="L">Low</MenuItem>
+              </Select>
+            </FormControl>
               <TextField
                 id="standard"
                 label="Phone Number"
