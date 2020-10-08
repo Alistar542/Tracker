@@ -75,7 +75,7 @@ export default function RemarksComponent(props) {
           disabled={remarksStatus !== "N"}
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
-          {remarksStatus === "N" ? "Mark as Done" : "Done"}
+          {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}
         </Button>
       </div>
       <div className={classes.studentRemarksField}>
