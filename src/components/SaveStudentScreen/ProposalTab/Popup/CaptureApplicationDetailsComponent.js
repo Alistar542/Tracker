@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   formControlSelect: {
-    margin: theme.spacing(0, 1),
+    margin: theme.spacing(1),
     width: 200,
   },
   deleteButton: {
@@ -221,15 +221,15 @@ export default function CaptureApplicationDetailsComponent(props) {
                     }
                   />
                 </MuiPickersUtilsProvider>
+
                 <FormControl
-                  component="fieldset"
+                  variant="outlined"
                   error={Boolean(
                     formik.errors.appldCourseTyp &&
                       formik.touched.appldCourseTyp
                   )}
                   className={classes.formControlSelect}
                 >
-                  <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="demo-simple-select-outlined-label">
                     Applied Course Type
                   </InputLabel>
@@ -245,10 +245,10 @@ export default function CaptureApplicationDetailsComponent(props) {
                     <MenuItem value={"D"}>Diploma</MenuItem>
                     <MenuItem value={"M"}>Master </MenuItem>
                     <MenuItem value={"P"}>PhD </MenuItem>
-                    <MenuItem value=""><em>None</em></MenuItem>
-                    
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
                   </Select>
-                </FormControl>
                   <FormHelperText>
                     {formik.errors.appldCourseTyp &&
                       formik.touched.appldCourseTyp &&

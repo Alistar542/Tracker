@@ -212,6 +212,7 @@ export default function DetailsComponent(props) {
           openFollowUpPopupFn={props.openFollowUpPopupFn}
         />
       </div>
+      <Divider />
       <FollowUpComponent followUpRemarks={followUpRemarks} />
       <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>

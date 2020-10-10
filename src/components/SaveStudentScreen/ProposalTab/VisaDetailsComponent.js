@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
     "& .MuiTextField-root": {
-      width: 250,
+      //marginLeft: theme.spacing(4),
+      width: 200,
+    },
+    "& .MuiIconButton-root": {
+      marginRight: -theme.spacing(2),
     },
     alignItems: "center",
     flexWrap: "wrap",
@@ -26,7 +30,19 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100px",
   },
   radioComponent: {
-    marginLeft: theme.spacing(2),
+    //marginLeft: theme.spacing(2),
+  },
+  radioInnerLabel: {
+    // "& .MuiFormControlLabel-root": {
+    //   marginLeft: theme.spacing(3),
+    // },
+    marginLeft: theme.spacing(3),
+  },
+  radioOuterComponent: {
+    minWidth: "210px",
+    "& .MuiFormGroup-root": {
+      marginLeft: -theme.spacing(2),
+    },
   },
 }));
 
@@ -35,7 +51,7 @@ export default function VisaDetailsComponent(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <FormControl component="fieldset">
+      <FormControl component="fieldset" className={classes.radioOuterComponent}>
         <FormLabel component="legend" className={classes.radioComponent}>
           Visa Application Status
         </FormLabel>
@@ -56,6 +72,7 @@ export default function VisaDetailsComponent(props) {
             labelPlacement="start"
             control={<Radio color="primary" />}
             label="Not Applied"
+            className={classes.radioInnerLabel}
           />
         </RadioGroup>
       </FormControl>
@@ -77,7 +94,7 @@ export default function VisaDetailsComponent(props) {
           onChange={(value) => formik.setFieldValue("visaApplnPrcDate", value)}
         />
       </MuiPickersUtilsProvider>
-      <FormControl component="fieldset">
+      <FormControl component="fieldset" className={classes.radioOuterComponent}>
         <FormLabel component="legend" className={classes.radioComponent}>
           Visa Status
         </FormLabel>
@@ -98,6 +115,7 @@ export default function VisaDetailsComponent(props) {
             labelPlacement="start"
             control={<Radio color="primary" />}
             label="Rejected"
+            className={classes.radioInnerLabel}
           />
         </RadioGroup>
       </FormControl>
@@ -111,7 +129,7 @@ export default function VisaDetailsComponent(props) {
           margin="dense"
           id="visaApRjDate"
           name="visaApRjDate"
-          label="Visa Apprvd/Rej Date"
+          label="Visa Aprvd/Rej Date"
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}

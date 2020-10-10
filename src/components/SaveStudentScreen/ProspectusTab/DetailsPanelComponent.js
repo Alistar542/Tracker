@@ -15,11 +15,6 @@ const useStyles = makeStyles((theme) => ({
   formDiv: {
     margin: theme.spacing(1),
   },
-  remarksDiv: {
-    ".MuiTextField-root": {
-      width: "100%",
-    },
-  },
 }));
 export default function DetailsPanelComponent(props) {
   const {
@@ -44,13 +39,11 @@ export default function DetailsPanelComponent(props) {
       <Divider />
       <MarketingPurposeComponent formik={formik} />
       <Divider />
-      <div className={classes.remarksDiv}>
-        <RemarksComponent
-          formik={formik}
-          remarksStatus={remarksStatus}
-          openFollowUpPopupFn={openFollowUpPopupFn}
-        />
-      </div>
+      <RemarksComponent
+        formik={formik}
+        remarksStatus={remarksStatus}
+        openFollowUpPopupFn={openFollowUpPopupFn}
+      />
       <Divider />
       <ToDoComponent toDoRemarks={toDoRemarks} />
       <FollowUpComponent followUpRemarks={followUpRemarks} />

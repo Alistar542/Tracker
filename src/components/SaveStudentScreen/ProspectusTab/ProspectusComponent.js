@@ -62,10 +62,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rootDiv: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(0, 1),
-      width: 200,
-    },
     "& .MuiFormLabel-root": {
       fontSize: "0.9rem",
     },

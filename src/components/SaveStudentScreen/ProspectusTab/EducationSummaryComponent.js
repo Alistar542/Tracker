@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "stretch",
+    "& .MuiTextField-root": {
+      margin: theme.spacing(0, 1),
+      width: 200,
+    },
   },
   formControlSelect: {
     margin: theme.spacing(0, 1),
@@ -55,7 +59,9 @@ export default function EducationSummaryComponent(props) {
             {...formik.getFieldProps("highestLevelOfEducation")}
           >
             <MenuItem value={"secSchool"}>Secondary School</MenuItem>
-            <MenuItem value={"higherSecondary"}>Higher Secondary School</MenuItem>
+            <MenuItem value={"higherSecondary"}>
+              Higher Secondary School
+            </MenuItem>
             <MenuItem value={"1ydiploma"}>1 Year Diploma</MenuItem>
             <MenuItem value={"2ydiploma"}>2 Year Diploma</MenuItem>
             <MenuItem value={"3ydiploma"}>3 Year Diploma</MenuItem>

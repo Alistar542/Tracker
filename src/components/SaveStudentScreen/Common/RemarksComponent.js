@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 200,
     },
+    "& .MuiButton-root": {
+      margin: "10px",
+      padding: "7px",
+    },
   },
   outerDiv: {
     margin: theme.spacing(2, 0),
@@ -33,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: "100%",
     },
+  },
+  doneButton: {
+    margin: 0,
+    padding: theme.spacing(0, 1),
   },
 }));
 
@@ -73,6 +81,7 @@ export default function RemarksComponent(props) {
           variant="contained"
           id="remarksDoneButton"
           disabled={remarksStatus !== "N"}
+          className={classes.doneButton}
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
           {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}
