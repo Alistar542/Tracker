@@ -13,6 +13,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import EducationDetailsPopup from "./Popups/EducationDetailsPopup";
+import { Paper } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
   personalInfoDiv: {
@@ -32,6 +36,22 @@ const useStyles = makeStyles((theme) => ({
   },
   outerDiv: {
     margin: theme.spacing(2, 0),
+    "& .MuiButton-root": {
+      margin: theme.spacing(1),
+    },
+  },
+  educationDtlPaper: {
+    display: "flex",
+    flexDirection: "row",
+    paddingLeft: "6px",
+    paddingRight: "2px",
+    margin: theme.spacing(1),
+    alignItems: "center",
+  },
+  actionButtonDiv: {
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: "auto",
   },
 }));
 
@@ -41,16 +61,35 @@ export default function EducationSummaryComponent(props) {
   const [openEducationDtlPopup, setOpenEducationDtlPopup] = React.useState(
     false
   );
+  const [currentEducationDtl, setCurrentEducationDtl] = React.useState(null);
+  const [
+    currentEducationDtlIndex,
+    setCurrentEducationDtlIndex,
+  ] = React.useState(null);
 
   const handleOpenEducationDtl = () => {
     setOpenEducationDtlPopup(!openEducationDtlPopup);
+    setCurrentEducationDtl(null);
+  };
+
+  const deleteAndUpdateEducationDtl = (index) => {
+    let educationDetailsCopy = [...educationDetails];
+    educationDetailsCopy.splice(index, 1);
+    setEducationDetails(educationDetailsCopy);
+    setCurrentEducationDtlIndex(null);
   };
 
   const handleSubmitEducationDtl = (values) => {
     let educationDetailsCopy = educationDetails ? educationDetails : [];
-    educationDetailsCopy.push(values);
+    if (currentEducationDtlIndex != null) {
+      educationDetailsCopy[currentEducationDtlIndex] = values;
+    } else {
+      educationDetailsCopy.push(values);
+    }
     setEducationDetails(educationDetailsCopy);
     setOpenEducationDtlPopup(false);
+    setCurrentEducationDtlIndex(null);
+    setCurrentEducationDtl(null);
   };
 
   return (
@@ -138,13 +177,65 @@ export default function EducationSummaryComponent(props) {
       </Button>
       <div>
         {educationDetails &&
-          educationDetails.map((educationDtl) => {
+          educationDetails.map((educationDtl, index) => {
+            const openAndEditEducationDtl = () => {
+              setCurrentEducationDtl(educationDtl);
+              setCurrentEducationDtlIndex(index);
+              setOpenEducationDtlPopup(true);
+            };
+            const deleteEducationDtl = () => {
+              deleteAndUpdateEducationDtl(index);
+            };
+
             return (
-              <div>
-                {educationDtl.educationLevel} -{" "}
-                {educationDtl.institutionCountry} -{" "}
-                {educationDtl.institutionName}
-              </div>
+              <Paper className={classes.educationDtlPaper}>
+                <div>
+                  {educationDtl.educationLevel.length > 0 &&
+                    `${educationDtl.educationLevel} - `}
+                  {educationDtl.institutionCountry.length > 0 &&
+                    `${educationDtl.institutionCountry} - `}
+                  {educationDtl.institutionName.length > 0 &&
+                    `${educationDtl.institutionName} - `}
+                  {educationDtl.primaryLanguage.length > 0 &&
+                    `${educationDtl.primaryLanguage} - `}
+                  {educationDtl.attendedFromDate &&
+                    `${new Date(
+                      educationDtl.attendedFromDate
+                    ).toDateString()} - `}
+                  {educationDtl.attendedToDate > 0 &&
+                    `${new Date(
+                      educationDtl.attendedToDate
+                    ).toDateString()} - `}
+                  {educationDtl.degreeAwarded.length > 0 &&
+                    `${educationDtl.degreeAwarded} - `}
+                  {educationDtl.degreeAwardedOn &&
+                    `${new Date(
+                      educationDtl.degreeAwardedOn
+                    ).toDateString()} - `}
+                  {educationDtl.address.length > 0 &&
+                    `${educationDtl.address} - `}
+                  {educationDtl.city.length > 0 && `${educationDtl.city} - `}
+                  {educationDtl.province.length > 0 &&
+                    `${educationDtl.province} - `}
+                  {educationDtl.zipCode.length > 0 && `${educationDtl.zipCode}`}
+                </div>
+                <div className={classes.actionButtonDiv}>
+                  <IconButton
+                    color="primary"
+                    aria-label="edit"
+                    onClick={openAndEditEducationDtl}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    onClick={deleteEducationDtl}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              </Paper>
             );
           })}
       </div>
@@ -152,6 +243,7 @@ export default function EducationSummaryComponent(props) {
         openEducationDtlPopup={openEducationDtlPopup}
         handleOpenEducationDtl={handleOpenEducationDtl}
         handleSubmitEducationDtl={handleSubmitEducationDtl}
+        currentEducationDtl={currentEducationDtl}
       />
     </div>
   );

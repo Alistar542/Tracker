@@ -22,7 +22,7 @@ const initialValues = {
   attendedFromDate: null,
   attendedToDate: null,
   degreeAwarded: "",
-  degreeAwardedOn: "",
+  degreeAwardedOn: null,
   address: "",
   city: "",
   province: "",
@@ -31,6 +31,8 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
   institutionName: Yup.string().required("Required"),
+  educationLevel: Yup.string().required("Required"),
+  institutionCountry: Yup.string().required("Required"),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +57,7 @@ export default function EducationDetailsPopup(props) {
     openEducationDtlPopup,
     handleOpenEducationDtl,
     handleSubmitEducationDtl,
+    currentEducationDtl,
   } = props;
   const classes = useStyles();
   return (
@@ -68,7 +71,9 @@ export default function EducationDetailsPopup(props) {
       >
         <DialogTitle id="form-dialog-title">Education Details</DialogTitle>
         <Formik
-          initialValues={initialValues}
+          initialValues={
+            currentEducationDtl ? currentEducationDtl : initialValues
+          }
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             handleSubmitEducationDtl(values);
@@ -88,6 +93,15 @@ export default function EducationDetailsPopup(props) {
                     label="Education Level"
                     name="educationLevel"
                     type="text"
+                    error={
+                      formik.errors.educationLevel &&
+                      formik.touched.educationLevel
+                    }
+                    helperText={
+                      formik.errors.educationLevel &&
+                      formik.touched.educationLevel &&
+                      formik.errors.educationLevel
+                    }
                     {...formik.getFieldProps("educationLevel")}
                   />
                   <TextField
@@ -97,6 +111,15 @@ export default function EducationDetailsPopup(props) {
                     name="institutionCountry"
                     label="Country Of Institution"
                     type="text"
+                    error={
+                      formik.errors.institutionCountry &&
+                      formik.touched.institutionCountry
+                    }
+                    helperText={
+                      formik.errors.institutionCountry &&
+                      formik.touched.institutionCountry &&
+                      formik.errors.institutionCountry
+                    }
                     {...formik.getFieldProps("institutionCountry")}
                   />
                   <TextField
@@ -160,9 +183,9 @@ export default function EducationDetailsPopup(props) {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                      value={formik.values.attendedFromDate}
+                      value={formik.values.attendedToDate}
                       onChange={(value) =>
-                        formik.setFieldValue("attendedFromDate", value)
+                        formik.setFieldValue("attendedToDate", value)
                       }
                     />
                   </MuiPickersUtilsProvider>
@@ -175,15 +198,26 @@ export default function EducationDetailsPopup(props) {
                     type="text"
                     {...formik.getFieldProps("degreeAwarded")}
                   />
-                  <TextField
-                    margin="dense"
-                    variant="outlined"
-                    id="degreeAwardedOn"
-                    name="degreeAwardedOn"
-                    label="Degree Awarded On"
-                    type="text"
-                    {...formik.getFieldProps("degreeAwardedOn")}
-                  />
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      autoOk
+                      openTo="year"
+                      variant="inline"
+                      inputVariant="outlined"
+                      format="dd/MM/yyyy"
+                      margin="dense"
+                      id="degreeAwardedOn"
+                      name="degreeAwardedOn"
+                      label="Degree Awarded On"
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      value={formik.values.degreeAwardedOn}
+                      onChange={(value) =>
+                        formik.setFieldValue("degreeAwardedOn", value)
+                      }
+                    />
+                  </MuiPickersUtilsProvider>
                   <TextField
                     margin="dense"
                     variant="outlined"
