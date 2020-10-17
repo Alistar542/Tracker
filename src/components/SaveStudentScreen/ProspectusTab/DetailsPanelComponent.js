@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AreasOfInterestComponent from "./AreasOfInterestComponent";
 import MarketingPurposeComponent from "./MarketingPurposeComponent";
 import EducationSummaryComponent from "./EducationSummaryComponent";
+import RemarksFromStudentComponent from "./RemarksFromStudentComponent";
 import WorkExperienceComponent from "./WorkExperienceComponent";
 import PersonalInformationComponent from "./PersonalInformationComponent";
 import EnglishExamTypeComponent from "./EnglishExamTypeComponent";
@@ -37,6 +38,9 @@ export default function DetailsPanelComponent(props) {
       <Divider />
       <AreasOfInterestComponent formik={formik} />
       <Divider />
+      <RemarksFromStudentComponent toDoRemarks={toDoRemarks} />
+      <Divider />
+      <Divider />
       <MarketingPurposeComponent formik={formik} />
       <Divider />
       <RemarksComponent
@@ -45,8 +49,7 @@ export default function DetailsPanelComponent(props) {
         openFollowUpPopupFn={openFollowUpPopupFn}
       />
       <Divider />
-      <ToDoComponent toDoRemarks={toDoRemarks} />
-      <FollowUpComponent followUpRemarks={followUpRemarks} />
+       <FollowUpComponent followUpRemarks={followUpRemarks} />
     </div>
   );
 }
