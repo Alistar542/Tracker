@@ -24,13 +24,19 @@ export default function DetailsPanelComponent(props) {
     toDoRemarks,
     remarksStatus,
     openFollowUpPopupFn,
+    educationDetails,
+    setEducationDetails,
   } = props;
   const classes = useStyles();
   return (
     <div id="formDiv" className={classes.formDiv}>
       <PersonalInformationComponent {...formik} />
       <Divider />
-      <EducationSummaryComponent formik={formik} />
+      <EducationSummaryComponent
+        formik={formik}
+        educationDetails={educationDetails}
+        setEducationDetails={setEducationDetails}
+      />
       <Divider />
       <EnglishExamTypeComponent formik={formik} />
       <Divider />

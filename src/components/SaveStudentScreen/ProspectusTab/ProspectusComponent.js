@@ -146,6 +146,9 @@ export const ProspectusComponent = (props) => {
   const [remarksStatus, setRemarksStatus] = React.useState(
     studentFound ? studentFound.remarksStatus : "N"
   );
+  const [educationDetails, setEducationDetails] = React.useState(
+    studentFound ? studentFound.educationDetails : null
+  );
   const [errorData, setErrorData] = React.useState({});
   const [status, setStatus] = React.useState(
     studentFound ? studentFound.status : STATUS.NEW
@@ -362,10 +365,12 @@ export const ProspectusComponent = (props) => {
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,
       status: status,
+      educationDetails: educationDetails,
     };
 
     if (typeof studentFound === "undefined") {
-      console.log("add");
+      console.log("==========SAVE=============");
+      console.log(userObject);
       saveStudent(userObject, currentUser)
         .then((res) => {
           console.log(res.data);
@@ -450,6 +455,7 @@ export const ProspectusComponent = (props) => {
     setFollowUpRemarks(null);
     setToDoRemarks(null);
     setRemarksStatus("N");
+    setEducationDetails(null);
   };
 
   const openFollowUpPopupFn = (event, id) => {
@@ -522,6 +528,8 @@ export const ProspectusComponent = (props) => {
                 toDoRemarks={toDoRemarks}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
+                educationDetails={educationDetails}
+                setEducationDetails={setEducationDetails}
               />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}

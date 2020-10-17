@@ -11,6 +11,8 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import Button from "@material-ui/core/Button";
+import EducationDetailsPopup from "./Popups/EducationDetailsPopup";
 
 const useStyles = makeStyles((theme) => ({
   personalInfoDiv: {
@@ -34,8 +36,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EducationSummaryComponent(props) {
-  const { formik } = props;
+  const { formik, educationDetails, setEducationDetails } = props;
   const classes = useStyles();
+  const [openEducationDtlPopup, setOpenEducationDtlPopup] = React.useState(
+    false
+  );
+
+  const handleOpenEducationDtl = () => {
+    setOpenEducationDtlPopup(!openEducationDtlPopup);
+  };
+
+  const handleSubmitEducationDtl = (values) => {
+    let educationDetailsCopy = educationDetails ? educationDetails : [];
+    educationDetailsCopy.push(values);
+    setEducationDetails(educationDetailsCopy);
+    setOpenEducationDtlPopup(false);
+  };
+
   return (
     <div className={classes.outerDiv}>
       <Typography component={"span"} variant="h7">
@@ -112,6 +129,30 @@ export default function EducationSummaryComponent(props) {
           />
         </MuiPickersUtilsProvider>
       </div>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={handleOpenEducationDtl}
+      >
+        Add Education Detail
+      </Button>
+      <div>
+        {educationDetails &&
+          educationDetails.map((educationDtl) => {
+            return (
+              <div>
+                {educationDtl.educationLevel} -{" "}
+                {educationDtl.institutionCountry} -{" "}
+                {educationDtl.institutionName}
+              </div>
+            );
+          })}
+      </div>
+      <EducationDetailsPopup
+        openEducationDtlPopup={openEducationDtlPopup}
+        handleOpenEducationDtl={handleOpenEducationDtl}
+        handleSubmitEducationDtl={handleSubmitEducationDtl}
+      />
     </div>
   );
 }
