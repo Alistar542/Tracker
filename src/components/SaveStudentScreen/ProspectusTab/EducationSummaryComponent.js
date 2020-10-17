@@ -149,6 +149,12 @@ export default function EducationSummaryComponent(props) {
           name="gradeAverage"
           {...formik.getFieldProps("gradeAverage")}
         />
+        <TextField
+          id="courseType"
+          label="Course Type"
+          name="courseType"
+          {...formik.getFieldProps("courseType")}
+        />
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
