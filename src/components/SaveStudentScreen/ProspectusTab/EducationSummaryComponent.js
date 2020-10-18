@@ -70,6 +70,7 @@ export default function EducationSummaryComponent(props) {
   const handleOpenEducationDtl = () => {
     setOpenEducationDtlPopup(!openEducationDtlPopup);
     setCurrentEducationDtl(null);
+    setCurrentEducationDtlIndex(null);
   };
 
   const deleteAndUpdateEducationDtl = (index) => {
