@@ -168,10 +168,11 @@ export default function MiniDrawer() {
               </Badge>
             </IconButton>
           </Typography>
-          <Button color="inherit" onClick={logout}>
-            <PowerSettingsNewIcon />
-            Logout
-          </Button>
+          <Tooltip title="Logout" arrow>
+            <Button color="inherit" onClick={logout}>
+              <PowerSettingsNewIcon />
+            </Button>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer

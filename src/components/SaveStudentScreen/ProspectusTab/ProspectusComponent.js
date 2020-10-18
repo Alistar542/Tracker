@@ -179,6 +179,7 @@ export const ProspectusComponent = (props) => {
     highestLevelOfEducation: "",
     gradingScheme: "",
     gradeAverage: "",
+    courseType: "",
     graduatedYear: null,
     companyName: "",
     position: "",
@@ -342,6 +343,7 @@ export const ProspectusComponent = (props) => {
       highestLevelOfEducation: values.highestLevelOfEducation,
       gradingScheme: values.gradingScheme,
       gradeAverage: values.gradeAverage,
+      courseType: values.courseType,
       graduatedYear: values.graduatedYear
         ? new Date(values.graduatedYear)
         : null,
@@ -440,6 +442,7 @@ export const ProspectusComponent = (props) => {
       highestLevelOfEducation: "",
       gradingScheme: "",
       gradeAverage: "",
+      courseType: "",
       companyName: "",
       position: "",
       workAddress: "",
