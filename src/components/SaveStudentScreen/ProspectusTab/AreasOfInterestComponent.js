@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 1),
     display: "flex",
     flexDirection: "column",
+    "& .MuiTextField-root": {
+      margin: theme.spacing(0, 1),
+      width: 200,
+    },
   },
   innerDiv: {
     display: "flex",

@@ -101,19 +101,6 @@ export default function DetailsPanelComponent(props) {
         application={application}
         deleteApplication={deleteApplication}
       />
-      <div className={classes.mainDetailsDiv}>
-        <ProspectusSummaryComponent studentFound={studentFound} />
-        <VisaDetailsComponent formik={formik} />
-        <Divider />
-      </div>
-      <div className={classes.remarksDiv}>
-        <RemarksComponent
-          formik={formik}
-          remarksStatus={props.remarksStatus}
-          openFollowUpPopupFn={props.openFollowUpPopupFn}
-        />
-      </div>
-      <Divider />
       <div className={classes.applicationDetailsDiv}>
         <div className={classes.applicationTopDiv}>
           <Button
@@ -139,6 +126,19 @@ export default function DetailsPanelComponent(props) {
         </div>
         <Divider />
       </div>
+      <div className={classes.mainDetailsDiv}>
+        {/* <ProspectusSummaryComponent studentFound={studentFound} /> */}
+        <VisaDetailsComponent formik={formik} />
+        <Divider />
+      </div>
+      <div className={classes.remarksDiv}>
+        <RemarksComponent
+          formik={formik}
+          remarksStatus={props.remarksStatus}
+          openFollowUpPopupFn={props.openFollowUpPopupFn}
+        />
+      </div>
+      <Divider />
       <FollowUpComponent followUpRemarks={followUpRemarks} />
       <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>

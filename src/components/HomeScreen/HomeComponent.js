@@ -52,7 +52,7 @@ export function HomeComponent() {
         <CardContent className={classes.cardContent}>
           <AddRoundedIcon style={{ fontSize: 60 }} />
           <Typography variant="h5" component="h2">
-            Add a Student
+            New Student
           </Typography>
         </CardContent>
       </Card>

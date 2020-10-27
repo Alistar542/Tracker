@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 200,
     },
+    "& .MuiButton-root": {
+      margin: "10px",
+      padding: "7px",
+    },
   },
   outerDiv: {
     margin: theme.spacing(2, 0),
@@ -34,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  doneButton: {
+    margin: 0,
+    padding: theme.spacing(0, 1),
+  },
 }));
 
 export default function RemarksComponent(props) {
@@ -43,7 +51,7 @@ export default function RemarksComponent(props) {
   return (
     <div className={classes.outerDiv}>
       <Typography component={"span"} variant="h7">
-        Remarks
+        Follow Up Reminder
       </Typography>
       <div className={classes.personalInfoDiv}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -54,7 +62,7 @@ export default function RemarksComponent(props) {
             margin="normal"
             id="followUpDate"
             name="followUpDate"
-            label="Follow Up Date"
+            label="Next Follow Up Date"
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
@@ -64,7 +72,7 @@ export default function RemarksComponent(props) {
         </MuiPickersUtilsProvider>
         <TextField
           id="currentState"
-          label="Current State"
+          label="Student Remarks"
           name="currentState"
           {...formik.getFieldProps("currentState")}
         />
@@ -73,15 +81,16 @@ export default function RemarksComponent(props) {
           variant="contained"
           id="remarksDoneButton"
           disabled={remarksStatus !== "N"}
+          className={classes.doneButton}
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
-          {remarksStatus === "N" ? "Mark as Done" : "Done"}
+          {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}
         </Button>
       </div>
       <div className={classes.studentRemarksField}>
         <TextField
           id="standard-textarea"
-          label="Remarks"
+          label="Additional Info/Comments"
           placeholder="Remarks"
           name="studentRemarks"
           multiline

@@ -49,8 +49,8 @@ export default function DetailsComponent(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <ProspectusSummaryComponent studentFound={studentFound} />
-      <ProposalSummaryComponent studentFound={studentFound} />
+      {/* <ProspectusSummaryComponent studentFound={studentFound} />
+      <ProposalSummaryComponent studentFound={studentFound} /> */}
       <div className={classes.mainDetailsDiv}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
@@ -212,6 +212,7 @@ export default function DetailsComponent(props) {
           openFollowUpPopupFn={props.openFollowUpPopupFn}
         />
       </div>
+      <Divider />
       <FollowUpComponent followUpRemarks={followUpRemarks} />
       <ToDoComponent toDoRemarks={toDoRemarks} />
     </div>

@@ -37,6 +37,7 @@ import SettingsComponent from "../SettingsScreen/SettingsComponent";
 import SaveStudentComponent from "../SaveStudentScreen/SaveStudentComponent";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { AbilityContext } from "../../privilegehandler/privilegehandler";
+import { findStudent } from "../../actions/studentactions";
 
 const drawerWidth = 240;
 
@@ -101,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    paddingLeft: theme.spacing(2),
   },
   bottomLink: {
     marginBottom: "auto",
@@ -127,23 +129,12 @@ export default function MiniDrawer() {
   const ability = useContext(AbilityContext);
 
   useEffect(() => {
-    var date = new Date();
+    let date = new Date();
     const fetchObject = {
-      followUpDate: new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate()
-      ),
-      //currentUser:authTokens.user
+      followUpDate: date,
     };
-
-    //https://protected-gorge-55144.herokuapp.com/student/getstudent
-    //http://localhost:5000/student/getstudent
-    axios
-      .post("http://localhost:5000/student/getstudent", fetchObject)
+    findStudent(fetchObject, currentUser)
       .then((res) => {
-        console.log(res.data);
-
         setFollowUps(res.data.length);
       })
       .catch((err) => {});
@@ -171,17 +162,17 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Tracker
             <IconButton aria-label="show new notifications" color="inherit">
               <Badge badgeContent={followUps} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
           </Typography>
-          <Button color="inherit" onClick={logout}>
-            <PowerSettingsNewIcon />
-            Logout
-          </Button>
+          <Tooltip title="Logout" arrow>
+            <Button color="inherit" onClick={logout}>
+              <PowerSettingsNewIcon />
+            </Button>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -198,6 +189,9 @@ export default function MiniDrawer() {
         }}
       >
         <div className={classes.toolbar}>
+          <Typography variant="h6" className={classes.title}>
+            S Tracker
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -225,7 +219,7 @@ export default function MiniDrawer() {
               <ListItemText primary="Add Student" />
             </ListItem>
           </Tooltip> */}
-          <Tooltip title="Save Student" arrow>
+          <Tooltip title="New Student" arrow>
             <ListItem
               button
               key="saveStudent"
@@ -235,7 +229,7 @@ export default function MiniDrawer() {
               <ListItemIcon>
                 <FaceRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Save Student" />
+              <ListItemText primary="New Student" />
             </ListItem>
           </Tooltip>
 

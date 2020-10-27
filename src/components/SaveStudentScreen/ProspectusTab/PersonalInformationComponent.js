@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "stretch",
+    "& .MuiTextField-root": {
+      margin: theme.spacing(0, 1),
+      width: 200,
+    },
   },
   formControlSelect: {
     margin: theme.spacing(0, 1),

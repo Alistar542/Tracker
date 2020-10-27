@@ -62,10 +62,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rootDiv: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(0, 1),
-      width: 200,
-    },
     "& .MuiFormLabel-root": {
       fontSize: "0.9rem",
     },
@@ -150,6 +146,9 @@ export const ProspectusComponent = (props) => {
   const [remarksStatus, setRemarksStatus] = React.useState(
     studentFound ? studentFound.remarksStatus : "N"
   );
+  const [educationDetails, setEducationDetails] = React.useState(
+    studentFound ? studentFound.educationDetails : null
+  );
   const [errorData, setErrorData] = React.useState({});
   const [status, setStatus] = React.useState(
     studentFound ? studentFound.status : STATUS.NEW
@@ -180,6 +179,7 @@ export const ProspectusComponent = (props) => {
     highestLevelOfEducation: "",
     gradingScheme: "",
     gradeAverage: "",
+    courseType: "",
     graduatedYear: null,
     companyName: "",
     position: "",
@@ -343,6 +343,7 @@ export const ProspectusComponent = (props) => {
       highestLevelOfEducation: values.highestLevelOfEducation,
       gradingScheme: values.gradingScheme,
       gradeAverage: values.gradeAverage,
+      courseType: values.courseType,
       graduatedYear: values.graduatedYear
         ? new Date(values.graduatedYear)
         : null,
@@ -366,10 +367,12 @@ export const ProspectusComponent = (props) => {
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,
       status: status,
+      educationDetails: educationDetails,
     };
 
     if (typeof studentFound === "undefined") {
-      console.log("add");
+      console.log("==========SAVE=============");
+      console.log(userObject);
       saveStudent(userObject, currentUser)
         .then((res) => {
           console.log(res.data);
@@ -439,6 +442,7 @@ export const ProspectusComponent = (props) => {
       highestLevelOfEducation: "",
       gradingScheme: "",
       gradeAverage: "",
+      courseType: "",
       companyName: "",
       position: "",
       workAddress: "",
@@ -454,6 +458,7 @@ export const ProspectusComponent = (props) => {
     setFollowUpRemarks(null);
     setToDoRemarks(null);
     setRemarksStatus("N");
+    setEducationDetails(null);
   };
 
   const openFollowUpPopupFn = (event, id) => {
@@ -526,6 +531,8 @@ export const ProspectusComponent = (props) => {
                 toDoRemarks={toDoRemarks}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
+                educationDetails={educationDetails}
+                setEducationDetails={setEducationDetails}
               />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}
@@ -588,7 +595,7 @@ export const ProspectusComponent = (props) => {
                 disabled={status === STATUS.REJECTED}
               >
                 {" "}
-                To Do{" "}
+                Add To Do Comment{" "}
               </Button>
               <Button
                 variant="contained"
@@ -598,7 +605,7 @@ export const ProspectusComponent = (props) => {
                 disabled={status === STATUS.REJECTED}
               >
                 {" "}
-                Follow Up{" "}
+                Add Follow Up Comment{" "}
               </Button>
               <Button
                 variant="contained"
