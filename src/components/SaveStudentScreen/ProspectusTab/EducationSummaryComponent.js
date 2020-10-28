@@ -128,6 +128,13 @@ export default function EducationSummaryComponent(props) {
           </Select>
         </FormControl>
 
+        <TextField
+          id="eduCourseType"
+          label="Course Type"
+          name="eduCourseType"
+          {...formik.getFieldProps("eduCourseType")}
+        />
+
         <FormControl className={classes.formControlSelect}>
           <InputLabel id="demo-simple-select-label">Grading Scheme</InputLabel>
           <Select
@@ -150,12 +157,7 @@ export default function EducationSummaryComponent(props) {
           name="gradeAverage"
           {...formik.getFieldProps("gradeAverage")}
         />
-        <TextField
-          id="courseType"
-          label="Course Type"
-          name="courseType"
-          {...formik.getFieldProps("courseType")}
-        />
+        
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker

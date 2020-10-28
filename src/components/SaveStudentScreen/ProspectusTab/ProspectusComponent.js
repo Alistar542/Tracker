@@ -176,6 +176,7 @@ export const ProspectusComponent = (props) => {
     writing: "",
     speaking: "",
     countryOfEducation: "",
+    eduCourseType: "",
     highestLevelOfEducation: "",
     gradingScheme: "",
     gradeAverage: "",
@@ -186,7 +187,7 @@ export const ProspectusComponent = (props) => {
     endDate: null,
     startDate: null,
     workAddress: "",
-    requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" }],
+    requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" ,intEduLevel:""}],
     dateOfRequest: new Date(),
     source: "",
     wayOfContact: "",
@@ -340,6 +341,7 @@ export const ProspectusComponent = (props) => {
       writing: values.writing,
       speaking: values.speaking,
       countryOfEducation: values.countryOfEducation,
+      eduCourseType:values.eduCourseType,
       highestLevelOfEducation: values.highestLevelOfEducation,
       gradingScheme: values.gradingScheme,
       gradeAverage: values.gradeAverage,
@@ -439,6 +441,7 @@ export const ProspectusComponent = (props) => {
       writing: "",
       speaking: "",
       countryOfEducation: "",
+      eduCourseType:"",
       highestLevelOfEducation: "",
       gradingScheme: "",
       gradeAverage: "",
@@ -446,7 +449,7 @@ export const ProspectusComponent = (props) => {
       companyName: "",
       position: "",
       workAddress: "",
-      requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" }],
+      requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" ,intEduLevel:""}],
       preferredCountry: "",
       source: "",
       wayOfContact: "",
@@ -591,31 +594,10 @@ export const ProspectusComponent = (props) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={openToDoPopupFn}
-                disabled={status === STATUS.REJECTED}
-              >
-                {" "}
-                Add To Do Comment{" "}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                id="followUpButton"
-                onClick={(e) => openFollowUpPopupFn(e, "followUpButton")}
-                disabled={status === STATUS.REJECTED}
-              >
-                {" "}
-                Add Follow Up Comment{" "}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
                 type="submit"
                 disabled={status === STATUS.REJECTED}
               >
-                {typeof studentFound === "undefined"
-                  ? " SAVE PROSPECTUS "
-                  : " UPDATE PROSPECTUS "}
+                {" SAVE PROSPECTUS "}
               </Button>
               {/* </Toolbar> */}
             </div>

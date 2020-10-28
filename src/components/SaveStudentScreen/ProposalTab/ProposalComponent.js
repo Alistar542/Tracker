@@ -336,7 +336,7 @@ export default function ProposalComponent(props) {
                   </Grow>
                 )}
               </Popper>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={openToDoPopupFn}
@@ -352,7 +352,7 @@ export default function ProposalComponent(props) {
                 className={classes.actionButton}
               >
                 {` Follow Up `}
-              </Button>
+              </Button> */}
 
               <Button
                 variant="contained"

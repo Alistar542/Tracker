@@ -6,6 +6,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { FieldArray, getIn } from "formik";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme) => ({
   areasOfInterestDiv: {
@@ -17,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
       width: 200,
     },
   },
+  formControlSelect: {
+    margin: theme.spacing(0, 1),
+    width: 200,
+  },
   innerDiv: {
     display: "flex",
     flexDirection: "row",
@@ -27,9 +35,8 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
   },
   addButton: {
-    width: "100px",
+    width: "180px",
     marginLeft: theme.spacing(1),
-    backgroundColor: "#fff",
   },
   removeButton: {
     margin: theme.spacing(1),
@@ -56,6 +63,7 @@ export default function AreasOfInterestComponent(props) {
               ? formik.values.requestedCourseDetails.map((p, index) => {
                   const requestedCourse = `requestedCourseDetails[${index}].requestedCourse`;
                   const preferredCountry = `requestedCourseDetails[${index}].preferredCountry`;
+                  const intEduLevel = `requestedCourseDetails[${index}].intEduLevel`;
                   const touchedRequestedCourse = getIn(
                     formik.touched,
                     requestedCourse
@@ -71,6 +79,14 @@ export default function AreasOfInterestComponent(props) {
                   const errorPreferredCountry = getIn(
                     formik.errors,
                     preferredCountry
+                  );
+                  const touchedintEduLevel = getIn(
+                    formik.touched,
+                    intEduLevel
+                  );
+                  const errorintEduLevel = getIn(
+                    formik.errors,
+                    intEduLevel
                   );
                   return (
                     <div key={index} className={classes.innerDiv}>
@@ -90,6 +106,39 @@ export default function AreasOfInterestComponent(props) {
                           touchedRequestedCourse && errorRequestedCourse
                         )}
                       />
+                      <FormControl className={classes.formControlSelect}>
+                        <InputLabel id="demo-simple-select-label">
+                          Level Of Education
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="intEduLevel"
+                          name="intEduLevel"
+                          value={p.intEduLevel}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          {...formik.getFieldProps("intEduLevel")}
+                        >
+                          <MenuItem value={"secSchool"}>
+                            Secondary School
+                          </MenuItem>
+                          <MenuItem value={"higherSecondary"}>
+                            Higher Secondary School
+                          </MenuItem>
+                          <MenuItem value={"1ydiploma"}>
+                            1 Year Diploma
+                          </MenuItem>
+                          <MenuItem value={"2ydiploma"}>
+                            2 Year Diploma
+                          </MenuItem>
+                          <MenuItem value={"3ydiploma"}>
+                            3 Year Diploma
+                          </MenuItem>
+                          <MenuItem value={"bachelor"}>Bachelor</MenuItem>
+                          <MenuItem value={"master"}>Master</MenuItem>
+                          <MenuItem value={"phd"}>PhD</MenuItem>
+                        </Select>
+                      </FormControl>
                       <TextField
                         label="Preferred Country"
                         name={preferredCountry}
@@ -123,14 +172,14 @@ export default function AreasOfInterestComponent(props) {
                 })
               : ""}
             <Button
-              type="button"
-              variant="outlined"
+              variant="contained"
+              color="primary"
               onClick={() =>
-                push({ requestedCourse: "", preferredCountry: "" })
+                push({ requestedCourse: "", preferredCountry: "",intEduLevel:"" })
               }
               className={classes.addButton}
             >
-              Add
+              Add Course
             </Button>
           </div>
         )}

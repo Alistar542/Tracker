@@ -19,9 +19,9 @@ export default function ToDoComponent(props) {
     <div>
       {toDoRemarks ? (
         <div className={classes.cardComponent}>
-          <Typography component="h7" variant="h7">
+          {/* <Typography component="h7" variant="h7">
             To Do Comments
-          </Typography>
+          </Typography> */}
           {toDoRemarks.map((followUpRem) => {
             return <li>{followUpRem.remark}</li>;
           })}

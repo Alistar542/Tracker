@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   doneButton: {
     margin: 0,
+    height:"36px",
     padding: theme.spacing(0, 1),
   },
 }));
@@ -72,20 +73,31 @@ export default function RemarksComponent(props) {
         </MuiPickersUtilsProvider>
         <TextField
           id="currentState"
-          label="Student Remarks"
+          label="Counselor Remarks"
           name="currentState"
           {...formik.getFieldProps("currentState")}
         />
+        <Button
+          variant="contained"
+          color="primary"
+          id="remarksDoneButton"
+          className={classes.doneButton}
+          onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
+        >
+          New Follow Up Comment
+        </Button>
 
         <Button
           variant="contained"
+          color="primary"
           id="remarksDoneButton"
-          disabled={remarksStatus !== "N"}
           className={classes.doneButton}
+          disabled={remarksStatus !== "N"}
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
           {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}
         </Button>
+
       </div>
       <div className={classes.studentRemarksField}>
         <TextField

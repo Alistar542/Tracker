@@ -281,7 +281,7 @@ export default function EnrolledComponent(props) {
                   </Grow>
                 )}
               </Popper>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={openToDoPopupFn}
@@ -296,7 +296,7 @@ export default function EnrolledComponent(props) {
                 className={classes.actionButton}
               >
                 {` Follow Up `}
-              </Button>
+              </Button> */}
               <Button variant="contained" color="primary" type="submit">
                 {isUpdate ? ` Update Enrolled ` : ` Save Enrolled `}
               </Button>

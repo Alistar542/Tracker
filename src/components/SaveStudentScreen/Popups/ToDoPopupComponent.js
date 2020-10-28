@@ -21,7 +21,7 @@ export default function ToDoPopupComponent(props) {
 
   const handleSave = () => {
     if(toDoRemarks){
-      let toDoRemarksConcated=currentUser.userName+" @"+date+": "+`"`+toDoRemarks+`"`;
+      let toDoRemarksConcated=`"`+toDoRemarks+`"`+" :"+currentUser.userName+" @"+date;
       handleSubmitToDo(toDoRemarksConcated);
     }else{
       handleToDoClose();
@@ -35,14 +35,14 @@ export default function ToDoPopupComponent(props) {
         aria-labelledby="form-dialog-title"
         fullWidth={true}
       >
-        <DialogTitle id="form-dialog-title">To Do Comments</DialogTitle>
+        <DialogTitle id="form-dialog-title">Remarks From Student</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter To Do Comments</DialogContentText>
+          <DialogContentText>Please enter remarks from student</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="To Do Comments"
+            label="Remarks"
             type="text"
             fullWidth
             onChange={onChangeToDoRemarks}
