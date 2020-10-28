@@ -94,7 +94,7 @@ export default function EnrolledComponent(props) {
   );
 
   const [remarksStatus, setRemarksStatus] = React.useState(
-    studentFound ? studentFound.remarksStatus : "N"
+    studentFound ? studentFound.remarksStatus : "Y"
   );
   const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
 
@@ -227,6 +227,7 @@ export default function EnrolledComponent(props) {
                 studentFound={studentFound}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
+                setRemarksStatus={setRemarksStatus}
               />
             </div>
 

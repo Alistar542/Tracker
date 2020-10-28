@@ -136,6 +136,7 @@ export default function DetailsPanelComponent(props) {
           formik={formik}
           remarksStatus={props.remarksStatus}
           openFollowUpPopupFn={props.openFollowUpPopupFn}
+          setRemarksStatus={props.setRemarksStatus}
         />
       </div>
       <Divider />

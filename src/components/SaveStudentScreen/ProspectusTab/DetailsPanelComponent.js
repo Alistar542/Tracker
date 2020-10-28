@@ -26,6 +26,7 @@ export default function DetailsPanelComponent(props) {
     openFollowUpPopupFn,
     educationDetails,
     setEducationDetails,
+    setRemarksStatus,
   } = props;
   const classes = useStyles();
   return (
@@ -52,10 +53,11 @@ export default function DetailsPanelComponent(props) {
       <RemarksComponent
         formik={formik}
         remarksStatus={remarksStatus}
+        setRemarksStatus={setRemarksStatus}
         openFollowUpPopupFn={openFollowUpPopupFn}
       />
       <Divider />
-       <FollowUpComponent followUpRemarks={followUpRemarks} />
+      <FollowUpComponent followUpRemarks={followUpRemarks} />
     </div>
   );
 }

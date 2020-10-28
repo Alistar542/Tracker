@@ -144,7 +144,7 @@ export const ProspectusComponent = (props) => {
     studentFound ? studentFound.toDoRemarks : null
   );
   const [remarksStatus, setRemarksStatus] = React.useState(
-    studentFound ? studentFound.remarksStatus : "N"
+    studentFound ? studentFound.remarksStatus : "Y"
   );
   const [educationDetails, setEducationDetails] = React.useState(
     studentFound ? studentFound.educationDetails : null
@@ -187,7 +187,9 @@ export const ProspectusComponent = (props) => {
     endDate: null,
     startDate: null,
     workAddress: "",
-    requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" ,intEduLevel:""}],
+    requestedCourseDetails: [
+      { requestedCourse: "", preferredCountry: "", intEduLevel: "" },
+    ],
     dateOfRequest: new Date(),
     source: "",
     wayOfContact: "",
@@ -341,7 +343,7 @@ export const ProspectusComponent = (props) => {
       writing: values.writing,
       speaking: values.speaking,
       countryOfEducation: values.countryOfEducation,
-      eduCourseType:values.eduCourseType,
+      eduCourseType: values.eduCourseType,
       highestLevelOfEducation: values.highestLevelOfEducation,
       gradingScheme: values.gradingScheme,
       gradeAverage: values.gradeAverage,
@@ -441,7 +443,7 @@ export const ProspectusComponent = (props) => {
       writing: "",
       speaking: "",
       countryOfEducation: "",
-      eduCourseType:"",
+      eduCourseType: "",
       highestLevelOfEducation: "",
       gradingScheme: "",
       gradeAverage: "",
@@ -449,7 +451,9 @@ export const ProspectusComponent = (props) => {
       companyName: "",
       position: "",
       workAddress: "",
-      requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" ,intEduLevel:""}],
+      requestedCourseDetails: [
+        { requestedCourse: "", preferredCountry: "", intEduLevel: "" },
+      ],
       preferredCountry: "",
       source: "",
       wayOfContact: "",
@@ -536,6 +540,7 @@ export const ProspectusComponent = (props) => {
                 openFollowUpPopupFn={openFollowUpPopupFn}
                 educationDetails={educationDetails}
                 setEducationDetails={setEducationDetails}
+                setRemarksStatus={setRemarksStatus}
               />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}

@@ -105,7 +105,7 @@ export default function ProposalComponent(props) {
       : null
   );
   const [remarksStatus, setRemarksStatus] = React.useState(
-    studentFound ? studentFound.remarksStatus : "N"
+    studentFound ? studentFound.remarksStatus : "Y"
   );
   const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
   const [snackbarMessage, setSnackBarMessage] = React.useState("");
@@ -282,6 +282,7 @@ export default function ProposalComponent(props) {
                 toDoRemarks={toDoRemarks}
                 studentFound={studentFound}
                 remarksStatus={remarksStatus}
+                setRemarksStatus={setRemarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
               />
             </div>

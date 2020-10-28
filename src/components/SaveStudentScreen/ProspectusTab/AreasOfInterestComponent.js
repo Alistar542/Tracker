@@ -80,14 +80,8 @@ export default function AreasOfInterestComponent(props) {
                     formik.errors,
                     preferredCountry
                   );
-                  const touchedintEduLevel = getIn(
-                    formik.touched,
-                    intEduLevel
-                  );
-                  const errorintEduLevel = getIn(
-                    formik.errors,
-                    intEduLevel
-                  );
+                  const touchedintEduLevel = getIn(formik.touched, intEduLevel);
+                  const errorintEduLevel = getIn(formik.errors, intEduLevel);
                   return (
                     <div key={index} className={classes.innerDiv}>
                       <TextField
@@ -112,12 +106,10 @@ export default function AreasOfInterestComponent(props) {
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
-                          id="intEduLevel"
-                          name="intEduLevel"
+                          name={intEduLevel}
                           value={p.intEduLevel}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          {...formik.getFieldProps("intEduLevel")}
                         >
                           <MenuItem value={"secSchool"}>
                             Secondary School
@@ -175,7 +167,11 @@ export default function AreasOfInterestComponent(props) {
               variant="contained"
               color="primary"
               onClick={() =>
-                push({ requestedCourse: "", preferredCountry: "",intEduLevel:"" })
+                push({
+                  requestedCourse: "",
+                  preferredCountry: "",
+                  intEduLevel: "",
+                })
               }
               className={classes.addButton}
             >
