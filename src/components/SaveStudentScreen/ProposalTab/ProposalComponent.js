@@ -24,6 +24,7 @@ import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SnackbarCommon from "../../Common/SnackbarCommon";
+import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: "53px",
     marginTop: "auto",
+    backgroundColor: grey[200],
   },
   actionButton: {
     margin: theme.spacing(1),

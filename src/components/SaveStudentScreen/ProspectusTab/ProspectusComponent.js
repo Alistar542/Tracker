@@ -28,7 +28,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useLocation } from "react-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { green, indigo, red } from "@material-ui/core/colors";
+import { green, indigo, red, grey } from "@material-ui/core/colors";
 import {
   STATUS,
   OPERATION_FLAG,
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
     //width: `calc(100% - ${theme.spacing(7) + 1}px)`,
     minHeight: "53px",
     width: "100%",
+    backgroundColor: grey[200],
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,

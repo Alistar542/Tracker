@@ -19,6 +19,7 @@ import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounde
 import { updateStatusOfStudent } from "../../../actions/studentactions";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
+import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: "53px",
     marginTop: "auto",
+    backgroundColor: grey[200],
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,

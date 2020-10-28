@@ -7,7 +7,14 @@ import {
   APPLICATION_STATUS_DESC,
 } from "../../../constants";
 import clsx from "clsx";
-import { green, indigo, red, cyan, grey } from "@material-ui/core/colors";
+import {
+  green,
+  indigo,
+  red,
+  cyan,
+  grey,
+  orange,
+} from "@material-ui/core/colors";
 import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     width: "100%",
     flexDirection: "row",
+    backgroundColor: grey[200],
   },
   statusChip: {
     marginLeft: "auto",
