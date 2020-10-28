@@ -72,8 +72,10 @@ export const APPLICATION_STATUS_ARRAY = [
 ];
 
 export const APPLIED_COURSE_TYP = {
-  M: "MAJOR",
-  D: "DEGREE",
+  B: "Bachelor",
+  D: "Diploma",
+  M: "Master",
+  P: "PhD",
 };
 
 export const APPLCTN_STS_ARRY_PROPOSAL = [

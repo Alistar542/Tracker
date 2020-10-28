@@ -157,7 +157,6 @@ export default function EducationSummaryComponent(props) {
           name="gradeAverage"
           {...formik.getFieldProps("gradeAverage")}
         />
-        
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
@@ -199,13 +198,17 @@ export default function EducationSummaryComponent(props) {
             return (
               <Paper className={classes.educationDtlPaper}>
                 <div>
-                  {educationDtl.educationLevel.length > 0 &&
+                  {educationDtl.educationLevel &&
+                    educationDtl.educationLevel.length > 0 &&
                     `${educationDtl.educationLevel} - `}
-                  {educationDtl.institutionCountry.length > 0 &&
+                  {educationDtl.institutionCountry &&
+                    educationDtl.institutionCountry.length > 0 &&
                     `${educationDtl.institutionCountry} - `}
-                  {educationDtl.institutionName.length > 0 &&
+                  {educationDtl.institutionName &&
+                    educationDtl.institutionName.length > 0 &&
                     `${educationDtl.institutionName} - `}
-                  {educationDtl.primaryLanguage.length > 0 &&
+                  {educationDtl.primaryLanguage &&
+                    educationDtl.primaryLanguage.length > 0 &&
                     `${educationDtl.primaryLanguage} - `}
                   {educationDtl.attendedFromDate &&
                     `${new Date(
@@ -215,18 +218,24 @@ export default function EducationSummaryComponent(props) {
                     `${new Date(
                       educationDtl.attendedToDate
                     ).toDateString()} - `}
-                  {educationDtl.degreeAwarded.length > 0 &&
+                  {educationDtl.degreeAwarded &&
+                    educationDtl.degreeAwarded.length > 0 &&
                     `${educationDtl.degreeAwarded} - `}
                   {educationDtl.degreeAwardedOn &&
                     `${new Date(
                       educationDtl.degreeAwardedOn
                     ).toDateString()} - `}
-                  {educationDtl.address.length > 0 &&
+                  {educationDtl.address &&
+                    educationDtl.address.length > 0 &&
                     `${educationDtl.address} - `}
-                  {educationDtl.city.length > 0 && `${educationDtl.city} - `}
+                  {educationDtl.city &&
+                    educationDtl.city.length > 0 &&
+                    `${educationDtl.city} - `}
                   {educationDtl.province.length > 0 &&
                     `${educationDtl.province} - `}
-                  {educationDtl.zipCode.length > 0 && `${educationDtl.zipCode}`}
+                  {educationDtl.zipCode &&
+                    educationDtl.zipCode.length > 0 &&
+                    `${educationDtl.zipCode}`}
                 </div>
                 <div className={classes.actionButtonDiv}>
                   <IconButton
