@@ -112,12 +112,11 @@ export default function AreasOfInterestComponent(props) {
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
-                          id="intEduLevel"
-                          name="intEduLevel"
+                          name={intEduLevel}
                           value={p.intEduLevel}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          {...formik.getFieldProps("intEduLevel")}
+                          
                         >
                           <MenuItem value={"secSchool"}>
                             Secondary School
