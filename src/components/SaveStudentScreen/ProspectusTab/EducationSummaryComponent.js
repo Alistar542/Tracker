@@ -53,9 +53,13 @@ const useStyles = makeStyles((theme) => ({
   },
   innerDiv: {
     display: "flex",
+    flexDirection: "column",
+    marginBottom: theme.spacing(1),
+  },
+  fieldDiv: {
+    display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginBottom: theme.spacing(1),
   },
   addButton: {
     width: "250px",
@@ -174,9 +178,6 @@ function EducationDetails(props) {
     <FieldArray name="educationDetails">
       {({ push, remove }) => (
         <div className={classes.educationDetailsDiv}>
-          <Typography component={"span"} variant="body2">
-            Education Details
-          </Typography>
           {formik.values.educationDetails &&
           formik.values.educationDetails.length > 0
             ? formik.values.educationDetails.map((p, index) => {
@@ -211,163 +212,168 @@ function EducationDetails(props) {
                 );
                 return (
                   <div key={index} className={classes.innerDiv}>
-                    <TextField
-                      label="Education Level"
-                      name={educationLevel}
-                      value={p.educationLevel}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      required
-                      helperText={
-                        touchedEducationLevel && errorEducationLevel
-                          ? errorEducationLevel
-                          : ""
-                      }
-                      error={Boolean(
-                        touchedEducationLevel && errorEducationLevel
-                      )}
-                    />
-                    <TextField
-                      margin="dense"
-                      name={institutionCountry}
-                      label="Country Of Institution"
-                      type="text"
-                      value={p.institutionCountry}
-                      onChange={formik.handleChange}
-                      helperText={
-                        touchedInstitutionCountry && errorInstitutionCountry
-                          ? errorInstitutionCountry
-                          : ""
-                      }
-                      error={Boolean(
-                        touchedInstitutionCountry && errorInstitutionCountry
-                      )}
-                    />
-                    <TextField
-                      margin="dense"
-                      name={institutionName}
-                      label="Name Of Institution"
-                      type="text"
-                      value={p.institutionName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <TextField
-                      id="primaryLanguage"
-                      name={primaryLanguage}
-                      label="Primary Language"
-                      type="text"
-                      value={p.primaryLanguage}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        autoOk
-                        openTo="year"
-                        variant="inline"
-                        format="dd/MM/yyyy"
-                        margin="dense"
-                        name={attendedFromDate}
-                        label="Attended From Date"
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                        value={p.attendedFromDate}
-                        onChange={(value) =>
-                          formik.setFieldValue(attendedFromDate, value)
+                    <Typography component={"span"} variant="body2">
+                      {`Education Details - ${index + 1}`}
+                    </Typography>
+                    <div className={classes.fieldDiv}>
+                      <TextField
+                        label="Education Level"
+                        name={educationLevel}
+                        value={p.educationLevel}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        required
+                        helperText={
+                          touchedEducationLevel && errorEducationLevel
+                            ? errorEducationLevel
+                            : ""
                         }
+                        error={Boolean(
+                          touchedEducationLevel && errorEducationLevel
+                        )}
+                      />
+                      <TextField
+                        margin="dense"
+                        name={institutionCountry}
+                        label="Country Of Institution"
+                        type="text"
+                        value={p.institutionCountry}
+                        onChange={formik.handleChange}
+                        helperText={
+                          touchedInstitutionCountry && errorInstitutionCountry
+                            ? errorInstitutionCountry
+                            : ""
+                        }
+                        error={Boolean(
+                          touchedInstitutionCountry && errorInstitutionCountry
+                        )}
+                      />
+                      <TextField
+                        margin="dense"
+                        name={institutionName}
+                        label="Name Of Institution"
+                        type="text"
+                        value={p.institutionName}
+                        onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                    </MuiPickersUtilsProvider>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        autoOk
-                        openTo="year"
-                        variant="inline"
-                        format="dd/MM/yyyy"
-                        margin="dense"
-                        name={attendedToDate}
-                        label="Attended To Date"
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                        value={p.attendedToDate}
-                        onChange={(value) =>
-                          formik.setFieldValue(attendedToDate, value)
-                        }
+                      <TextField
+                        id="primaryLanguage"
+                        name={primaryLanguage}
+                        label="Primary Language"
+                        type="text"
+                        value={p.primaryLanguage}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
-                    </MuiPickersUtilsProvider>
-                    <TextField
-                      margin="dense"
-                      name={degreeAwarded}
-                      label="Degree Awarded"
-                      type="text"
-                      value={p.degreeAwarded}
-                      onChange={formik.handleChange}
-                    />
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        autoOk
-                        openTo="year"
-                        variant="inline"
-                        format="dd/MM/yyyy"
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          autoOk
+                          openTo="year"
+                          variant="inline"
+                          format="dd/MM/yyyy"
+                          margin="dense"
+                          name={attendedFromDate}
+                          label="Attended From Date"
+                          KeyboardButtonProps={{
+                            "aria-label": "change date",
+                          }}
+                          value={p.attendedFromDate}
+                          onChange={(value) =>
+                            formik.setFieldValue(attendedFromDate, value)
+                          }
+                          onBlur={formik.handleBlur}
+                        />
+                      </MuiPickersUtilsProvider>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          autoOk
+                          openTo="year"
+                          variant="inline"
+                          format="dd/MM/yyyy"
+                          margin="dense"
+                          name={attendedToDate}
+                          label="Attended To Date"
+                          KeyboardButtonProps={{
+                            "aria-label": "change date",
+                          }}
+                          value={p.attendedToDate}
+                          onChange={(value) =>
+                            formik.setFieldValue(attendedToDate, value)
+                          }
+                        />
+                      </MuiPickersUtilsProvider>
+                      <TextField
                         margin="dense"
-                        name={degreeAwardedOn}
-                        label="Degree Awarded On"
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                        value={p.degreeAwardedOn}
-                        onChange={(value) =>
-                          formik.setFieldValue(degreeAwardedOn, value)
-                        }
+                        name={degreeAwarded}
+                        label="Degree Awarded"
+                        type="text"
+                        value={p.degreeAwarded}
+                        onChange={formik.handleChange}
                       />
-                    </MuiPickersUtilsProvider>
-                    <TextField
-                      margin="dense"
-                      name={address}
-                      label="Address"
-                      type="text"
-                      value={p.address}
-                      onChange={formik.handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      name={city}
-                      label="City"
-                      type="text"
-                      value={p.city}
-                      onChange={formik.handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      name={province}
-                      label="Province"
-                      type="text"
-                      value={p.province}
-                      onChange={formik.handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      name={zipCode}
-                      label="Zip Code"
-                      type="text"
-                      value={p.zipCode}
-                      onChange={formik.handleChange}
-                    />
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          autoOk
+                          openTo="year"
+                          variant="inline"
+                          format="dd/MM/yyyy"
+                          margin="dense"
+                          name={degreeAwardedOn}
+                          label="Degree Awarded On"
+                          KeyboardButtonProps={{
+                            "aria-label": "change date",
+                          }}
+                          value={p.degreeAwardedOn}
+                          onChange={(value) =>
+                            formik.setFieldValue(degreeAwardedOn, value)
+                          }
+                        />
+                      </MuiPickersUtilsProvider>
+                      <TextField
+                        margin="dense"
+                        name={address}
+                        label="Address"
+                        type="text"
+                        value={p.address}
+                        onChange={formik.handleChange}
+                      />
+                      <TextField
+                        margin="dense"
+                        name={city}
+                        label="City"
+                        type="text"
+                        value={p.city}
+                        onChange={formik.handleChange}
+                      />
+                      <TextField
+                        margin="dense"
+                        name={province}
+                        label="Province"
+                        type="text"
+                        value={p.province}
+                        onChange={formik.handleChange}
+                      />
+                      <TextField
+                        margin="dense"
+                        name={zipCode}
+                        label="Zip Code"
+                        type="text"
+                        value={p.zipCode}
+                        onChange={formik.handleChange}
+                      />
 
-                    {formik.values.educationDetails.length !== 1 ? (
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => remove(index)}
-                        className={classes.removeButton}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    ) : (
-                      ""
-                    )}
+                      {formik.values.educationDetails.length !== 1 ? (
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => remove(index)}
+                          className={classes.removeButton}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 );
               })
