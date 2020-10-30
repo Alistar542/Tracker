@@ -33,11 +33,7 @@ export default function DetailsPanelComponent(props) {
     <div id="formDiv" className={classes.formDiv}>
       <PersonalInformationComponent {...formik} />
       <Divider />
-      <EducationSummaryComponent
-        formik={formik}
-        educationDetails={educationDetails}
-        setEducationDetails={setEducationDetails}
-      />
+      <EducationSummaryComponent formik={formik} />
       <Divider />
       <EnglishExamTypeComponent formik={formik} />
       <Divider />

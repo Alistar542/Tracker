@@ -191,6 +191,22 @@ export const ProspectusComponent = (props) => {
     requestedCourseDetails: [
       { requestedCourse: "", preferredCountry: "", intEduLevel: "" },
     ],
+    educationDetails: [
+      {
+        educationLevel: "",
+        institutionCountry: "",
+        institutionName: "",
+        primaryLanguage: "",
+        attendedFromDate: null,
+        attendedToDate: null,
+        degreeAwarded: "",
+        degreeAwardedOn: null,
+        address: "",
+        city: "",
+        province: "",
+        zipCode: "",
+      },
+    ],
     dateOfRequest: new Date(),
     source: "",
     wayOfContact: "",
@@ -372,7 +388,7 @@ export const ProspectusComponent = (props) => {
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,
       status: status,
-      educationDetails: educationDetails,
+      educationDetails: values.educationDetails,
     };
 
     if (typeof studentFound === "undefined") {
@@ -462,11 +478,26 @@ export const ProspectusComponent = (props) => {
       priority: "",
       currentState: "",
       studentRemarks: "",
+      educationDetails: [
+        {
+          educationLevel: "",
+          institutionCountry: "",
+          institutionName: "",
+          primaryLanguage: "",
+          attendedFromDate: null,
+          attendedToDate: null,
+          degreeAwarded: "",
+          degreeAwardedOn: null,
+          address: "",
+          city: "",
+          province: "",
+          zipCode: "",
+        },
+      ],
     });
     setFollowUpRemarks(null);
     setToDoRemarks(null);
     setRemarksStatus("N");
-    setEducationDetails(null);
   };
 
   const openFollowUpPopupFn = (event, id) => {
@@ -539,8 +570,6 @@ export const ProspectusComponent = (props) => {
                 toDoRemarks={toDoRemarks}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
-                educationDetails={educationDetails}
-                setEducationDetails={setEducationDetails}
                 setRemarksStatus={setRemarksStatus}
               />
             </div>

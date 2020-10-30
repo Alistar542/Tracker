@@ -12,11 +12,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
-import EducationDetailsPopup from "./Popups/EducationDetailsPopup";
-import { Paper } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { FieldArray, getIn } from "formik";
 
 const useStyles = makeStyles((theme) => ({
   personalInfoDiv: {
@@ -53,45 +51,33 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     marginLeft: "auto",
   },
+  innerDiv: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: theme.spacing(1),
+  },
+  addButton: {
+    width: "250px",
+    marginLeft: theme.spacing(1),
+  },
+  removeButton: {
+    margin: theme.spacing(1),
+  },
+  educationDetailsDiv: {
+    margin: theme.spacing(2, 0, 1, 1),
+    display: "flex",
+    flexDirection: "column",
+    "& .MuiTextField-root": {
+      margin: theme.spacing(0, 1),
+      width: 200,
+    },
+  },
 }));
 
 export default function EducationSummaryComponent(props) {
-  const { formik, educationDetails, setEducationDetails } = props;
+  const { formik } = props;
   const classes = useStyles();
-  const [openEducationDtlPopup, setOpenEducationDtlPopup] = React.useState(
-    false
-  );
-  const [currentEducationDtl, setCurrentEducationDtl] = React.useState(null);
-  const [
-    currentEducationDtlIndex,
-    setCurrentEducationDtlIndex,
-  ] = React.useState(null);
-
-  const handleOpenEducationDtl = () => {
-    setOpenEducationDtlPopup(!openEducationDtlPopup);
-    setCurrentEducationDtl(null);
-    setCurrentEducationDtlIndex(null);
-  };
-
-  const deleteAndUpdateEducationDtl = (index) => {
-    let educationDetailsCopy = [...educationDetails];
-    educationDetailsCopy.splice(index, 1);
-    setEducationDetails(educationDetailsCopy);
-    setCurrentEducationDtlIndex(null);
-  };
-
-  const handleSubmitEducationDtl = (values) => {
-    let educationDetailsCopy = educationDetails ? educationDetails : [];
-    if (currentEducationDtlIndex != null) {
-      educationDetailsCopy[currentEducationDtlIndex] = values;
-    } else {
-      educationDetailsCopy.push(values);
-    }
-    setEducationDetails(educationDetailsCopy);
-    setOpenEducationDtlPopup(false);
-    setCurrentEducationDtlIndex(null);
-    setCurrentEducationDtl(null);
-  };
 
   return (
     <div className={classes.outerDiv}>
@@ -176,93 +162,241 @@ export default function EducationSummaryComponent(props) {
           />
         </MuiPickersUtilsProvider>
       </div>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={handleOpenEducationDtl}
-      >
-        Add Education Detail
-      </Button>
-      <div>
-        {educationDetails &&
-          educationDetails.map((educationDtl, index) => {
-            const openAndEditEducationDtl = () => {
-              setCurrentEducationDtl(educationDtl);
-              setCurrentEducationDtlIndex(index);
-              setOpenEducationDtlPopup(true);
-            };
-            const deleteEducationDtl = () => {
-              deleteAndUpdateEducationDtl(index);
-            };
-
-            return (
-              <Paper className={classes.educationDtlPaper}>
-                <div>
-                  {educationDtl.educationLevel &&
-                    educationDtl.educationLevel.length > 0 &&
-                    `${educationDtl.educationLevel} - `}
-                  {educationDtl.institutionCountry &&
-                    educationDtl.institutionCountry.length > 0 &&
-                    `${educationDtl.institutionCountry} - `}
-                  {educationDtl.institutionName &&
-                    educationDtl.institutionName.length > 0 &&
-                    `${educationDtl.institutionName} - `}
-                  {educationDtl.primaryLanguage &&
-                    educationDtl.primaryLanguage.length > 0 &&
-                    `${educationDtl.primaryLanguage} - `}
-                  {educationDtl.attendedFromDate &&
-                    `${new Date(
-                      educationDtl.attendedFromDate
-                    ).toDateString()} - `}
-                  {educationDtl.attendedToDate > 0 &&
-                    `${new Date(
-                      educationDtl.attendedToDate
-                    ).toDateString()} - `}
-                  {educationDtl.degreeAwarded &&
-                    educationDtl.degreeAwarded.length > 0 &&
-                    `${educationDtl.degreeAwarded} - `}
-                  {educationDtl.degreeAwardedOn &&
-                    `${new Date(
-                      educationDtl.degreeAwardedOn
-                    ).toDateString()} - `}
-                  {educationDtl.address &&
-                    educationDtl.address.length > 0 &&
-                    `${educationDtl.address} - `}
-                  {educationDtl.city &&
-                    educationDtl.city.length > 0 &&
-                    `${educationDtl.city} - `}
-                  {educationDtl.province.length > 0 &&
-                    `${educationDtl.province} - `}
-                  {educationDtl.zipCode &&
-                    educationDtl.zipCode.length > 0 &&
-                    `${educationDtl.zipCode}`}
-                </div>
-                <div className={classes.actionButtonDiv}>
-                  <IconButton
-                    color="primary"
-                    aria-label="edit"
-                    onClick={openAndEditEducationDtl}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="primary"
-                    aria-label="delete"
-                    onClick={deleteEducationDtl}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </div>
-              </Paper>
-            );
-          })}
-      </div>
-      <EducationDetailsPopup
-        openEducationDtlPopup={openEducationDtlPopup}
-        handleOpenEducationDtl={handleOpenEducationDtl}
-        handleSubmitEducationDtl={handleSubmitEducationDtl}
-        currentEducationDtl={currentEducationDtl}
-      />
+      <EducationDetails formik={formik} />
     </div>
+  );
+}
+
+function EducationDetails(props) {
+  const { formik } = props;
+  const classes = useStyles();
+  return (
+    <FieldArray name="educationDetails">
+      {({ push, remove }) => (
+        <div className={classes.educationDetailsDiv}>
+          <Typography component={"span"} variant="body2">
+            Education Details
+          </Typography>
+          {formik.values.educationDetails &&
+          formik.values.educationDetails.length > 0
+            ? formik.values.educationDetails.map((p, index) => {
+                const educationLevel = `educationDetails[${index}].educationLevel`;
+                const institutionCountry = `educationDetails[${index}].institutionCountry`;
+                const institutionName = `educationDetails[${index}].institutionName`;
+                const primaryLanguage = `educationDetails[${index}].primaryLanguage`;
+                const attendedFromDate = `educationDetails[${index}].attendedFromDate`;
+                const attendedToDate = `educationDetails[${index}].attendedToDate`;
+                const degreeAwarded = `educationDetails[${index}].degreeAwarded`;
+                const degreeAwardedOn = `educationDetails[${index}].degreeAwardedOn`;
+                const address = `educationDetails[${index}].address`;
+                const city = `educationDetails[${index}].city`;
+                const province = `educationDetails[${index}].province`;
+                const zipCode = `educationDetails[${index}].zipCode`;
+
+                const touchedEducationLevel = getIn(
+                  formik.touched,
+                  educationLevel
+                );
+                const errorEducationLevel = getIn(
+                  formik.errors,
+                  educationLevel
+                );
+                const touchedInstitutionCountry = getIn(
+                  formik.touched,
+                  institutionCountry
+                );
+                const errorInstitutionCountry = getIn(
+                  formik.errors,
+                  institutionCountry
+                );
+                return (
+                  <div key={index} className={classes.innerDiv}>
+                    <TextField
+                      label="Education Level"
+                      name={educationLevel}
+                      value={p.educationLevel}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      required
+                      helperText={
+                        touchedEducationLevel && errorEducationLevel
+                          ? errorEducationLevel
+                          : ""
+                      }
+                      error={Boolean(
+                        touchedEducationLevel && errorEducationLevel
+                      )}
+                    />
+                    <TextField
+                      margin="dense"
+                      name={institutionCountry}
+                      label="Country Of Institution"
+                      type="text"
+                      value={p.institutionCountry}
+                      onChange={formik.handleChange}
+                      helperText={
+                        touchedInstitutionCountry && errorInstitutionCountry
+                          ? errorInstitutionCountry
+                          : ""
+                      }
+                      error={Boolean(
+                        touchedInstitutionCountry && errorInstitutionCountry
+                      )}
+                    />
+                    <TextField
+                      margin="dense"
+                      name={institutionName}
+                      label="Name Of Institution"
+                      type="text"
+                      value={p.institutionName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <TextField
+                      id="primaryLanguage"
+                      name={primaryLanguage}
+                      label="Primary Language"
+                      type="text"
+                      value={p.primaryLanguage}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        autoOk
+                        openTo="year"
+                        variant="inline"
+                        format="dd/MM/yyyy"
+                        margin="dense"
+                        name={attendedFromDate}
+                        label="Attended From Date"
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                        value={p.attendedFromDate}
+                        onChange={(value) =>
+                          formik.setFieldValue(attendedFromDate, value)
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </MuiPickersUtilsProvider>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        autoOk
+                        openTo="year"
+                        variant="inline"
+                        format="dd/MM/yyyy"
+                        margin="dense"
+                        name={attendedToDate}
+                        label="Attended To Date"
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                        value={p.attendedToDate}
+                        onChange={(value) =>
+                          formik.setFieldValue(attendedToDate, value)
+                        }
+                      />
+                    </MuiPickersUtilsProvider>
+                    <TextField
+                      margin="dense"
+                      name={degreeAwarded}
+                      label="Degree Awarded"
+                      type="text"
+                      value={p.degreeAwarded}
+                      onChange={formik.handleChange}
+                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        autoOk
+                        openTo="year"
+                        variant="inline"
+                        format="dd/MM/yyyy"
+                        margin="dense"
+                        name={degreeAwardedOn}
+                        label="Degree Awarded On"
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                        value={p.degreeAwardedOn}
+                        onChange={(value) =>
+                          formik.setFieldValue(degreeAwardedOn, value)
+                        }
+                      />
+                    </MuiPickersUtilsProvider>
+                    <TextField
+                      margin="dense"
+                      name={address}
+                      label="Address"
+                      type="text"
+                      value={p.address}
+                      onChange={formik.handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      name={city}
+                      label="City"
+                      type="text"
+                      value={p.city}
+                      onChange={formik.handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      name={province}
+                      label="Province"
+                      type="text"
+                      value={p.province}
+                      onChange={formik.handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      name={zipCode}
+                      label="Zip Code"
+                      type="text"
+                      value={p.zipCode}
+                      onChange={formik.handleChange}
+                    />
+
+                    {formik.values.educationDetails.length !== 1 ? (
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => remove(index)}
+                        className={classes.removeButton}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                );
+              })
+            : ""}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              push({
+                educationLevel: "",
+                institutionCountry: "",
+                institutionName: "",
+                primaryLanguage: "",
+                attendedFromDate: null,
+                attendedToDate: null,
+                degreeAwarded: "",
+                degreeAwardedOn: null,
+                address: "",
+                city: "",
+                province: "",
+                zipCode: "",
+              })
+            }
+            className={classes.addButton}
+          >
+            Add Education Detail
+          </Button>
+        </div>
+      )}
+    </FieldArray>
   );
 }
