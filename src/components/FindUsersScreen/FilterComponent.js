@@ -83,6 +83,7 @@ export function FilterComponent(props) {
   const [firstName, setFirstName] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
   const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [source, setSource] = React.useState("");
   const [priority, setPriority] = React.useState("");
   const [studentId, setStudentId] = React.useState("");
   const [creationFromDate, setCreationFromDate] = React.useState(null);
@@ -111,6 +112,9 @@ export function FilterComponent(props) {
 
   const handlePhoneNumber = (event) => {
     setPhoneNumber(event.target.value);
+  };
+  const handleSource = (event) => {
+    setSource(event.target.value);
   };
 
   const handleExpandClick = () => {
@@ -142,6 +146,7 @@ export function FilterComponent(props) {
       currentUser: "admin",
       firstName: firstName,
       phoneNumber: phoneNumber,
+      source:source,
       studentId: studentId,
       creationFromDate: creationFromDate,
       creationToDate: creationToDate,
@@ -273,6 +278,15 @@ export function FilterComponent(props) {
           </CardContent>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent className={classes.cardContentDiv}>
+            <TextField
+                id="standard"
+                label="Source"
+                name="source"
+                variant="outlined"
+                margin="dense"
+                value={source}
+                onChange={handleSource}
+              />
             <FormControl
               margin="dense"
               variant="outlined"
@@ -339,23 +353,7 @@ export function FilterComponent(props) {
                   }}
                 />
               </MuiPickersUtilsProvider>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  autoOk
-                  variant="inline"
-                  inputVariant="outlined"
-                  format="dd/MM/yyyy"
-                  margin="dense"
-                  id="date-picker-inline"
-                  label="Course Start Date"
-                  value={courseStartDate}
-                  onChange={handleCourseStartDate}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider>
+              
             </CardContent>
           </Collapse>
         </form>
