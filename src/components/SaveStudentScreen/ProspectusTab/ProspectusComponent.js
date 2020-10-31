@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -241,6 +241,66 @@ export const ProspectusComponent = (props) => {
     });
   };
 
+  const cacheTest = (asyncValidate) => {
+    let _valid = false;
+    let _value = "";
+
+    return async (value) => {
+      if (value !== _value) {
+        const response = await asyncValidate(value);
+        _value = value;
+        _valid = response;
+        return response;
+      }
+      return _valid;
+    };
+  };
+
+  const checkEmailUnique = async (value) => {
+    let isError = true;
+    let studentId = "";
+    if (typeof studentFound != "undefined") {
+      studentId = studentFound.studentId;
+    }
+    await validateEmail({ email: value, studentId: studentId }, currentUser)
+      .then((res) => {
+        if (res.data.length > 0) {
+          console.log("FOUND email");
+          isError = false;
+        } else {
+          console.log("NOT FOUND email");
+        }
+      })
+      .catch((err) => {
+        console.log("ERR" + err);
+      });
+    return isError;
+  };
+
+  const checkPhoneNumberUnique = async (value) => {
+    let isError = true;
+    let studentId = "";
+    if (typeof studentFound != "undefined") {
+      studentId = studentFound.studentId;
+    }
+    await validatePhoneNumber(
+      { phoneNumber: value, studentId: studentId },
+      currentUser
+    )
+      .then((res) => {
+        if (res.data.length > 0) {
+          console.log("FOUND phone");
+          isError = false;
+        } else {
+          console.log("NOT FOUND phone");
+        }
+      })
+      .catch((err) => {
+        console.log("ERR" + err);
+      });
+    return isError;
+  };
+
   const validateEmailOnBlur = (value) => {
     return new Promise((resolve, reject) => {
       if (typeof studentFound != "undefined") {
@@ -263,6 +323,9 @@ export const ProspectusComponent = (props) => {
     });
   };
 
+  const emailUniqueTest = useRef(cacheTest(checkEmailUnique));
+  const phoneNumberUniqueTest = useRef(cacheTest(checkPhoneNumberUnique));
+
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .max(15, "Must be 15 characters or less")
@@ -284,14 +347,14 @@ export const ProspectusComponent = (props) => {
     email: Yup.string()
       .email("Invalid email address")
       .required("Required")
-      .test("phoneNumber", "Email already in use", function (value) {
-        return validateEmailOnBlur(value);
-      }),
+      .test("email", "Email already in use", emailUniqueTest.current),
     phoneNumber: Yup.string()
       .required("Required")
-      .test("phoneNumber", "Phone Number already in use", function (value) {
-        return validatePhoneNumberOnBlur(value);
-      }),
+      .test(
+        "phoneNumber",
+        "Phone Number already in use",
+        phoneNumberUniqueTest.current
+      ),
     requestedCourseDetails: Yup.array().of(
       Yup.object().shape({
         requestedCourse: Yup.string().required("Requested Course is required"),

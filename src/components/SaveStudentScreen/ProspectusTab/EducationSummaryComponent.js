@@ -222,7 +222,6 @@ function EducationDetails(props) {
                         value={p.educationLevel}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        required
                         helperText={
                           touchedEducationLevel && errorEducationLevel
                             ? errorEducationLevel
