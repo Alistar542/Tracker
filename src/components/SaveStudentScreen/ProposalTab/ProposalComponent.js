@@ -363,7 +363,7 @@ export default function ProposalComponent(props) {
                 type="submit"
                 className={classes.actionButton}
               >
-                {isUpdate ? ` Update Proposal ` : ` Save Proposal `}
+                {isUpdate ? ` Save Proposal ` : ` Save Proposal `}
               </Button>
             </div>
           </form>
