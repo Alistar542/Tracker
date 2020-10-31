@@ -301,7 +301,7 @@ export default function EnrolledComponent(props) {
                 {` Follow Up `}
               </Button> */}
               <Button variant="contained" color="primary" type="submit">
-                {isUpdate ? ` Update Enrolled ` : ` Save Enrolled `}
+                {isUpdate ? ` Save Enrolled ` : ` Save Enrolled `}
               </Button>
             </div>
           </form>
