@@ -5,6 +5,7 @@ import CaptureApplicationDetailsComponent from "./Popup/CaptureApplicationDetail
 import ApplicationDetailCardComponent from "./ApplicationDetailCardComponent";
 import Divider from "@material-ui/core/Divider";
 import VisaDetailsComponent from "./VisaDetailsComponent";
+import RemarksFromStudentComponent from "./RemarksFromStudentComponent";
 import FollowUpComponent from "../Common/FollowUpComponent";
 import ToDoComponent from "../Common/ToDoComponent";
 import ProspectusSummaryComponent from "../Common/ProspectusSummaryComponent";
@@ -130,12 +131,16 @@ export default function DetailsPanelComponent(props) {
         {/* <ProspectusSummaryComponent studentFound={studentFound} /> */}
         <VisaDetailsComponent formik={formik} />
         <Divider />
+        <RemarksFromStudentComponent formik={formik} setToDoRemarks={props.setToDoRemarks}
+          toDoRemarks={props.toDoRemarks} />
+        <Divider />
       </div>
       <div className={classes.remarksDiv}>
         <RemarksComponent
           formik={formik}
           remarksStatus={props.remarksStatus}
           openFollowUpPopupFn={props.openFollowUpPopupFn}
+          setRemarksStatus={props.setRemarksStatus}
         />
       </div>
       <Divider />

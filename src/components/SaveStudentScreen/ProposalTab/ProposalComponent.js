@@ -24,6 +24,7 @@ import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SnackbarCommon from "../../Common/SnackbarCommon";
+import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: "53px",
     marginTop: "auto",
+    backgroundColor: grey[200],
   },
   actionButton: {
     margin: theme.spacing(1),
@@ -105,7 +107,7 @@ export default function ProposalComponent(props) {
       : null
   );
   const [remarksStatus, setRemarksStatus] = React.useState(
-    studentFound ? studentFound.remarksStatus : "N"
+    studentFound ? studentFound.remarksStatus : "Y"
   );
   const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
   const [snackbarMessage, setSnackBarMessage] = React.useState("");
@@ -280,8 +282,10 @@ export default function ProposalComponent(props) {
                 applicationDtl={applicationDtl}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                setToDoRemarks={setToDoRemarks}
                 studentFound={studentFound}
                 remarksStatus={remarksStatus}
+                setRemarksStatus={setRemarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
               />
             </div>
@@ -336,7 +340,7 @@ export default function ProposalComponent(props) {
                   </Grow>
                 )}
               </Popper>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={openToDoPopupFn}
@@ -352,7 +356,7 @@ export default function ProposalComponent(props) {
                 className={classes.actionButton}
               >
                 {` Follow Up `}
-              </Button>
+              </Button> */}
 
               <Button
                 variant="contained"
@@ -360,7 +364,7 @@ export default function ProposalComponent(props) {
                 type="submit"
                 className={classes.actionButton}
               >
-                {isUpdate ? ` Update Proposal ` : ` Save Proposal `}
+                {isUpdate ? ` Save Proposal ` : ` Save Proposal `}
               </Button>
             </div>
           </form>

@@ -85,6 +85,7 @@ export function StudentsFoundTableComponent(props) {
                   <TableCell align="left">Student Id</TableCell>
                   <TableCell>Student Name</TableCell>
                   <TableCell align="left">Current Status</TableCell>
+                  <TableCell align="left">Source</TableCell>
                   <TableCell align="left">Priority</TableCell>
                   <TableCell align="center">Status</TableCell>
                   <TableCell align="right">Actions</TableCell>
@@ -105,6 +106,7 @@ export function StudentsFoundTableComponent(props) {
                       {row.firstName.capitalize()} {row.lastName}
                     </TableCell>
                     <TableCell align="left">{row.currentState}</TableCell>
+                    <TableCell align="left">{row.source}</TableCell>
                     <TableCell align="left">{PRIORITY[row.priority]}</TableCell>
                     <TableCell align="center">
                       <Tooltip

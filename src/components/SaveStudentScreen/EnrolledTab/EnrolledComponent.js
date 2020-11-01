@@ -19,6 +19,7 @@ import KeyboardArrowUpRoundedIcon from "@material-ui/icons/KeyboardArrowUpRounde
 import { updateStatusOfStudent } from "../../../actions/studentactions";
 import ToDoPopupComponent from "../Popups/ToDoPopupComponent";
 import FollowUpPopupComponent from "../Popups/FollowUpPopupComponent";
+import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: "53px",
     marginTop: "auto",
+    backgroundColor: grey[200],
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -94,7 +96,7 @@ export default function EnrolledComponent(props) {
   );
 
   const [remarksStatus, setRemarksStatus] = React.useState(
-    studentFound ? studentFound.remarksStatus : "N"
+    studentFound ? studentFound.remarksStatus : "Y"
   );
   const [remarkTriggerPoint, setRemarkTriggerPoint] = React.useState();
 
@@ -227,6 +229,7 @@ export default function EnrolledComponent(props) {
                 studentFound={studentFound}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
+                setRemarksStatus={setRemarksStatus}
               />
             </div>
 
@@ -281,7 +284,7 @@ export default function EnrolledComponent(props) {
                   </Grow>
                 )}
               </Popper>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={openToDoPopupFn}
@@ -296,9 +299,9 @@ export default function EnrolledComponent(props) {
                 className={classes.actionButton}
               >
                 {` Follow Up `}
-              </Button>
+              </Button> */}
               <Button variant="contained" color="primary" type="submit">
-                {isUpdate ? ` Update Enrolled ` : ` Save Enrolled `}
+                {isUpdate ? ` Save Enrolled ` : ` Save Enrolled `}
               </Button>
             </div>
           </form>

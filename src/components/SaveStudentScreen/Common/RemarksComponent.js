@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   doneButton: {
     margin: 0,
+    height: "36px",
     padding: theme.spacing(0, 1),
   },
 }));
@@ -47,7 +48,12 @@ const useStyles = makeStyles((theme) => ({
 export default function RemarksComponent(props) {
   const classes = useStyles();
 
-  const { formik, remarksStatus, openFollowUpPopupFn } = props;
+  const {
+    formik,
+    remarksStatus,
+    openFollowUpPopupFn,
+    setRemarksStatus,
+  } = props;
   return (
     <div className={classes.outerDiv}>
       <Typography component={"span"} variant="h7">
@@ -67,21 +73,34 @@ export default function RemarksComponent(props) {
               "aria-label": "change date",
             }}
             value={formik.values.followUpDate}
-            onChange={(value) => formik.setFieldValue("followUpDate", value)}
+            onChange={(value) => {
+              formik.setFieldValue("followUpDate", value);
+              setRemarksStatus("N");
+            }}
           />
         </MuiPickersUtilsProvider>
         <TextField
           id="currentState"
-          label="Student Remarks"
+          label="Counselor Remarks"
           name="currentState"
           {...formik.getFieldProps("currentState")}
         />
+        <Button
+          variant="contained"
+          color="primary"
+          id="remarksDoneButton"
+          className={classes.doneButton}
+          onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
+        >
+          New Follow Up Comment
+        </Button>
 
         <Button
           variant="contained"
+          color="primary"
           id="remarksDoneButton"
-          disabled={remarksStatus !== "N"}
           className={classes.doneButton}
+          disabled={remarksStatus !== "N"}
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
           {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}

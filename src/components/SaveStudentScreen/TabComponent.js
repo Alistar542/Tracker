@@ -15,12 +15,15 @@ import { APPLICATION_STATUS } from "../../constants";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: grey[200],
+    backgroundColor: "white",
   },
   tabStyle: {
     "& .MuiTab-root": {
       fontSize: "0.750rem",
     },
+  },
+  boxStyle: {
+    backgroundColor: grey[200],
   },
 }));
 
@@ -33,7 +36,6 @@ function a11yProps(index) {
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -83,7 +85,7 @@ export default function TabComponent(props) {
 
   return (
     <div className={classes.root}>
-      <Paper square elevation={0}>
+      <Paper square elevation={0} className={classes.boxStyle}>
         <Tabs
           value={value}
           onChange={handleChange}

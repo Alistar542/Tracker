@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -28,7 +28,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useLocation } from "react-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { green, indigo, red } from "@material-ui/core/colors";
+import { green, indigo, red, grey } from "@material-ui/core/colors";
 import {
   STATUS,
   OPERATION_FLAG,
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
     //width: `calc(100% - ${theme.spacing(7) + 1}px)`,
     minHeight: "53px",
     width: "100%",
+    backgroundColor: grey[200],
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -144,7 +145,7 @@ export const ProspectusComponent = (props) => {
     studentFound ? studentFound.toDoRemarks : null
   );
   const [remarksStatus, setRemarksStatus] = React.useState(
-    studentFound ? studentFound.remarksStatus : "N"
+    studentFound ? studentFound.remarksStatus : "Y"
   );
   const [educationDetails, setEducationDetails] = React.useState(
     studentFound ? studentFound.educationDetails : null
@@ -176,6 +177,7 @@ export const ProspectusComponent = (props) => {
     writing: "",
     speaking: "",
     countryOfEducation: "",
+    eduCourseType: "",
     highestLevelOfEducation: "",
     gradingScheme: "",
     gradeAverage: "",
@@ -186,7 +188,25 @@ export const ProspectusComponent = (props) => {
     endDate: null,
     startDate: null,
     workAddress: "",
-    requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" }],
+    requestedCourseDetails: [
+      { requestedCourse: "", preferredCountry: "", intEduLevel: "" },
+    ],
+    educationDetails: [
+      {
+        educationLevel: "",
+        institutionCountry: "",
+        institutionName: "",
+        primaryLanguage: "",
+        attendedFromDate: null,
+        attendedToDate: null,
+        degreeAwarded: "",
+        degreeAwardedOn: null,
+        address: "",
+        city: "",
+        province: "",
+        zipCode: "",
+      },
+    ],
     dateOfRequest: new Date(),
     source: "",
     wayOfContact: "",
@@ -221,6 +241,66 @@ export const ProspectusComponent = (props) => {
     });
   };
 
+  const cacheTest = (asyncValidate) => {
+    let _valid = false;
+    let _value = "";
+
+    return async (value) => {
+      if (value !== _value) {
+        const response = await asyncValidate(value);
+        _value = value;
+        _valid = response;
+        return response;
+      }
+      return _valid;
+    };
+  };
+
+  const checkEmailUnique = async (value) => {
+    let isError = true;
+    let studentId = "";
+    if (typeof studentFound != "undefined") {
+      studentId = studentFound.studentId;
+    }
+    await validateEmail({ email: value, studentId: studentId }, currentUser)
+      .then((res) => {
+        if (res.data.length > 0) {
+          console.log("FOUND email");
+          isError = false;
+        } else {
+          console.log("NOT FOUND email");
+        }
+      })
+      .catch((err) => {
+        console.log("ERR" + err);
+      });
+    return isError;
+  };
+
+  const checkPhoneNumberUnique = async (value) => {
+    let isError = true;
+    let studentId = "";
+    if (typeof studentFound != "undefined") {
+      studentId = studentFound.studentId;
+    }
+    await validatePhoneNumber(
+      { phoneNumber: value, studentId: studentId },
+      currentUser
+    )
+      .then((res) => {
+        if (res.data.length > 0) {
+          console.log("FOUND phone");
+          isError = false;
+        } else {
+          console.log("NOT FOUND phone");
+        }
+      })
+      .catch((err) => {
+        console.log("ERR" + err);
+      });
+    return isError;
+  };
+
   const validateEmailOnBlur = (value) => {
     return new Promise((resolve, reject) => {
       if (typeof studentFound != "undefined") {
@@ -243,6 +323,9 @@ export const ProspectusComponent = (props) => {
     });
   };
 
+  const emailUniqueTest = useRef(cacheTest(checkEmailUnique));
+  const phoneNumberUniqueTest = useRef(cacheTest(checkPhoneNumberUnique));
+
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .max(15, "Must be 15 characters or less")
@@ -264,14 +347,14 @@ export const ProspectusComponent = (props) => {
     email: Yup.string()
       .email("Invalid email address")
       .required("Required")
-      .test("phoneNumber", "Email already in use", function (value) {
-        return validateEmailOnBlur(value);
-      }),
+      .test("email", "Email already in use", emailUniqueTest.current),
     phoneNumber: Yup.string()
       .required("Required")
-      .test("phoneNumber", "Phone Number already in use", function (value) {
-        return validatePhoneNumberOnBlur(value);
-      }),
+      .test(
+        "phoneNumber",
+        "Phone Number already in use",
+        phoneNumberUniqueTest.current
+      ),
     requestedCourseDetails: Yup.array().of(
       Yup.object().shape({
         requestedCourse: Yup.string().required("Requested Course is required"),
@@ -340,6 +423,7 @@ export const ProspectusComponent = (props) => {
       writing: values.writing,
       speaking: values.speaking,
       countryOfEducation: values.countryOfEducation,
+      eduCourseType: values.eduCourseType,
       highestLevelOfEducation: values.highestLevelOfEducation,
       gradingScheme: values.gradingScheme,
       gradeAverage: values.gradeAverage,
@@ -367,7 +451,7 @@ export const ProspectusComponent = (props) => {
       followUpRemarks: followUpRemarks,
       toDoRemarks: toDoRemarks,
       status: status,
-      educationDetails: educationDetails,
+      educationDetails: values.educationDetails,
     };
 
     if (typeof studentFound === "undefined") {
@@ -439,6 +523,7 @@ export const ProspectusComponent = (props) => {
       writing: "",
       speaking: "",
       countryOfEducation: "",
+      eduCourseType: "",
       highestLevelOfEducation: "",
       gradingScheme: "",
       gradeAverage: "",
@@ -446,7 +531,9 @@ export const ProspectusComponent = (props) => {
       companyName: "",
       position: "",
       workAddress: "",
-      requestedCourseDetails: [{ requestedCourse: "", preferredCountry: "" }],
+      requestedCourseDetails: [
+        { requestedCourse: "", preferredCountry: "", intEduLevel: "" },
+      ],
       preferredCountry: "",
       source: "",
       wayOfContact: "",
@@ -454,11 +541,26 @@ export const ProspectusComponent = (props) => {
       priority: "",
       currentState: "",
       studentRemarks: "",
+      educationDetails: [
+        {
+          educationLevel: "",
+          institutionCountry: "",
+          institutionName: "",
+          primaryLanguage: "",
+          attendedFromDate: null,
+          attendedToDate: null,
+          degreeAwarded: "",
+          degreeAwardedOn: null,
+          address: "",
+          city: "",
+          province: "",
+          zipCode: "",
+        },
+      ],
     });
     setFollowUpRemarks(null);
     setToDoRemarks(null);
     setRemarksStatus("N");
-    setEducationDetails(null);
   };
 
   const openFollowUpPopupFn = (event, id) => {
@@ -529,10 +631,10 @@ export const ProspectusComponent = (props) => {
                 formik={formik}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                setToDoRemarks={setToDoRemarks}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
-                educationDetails={educationDetails}
-                setEducationDetails={setEducationDetails}
+                setRemarksStatus={setRemarksStatus}
               />
             </div>
             {/* <Toolbar position="fixed" className={classes.appBar}> */}
@@ -591,31 +693,10 @@ export const ProspectusComponent = (props) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={openToDoPopupFn}
-                disabled={status === STATUS.REJECTED}
-              >
-                {" "}
-                Add To Do Comment{" "}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                id="followUpButton"
-                onClick={(e) => openFollowUpPopupFn(e, "followUpButton")}
-                disabled={status === STATUS.REJECTED}
-              >
-                {" "}
-                Add Follow Up Comment{" "}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
                 type="submit"
                 disabled={status === STATUS.REJECTED}
               >
-                {typeof studentFound === "undefined"
-                  ? " SAVE PROSPECTUS "
-                  : " UPDATE PROSPECTUS "}
+                {" SAVE PROSPECTUS "}
               </Button>
               {/* </Toolbar> */}
             </div>
