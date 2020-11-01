@@ -83,9 +83,7 @@ export default function RemarksFromStudentComponent(props) {
     event.preventDefault();
     setOpenToDoPopup(true);
   };
-  const [toDoRemarks, setToDoRemarks] = React.useState(
-    props ? props.toDoRemarks : null
-  );
+  const {toDoRemarks, setToDoRemarks} = props;
   
 
   const closeToDoPopupFn = (event) => {

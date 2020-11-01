@@ -165,6 +165,7 @@ export function FilterComponent(props) {
     setStudentId("");
     setCourseStartDate(null);
     setPriority();
+    setSource("");
     props.clearValues();
   };
 

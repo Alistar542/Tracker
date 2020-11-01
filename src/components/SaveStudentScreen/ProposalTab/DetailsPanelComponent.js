@@ -131,7 +131,8 @@ export default function DetailsPanelComponent(props) {
         {/* <ProspectusSummaryComponent studentFound={studentFound} /> */}
         <VisaDetailsComponent formik={formik} />
         <Divider />
-        <RemarksFromStudentComponent formik={formik} />
+        <RemarksFromStudentComponent formik={formik} setToDoRemarks={props.setToDoRemarks}
+          toDoRemarks={props.toDoRemarks} />
         <Divider />
       </div>
       <div className={classes.remarksDiv}>

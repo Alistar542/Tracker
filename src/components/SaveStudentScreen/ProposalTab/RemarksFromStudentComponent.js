@@ -78,14 +78,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RemarksFromStudentComponent(props) {
   const classes = useStyles();
+  const {toDoRemarks,setToDoRemarks}=props;
   const [openToDoPopup, setOpenToDoPopup] = React.useState(false);
   const openToDoPopupFn = (event) => {
     event.preventDefault();
     setOpenToDoPopup(true);
   };
-  const [toDoRemarks, setToDoRemarks] = React.useState(
-    props ? props.toDoRemarks : null
-  );
   
 
   const closeToDoPopupFn = (event) => {

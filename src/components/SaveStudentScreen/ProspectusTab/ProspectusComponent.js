@@ -631,6 +631,7 @@ export const ProspectusComponent = (props) => {
                 formik={formik}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                setToDoRemarks={setToDoRemarks}
                 remarksStatus={remarksStatus}
                 openFollowUpPopupFn={openFollowUpPopupFn}
                 setRemarksStatus={setRemarksStatus}

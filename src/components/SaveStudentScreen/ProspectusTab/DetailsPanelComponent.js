@@ -27,6 +27,7 @@ export default function DetailsPanelComponent(props) {
     educationDetails,
     setEducationDetails,
     setRemarksStatus,
+    setToDoRemarks
   } = props;
   const classes = useStyles();
   return (
@@ -41,7 +42,7 @@ export default function DetailsPanelComponent(props) {
       <Divider />
       <AreasOfInterestComponent formik={formik} />
       <Divider />
-      <RemarksFromStudentComponent toDoRemarks={toDoRemarks} />
+      <RemarksFromStudentComponent toDoRemarks={toDoRemarks} setToDoRemarks={setToDoRemarks} />
       <Divider />
       <Divider />
       <MarketingPurposeComponent formik={formik} />

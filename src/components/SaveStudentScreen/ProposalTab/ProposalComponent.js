@@ -282,6 +282,7 @@ export default function ProposalComponent(props) {
                 applicationDtl={applicationDtl}
                 followUpRemarks={followUpRemarks}
                 toDoRemarks={toDoRemarks}
+                setToDoRemarks={setToDoRemarks}
                 studentFound={studentFound}
                 remarksStatus={remarksStatus}
                 setRemarksStatus={setRemarksStatus}
