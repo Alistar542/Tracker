@@ -126,8 +126,10 @@ export default function AreasOfInterestComponent(props) {
                           <MenuItem value={"3ydiploma"}>
                             3 Year Diploma
                           </MenuItem>
-                          <MenuItem value={"bachelor"}>Bachelor</MenuItem>
-                          <MenuItem value={"master"}>Master</MenuItem>
+                          <MenuItem value={"bachelor"}>Bachelor Degree</MenuItem>
+                          <MenuItem value={"1yPGDC"}>1 Year PG Diploma / Certificate</MenuItem>
+                          <MenuItem value={"2yPGDC"}>2 Year PG Diploma / Certificate</MenuItem>
+                          <MenuItem value={"master"}>Master Course</MenuItem>
                           <MenuItem value={"phd"}>PhD</MenuItem>
                         </Select>
                       </FormControl>

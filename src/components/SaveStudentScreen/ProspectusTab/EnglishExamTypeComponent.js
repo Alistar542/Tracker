@@ -55,6 +55,7 @@ export default function EnglishExamTypeComponent(props) {
           >
             <MenuItem value={"IELTS"}>IELTS</MenuItem>
             <MenuItem value={"TOEFL"}>TOEFL</MenuItem>
+            <MenuItem value={"OET"}>OET</MenuItem>
             <MenuItem value={"NA"}>I dont have any</MenuItem>
           </Select>
         </FormControl>
