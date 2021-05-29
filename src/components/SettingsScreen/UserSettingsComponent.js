@@ -72,17 +72,23 @@ const validationSchema = Yup.object().shape({
   userStatus: Yup.string().required("Required"),
 });
 
-export default function UserSettingsComponent() {
+export default function UserSettingsComponent(props) {
   const classes = useStyles();
   const { currentUser } = useContext(AuthContext);
+
+  const resetForm =   (formik) => {
+    props.updateUserFound(null);
+    formik.resetForm();
+  }
 
   return (
     <div>
       <Paper elevation={0} className={classes.rootPaper}>
         <Typography component={"span"}>Create a new user</Typography>
         <Formik
-          initialValues={initialValues}
+          initialValues={props.userFound ? props.userFound :initialValues}
           validationSchema={validationSchema}
+          enableReinitialize = {true}
           onSubmit={(values, { resetForm, setFieldError }) => {
             console.log(JSON.stringify(values, null, 2));
             createNewUser({ ...values }, currentUser)
@@ -214,12 +220,12 @@ export default function UserSettingsComponent() {
               </div>
               <div className={classes.actionButtonDiv}>
                 <Button variant="contained" color="primary" type="submit">
-                  Create
+                  {props.userFound ? "Update" : "Create"}
                 </Button>
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={formik.resetForm}
+                  onClick={() => resetForm(formik)}
                 >
                   Clear
                 </Button>
