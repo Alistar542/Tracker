@@ -5,10 +5,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import UserSettingsComponent from "./UserSettingsComponent";
-import { grey } from "@material-ui/core/colors";
+import CreateUpdateStaffComponent from "./CreateUpdateStaff/CreateUpdateStaffComponent";
 import Divider from "@material-ui/core/Divider";
-import ListStaffComponent from "./ListStaffPanel/ListStaffComponent";
+import ListStaffComponent from "./ListStaff/ListStaffComponent";
 
 const useStyles = makeStyles((theme) => ({
   paperRoot: {
@@ -99,20 +98,20 @@ export default function SettingsComponent() {
           <Tab label="General" {...a11yProps(0)} />
           <Tab label="Create User" {...a11yProps(1)} />
           <Tab label="List Staff" {...a11yProps(2)} />
-          <Tab label="Item Four" {...a11yProps(3)} />
+          {/* <Tab label="Item Four" {...a11yProps(3)} /> */}
         </Tabs>
         <TabPanel value={value} index={0}>
           General
         </TabPanel>
         <TabPanel value={value} index={1} >
-          <UserSettingsComponent userFound={userFound} updateUserFound={updateUserFound}/>
+          <CreateUpdateStaffComponent userFound={userFound} updateUserFound={updateUserFound}/>
         </TabPanel>
         <TabPanel value={value} index={2} className={classes.listStaffPanel} >
           <ListStaffComponent updateUserFound={updateUserFound}/>
         </TabPanel>
-        <TabPanel value={value} index={3}>
+        {/* <TabPanel value={value} index={3}>
           Item Four
-        </TabPanel>
+        </TabPanel> */}
       </div>
     </Paper>
   );

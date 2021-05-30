@@ -9,9 +9,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import { USER_TYPE } from "../../constants";
-import { AuthContext } from "../LoginScreen/context/auth";
-import { createNewUser } from "../../actions/useractions";
+import { USER_TYPE } from "../../../constants";
+import { AuthContext } from "../../LoginScreen/context/auth";
+import { createNewUser } from "../../../actions/useractions"
 import * as Yup from "yup";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
@@ -72,7 +72,7 @@ const validationSchema = Yup.object().shape({
   userStatus: Yup.string().required("Required"),
 });
 
-export default function UserSettingsComponent(props) {
+export default function CreateUpdateStaffComponent(props) {
   const classes = useStyles();
   const { currentUser } = useContext(AuthContext);
 
