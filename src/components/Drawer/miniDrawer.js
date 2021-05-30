@@ -18,13 +18,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FaceRoundedIcon from "@material-ui/icons/FaceRounded";
 import { Link } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
-//import { UserComponent } from "../SaveUserScreen/UserComponent";
 import { FetchUserComponent } from "../FindUsersScreen/FetchUserComponent";
 import { HomeComponent } from "../HomeScreen/HomeComponent";
 import SearchIcon from "@material-ui/icons/Search";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import axios from "axios";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Button from "@material-ui/core/Button";
@@ -35,7 +33,6 @@ import DashboardRoundedIcon from "@material-ui/icons/DashboardRounded";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SettingsComponent from "../SettingsScreen/SettingsComponent";
 import SaveStudentComponent from "../SaveStudentScreen/SaveStudentComponent";
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { AbilityContext } from "../../privilegehandler/privilegehandler";
 import { findStudent } from "../../actions/studentactions";
 
@@ -211,14 +208,6 @@ export default function MiniDrawer() {
             </ListItem>
           </Tooltip>
 
-          {/* <Tooltip title="Add New Student" arrow>
-            <ListItem button key="addStudent" component={Link} to="/home/add">
-              <ListItemIcon>
-                <FaceRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Student" />
-            </ListItem>
-          </Tooltip> */}
           <Tooltip title="New Student" arrow>
             <ListItem
               button
@@ -289,9 +278,6 @@ export default function MiniDrawer() {
           <Route exact path={"/home"}>
             <HomeComponent />
           </Route>
-          {/* <Route exact path={"/home/add"}>
-            <UserComponent />
-          </Route> */}
           <Route exact path={"/home/fetchusercomponent"}>
             <FetchUserComponent />
           </Route>

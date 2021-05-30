@@ -5,26 +5,34 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import UserSettingsComponent from "./UserSettingsComponent";
+import CreateUpdateStaffComponent from "./CreateUpdateStaff/CreateUpdateStaffComponent";
+import Divider from "@material-ui/core/Divider";
+import ListStaffComponent from "./ListStaff/ListStaffComponent";
 
 const useStyles = makeStyles((theme) => ({
   paperRoot: {
     display: "flex",
     "& > *": {
-      margin: theme.spacing(2),
       width: "100%",
     },
     margin: theme.spacing(2),
-    padding: theme.spacing(3),
     height: `calc(100vh - 100px)`,
     flexDirection: "column",
   },
+  headingDiv: {
+    padding: theme.spacing(2),
+  },
   divContainer: {
-    backgroundColor: theme.palette.background.paper,
     display: "flex",
+    width: "100%",
+    padding: theme.spacing(2),
+    flexGrow: 1,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
+  },
+  listStaffPanel: {
+    width: "100%",
   },
 }));
 
@@ -63,11 +71,21 @@ export default function SettingsComponent() {
     setValue(newValue);
   };
 
+  const [userFound,setUserFound] = React.useState(null);
+
+  const updateUserFound = (user)=> {
+    setUserFound(user);
+    setValue(1);
+  }
+
   return (
     <Paper className={classes.paperRoot}>
-      <Typography component={"span"} variant="h4">
-        Settings
-      </Typography>
+      <div className={classes.headingDiv}>
+        <Typography component={"span"} variant="h4">
+          Settings
+        </Typography>
+      </div>
+      <Divider />
       <div className={classes.divContainer}>
         <Tabs
           orientation="vertical"
@@ -79,21 +97,21 @@ export default function SettingsComponent() {
         >
           <Tab label="General" {...a11yProps(0)} />
           <Tab label="Create User" {...a11yProps(1)} />
-          <Tab label="List Users" {...a11yProps(2)} />
-          <Tab label="Item Four" {...a11yProps(3)} />
+          <Tab label="List Staff" {...a11yProps(2)} />
+          {/* <Tab label="Item Four" {...a11yProps(3)} /> */}
         </Tabs>
         <TabPanel value={value} index={0}>
           General
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          <UserSettingsComponent />
+        <TabPanel value={value} index={1} >
+          <CreateUpdateStaffComponent userFound={userFound} updateUserFound={updateUserFound}/>
         </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
+        <TabPanel value={value} index={2} className={classes.listStaffPanel} >
+          <ListStaffComponent updateUserFound={updateUserFound}/>
         </TabPanel>
-        <TabPanel value={value} index={3}>
+        {/* <TabPanel value={value} index={3}>
           Item Four
-        </TabPanel>
+        </TabPanel> */}
       </div>
     </Paper>
   );

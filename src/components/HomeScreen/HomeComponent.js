@@ -5,15 +5,12 @@ import CardContent from "@material-ui/core/CardContent";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
-import RestorePageRoundedIcon from "@material-ui/icons/RestorePageRounded";
 import { Link } from "react-router-dom";
-import { UserComponent } from "../SaveUserScreen/UserComponent";
+import  SaveStudentComponent  from "../SaveStudentScreen/SaveStudentComponent";
 import { FetchUserComponent } from "../FindUsersScreen/FetchUserComponent";
 import StudentHistoryComponent from "../StudentHistory/StudentHistoryComponent";
 import { Route, Switch } from "react-router-dom";
 import grey from "@material-ui/core/colors/grey";
-import cyan from "@material-ui/core/colors/cyan";
-import amber from "@material-ui/core/colors/amber";
 import TimelineIcon from "@material-ui/icons/Timeline";
 
 const useStyles = makeStyles((theme) => ({
@@ -86,8 +83,8 @@ export function HomeComponent() {
       </Card>
 
       <Switch>
-        <Route exact path={"/home/add"}>
-          <UserComponent />
+        <Route exact path={"/home/saveStudent"}>
+          <SaveStudentComponent />
         </Route>
         <Route exact path={"/home/fetchusercomponent"}>
           <FetchUserComponent />
