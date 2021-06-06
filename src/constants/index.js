@@ -25,8 +25,10 @@ export const URL = {
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
   SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
   CREATE_NEW_USER: "http://localhost:5000/user/create",
-  VALIDATE_PHONENUMBER: "http://localhost:5000/student/validatephonenumber",
+  VALIDATE_PHONENUMBER:
+    "http://localhost:5000/student/validatephonenumber",
   VALIDATE_EMAIL: "http://localhost:5000/student/validateemail",
+  FIND_STUDENT_SUMMARY: "http://localhost:5000/student/findstudentsummarydetails"
 };
 
 export const OPERATION_FLAG = {

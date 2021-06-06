@@ -6,7 +6,7 @@ import { StudentsFoundTableComponent } from "./StudentsFoundTableComponent";
 import FailOnFetchingDialog from "../Dialogs/FailOnFetchingDailog";
 import { FilterComponent } from "./FilterComponent";
 import { AuthContext } from "../LoginScreen/context/auth";
-import { findStudent } from "../../actions/studentactions";
+import { findStudentSummary } from "../../actions/studentactions";
 const useStyles = makeStyles((theme) => ({
   formDiv: {
     margin: theme.spacing(3),
@@ -24,7 +24,7 @@ export const FetchUserComponent = () => {
   const handleSubmitForFetching = (objectFromFilterComponent) => {
     setLoadingSpinner(true);
     const fetchObject = objectFromFilterComponent;
-    findStudent(fetchObject, currentUser)
+    findStudentSummary(fetchObject, currentUser)
       .then((res) => {
         setLoadingSpinner(false);
         console.log(res.data);

@@ -68,6 +68,14 @@ export const validateEmail = (studentObject, currentUser) => {
   );
 };
 
+export const findStudentSummary = (studentObject, currentUser) => {
+  return axios.post(
+    URL.FIND_STUDENT_SUMMARY,
+    studentObject,
+    createAccessToken(currentUser)
+  );
+};
+
 function createAccessToken(currentUser) {
   return {
     headers: { Authorization: `Bearer ${currentUser.accessToken}` },

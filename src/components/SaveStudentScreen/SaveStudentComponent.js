@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import TabComponent from "./TabComponent";
 import SummaryPanelComponent from "./SummaryPanel/SummaryPanelComponent";
 import { useLocation } from "react-router";
+import { findStudent } from "../../actions/studentactions";
+import { AuthContext } from "../LoginScreen/context/auth";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,14 +18,44 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 }));
 
 export default function SaveStudentComponent(props) {
-  const classes = useStyles();
+
   let locationFound = useLocation();
+  const { currentUser } = useContext(AuthContext);
   const [studentFoundForSummary, setStudentFoundForSummary] = React.useState(
-    locationFound.state ? locationFound.state : {}
+    {}
   );
+  const [backDropState, setBackDropState] = React.useState(false);
+
+  React.useEffect(() => {
+    if(locationFound){
+      const fetchObject = {
+        studentId : locationFound.state.studentFound.studentId
+      };
+      setBackDropState(true);
+      findStudent(fetchObject,currentUser)
+        .then(res => 
+          { 
+            console.log("FOUND .. "+res)
+            setStudentFoundForSummary({studentFound : res.data[0]});
+            setBackDropState(false);
+          })
+        .catch(err => {
+            console.log('error ...')
+            setBackDropState(false);
+          })
+    }
+  },[]);
+
+  const classes = useStyles();
+  //let locationFound = useLocation();
+  
   let studentFound = studentFoundForSummary.studentFound
     ? studentFoundForSummary.studentFound
     : {};
@@ -64,7 +98,11 @@ export default function SaveStudentComponent(props) {
             studentFoundForSummary && studentFoundForSummary.studentFound
           }
         />
+        <Backdrop className={classes.backdrop} open={backDropState}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Paper>
+      
     </div>
   );
 }
