@@ -25,7 +25,9 @@ export const URL = {
   SAVE_PROPOSAL_INFO: "http://localhost:5000/student/saveproposalinfo",
   SAVE_ENROLLED_INFO: "http://localhost:5000/student/saveenrolledinfo",
   CREATE_NEW_USER: "http://localhost:5000/user/create",
-  VALIDATE_PHONENUMBER: "http://localhost:5000/student/validatephonenumber",
+  LIST_USERS:"http://localhost:5000/user/listusers",
+  VALIDATE_PHONENUMBER:
+    "http://localhost:5000/student/validatephonenumber",
   VALIDATE_EMAIL: "http://localhost:5000/student/validateemail",
 };
 
@@ -72,10 +74,14 @@ export const APPLICATION_STATUS_ARRAY = [
 ];
 
 export const APPLIED_COURSE_TYP = {
-  B: "Bachelor",
-  D: "Diploma",
-  M: "Master",
-  P: "PhD",
+  UD1: "1 Year UG Diploma",
+  UD2: "2 Year UG Diploma",
+  UD3:  "3 Year UG Diploma",
+  BD:"Bachelor Degree",
+  PD1:"1 Year PG Diploma / Certificate",
+  PD2:"2 Year PG Diploma / Certificate",
+  MC: "Master Course",
+  PHD: "PhD",
 };
 
 export const APPLCTN_STS_ARRY_PROPOSAL = [

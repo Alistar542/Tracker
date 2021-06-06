@@ -108,8 +108,9 @@ export default function RemarksComponent(props) {
       </div>
       <div className={classes.studentRemarksField}>
         <TextField
+          required
           id="standard-textarea"
-          label="Additional Info/Comments"
+          label="Current Status"
           placeholder="Remarks"
           name="studentRemarks"
           multiline

@@ -241,10 +241,14 @@ export default function CaptureApplicationDetailsComponent(props) {
                     variant="outlined"
                     {...formik.getFieldProps("appldCourseTyp")}
                   >
-                    <MenuItem value={"B"}>Bachelor</MenuItem>
-                    <MenuItem value={"D"}>Diploma</MenuItem>
-                    <MenuItem value={"M"}>Master </MenuItem>
-                    <MenuItem value={"P"}>PhD </MenuItem>
+                    <MenuItem value={"UD1"}>1 Year UG Diploma</MenuItem>
+                    <MenuItem value={"UD2"}>2 Year UG Diploma</MenuItem>
+                    <MenuItem value={"UD3"}>3 Year UG Diploma </MenuItem>
+                    <MenuItem value={"BD"}>Bachelor Degree </MenuItem>
+                    <MenuItem value={"PD1"}>1 Year PG Diploma / Certificate</MenuItem>
+                    <MenuItem value={"PD2"}>2 Year PG Diploma / Certificate</MenuItem>
+                    <MenuItem value={"MC"}>Master Course </MenuItem>
+                    <MenuItem value={"PHD"}>PhD </MenuItem>
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
