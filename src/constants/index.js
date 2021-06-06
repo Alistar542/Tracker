@@ -29,6 +29,7 @@ export const URL = {
   VALIDATE_PHONENUMBER:
     "http://localhost:5000/student/validatephonenumber",
   VALIDATE_EMAIL: "http://localhost:5000/student/validateemail",
+  FIND_STUDENT_SUMMARY: "http://localhost:5000/student/findstudentsummarydetails"
 };
 
 export const OPERATION_FLAG = {

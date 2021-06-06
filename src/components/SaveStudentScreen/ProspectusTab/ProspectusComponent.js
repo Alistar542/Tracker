@@ -623,6 +623,7 @@ export const ProspectusComponent = (props) => {
         }}
         validateOnBlur={true}
         validateOnChange={false}
+        enableReinitialize={true}
       >
         {(formik) => (
           <form autoComplete="off" onSubmit={formik.handleSubmit}>

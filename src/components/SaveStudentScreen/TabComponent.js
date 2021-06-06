@@ -83,6 +83,10 @@ export default function TabComponent(props) {
     setValue(newValue);
   };
 
+  React.useEffect(() => {
+    setValue(findDefaultTab(status, ability.can("view", "enrolled")));
+  },[status,ability]);
+
   return (
     <div className={classes.root}>
       <Paper square elevation={0} className={classes.boxStyle}>
