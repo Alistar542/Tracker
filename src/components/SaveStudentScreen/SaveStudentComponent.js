@@ -34,7 +34,7 @@ export default function SaveStudentComponent(props) {
   const [backDropState, setBackDropState] = React.useState(false);
 
   React.useEffect(() => {
-    if(locationFound){
+    if(locationFound && locationFound.state && locationFound.state.studentFound){
       const fetchObject = {
         studentId : locationFound.state.studentFound.studentId
       };
@@ -42,7 +42,7 @@ export default function SaveStudentComponent(props) {
       findStudent(fetchObject,currentUser)
         .then(res => 
           { 
-            console.log("FOUND .. "+res)
+            console.log("FOUND .. ",res)
             setStudentFoundForSummary({studentFound : res.data[0]});
             setBackDropState(false);
           })
