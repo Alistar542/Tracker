@@ -7,9 +7,15 @@ import FailOnFetchingDialog from "../Dialogs/FailOnFetchingDailog";
 import { FilterComponent } from "./FilterComponent";
 import { AuthContext } from "../LoginScreen/context/auth";
 import { findStudentSummary } from "../../actions/studentactions";
+import Backdrop from "@material-ui/core/Backdrop";
+
 const useStyles = makeStyles((theme) => ({
   formDiv: {
     margin: theme.spacing(3),
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
   },
 }));
 
@@ -71,9 +77,7 @@ export const FetchUserComponent = () => {
           studentsFound={studentsFound}
         />
         <br></br>
-        {loadingSpinner ? (
-          <CircularProgress />
-        ) : studentsFound ? (
+        {studentsFound ? (
           <span>
             <StudentsFoundTableComponent
               studentsFound={studentsFound}
@@ -90,6 +94,9 @@ export const FetchUserComponent = () => {
         ) : (
           <span></span>
         )}
+        <Backdrop className={classes.backdrop} open={loadingSpinner}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     </div>
   );
