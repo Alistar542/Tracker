@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     //borderColor: "black",
     //borderStyle: "solid",
     padding: theme.spacing(2),
+    margin: theme.spacing(2),
   },
   firstDiv: {
     display: "flex",
@@ -83,7 +84,7 @@ export default function CreateUpdateStaffComponent(props) {
 
   return (
     <div>
-      <Paper elevation={0} className={classes.rootPaper}>
+      <Paper className={classes.rootPaper}>
         <Typography component={"span"}>Create a new user</Typography>
         <Formik
           initialValues={props.userFound ? props.userFound :initialValues}
@@ -177,9 +178,9 @@ export default function CreateUpdateStaffComponent(props) {
                       {...formik.getFieldProps("userType")}
                     >
                       <MenuItem value={USER_TYPE.ADMINISTRATOR}>
-                        ADMINISTRATOR
+                        Administrator
                       </MenuItem>
-                      <MenuItem value={USER_TYPE.EMPLOYEE}>EMPLOYEE</MenuItem>
+                      <MenuItem value={USER_TYPE.EMPLOYEE}>Employee</MenuItem>
                     </Select>
                     <FormHelperText>
                       {formik.errors.userType &&
@@ -212,8 +213,8 @@ export default function CreateUpdateStaffComponent(props) {
                       }
                       {...formik.getFieldProps("userStatus")}
                     >
-                      <MenuItem value={"A"}>ACTIVE</MenuItem>
-                      <MenuItem value={"I"}>INACTIVE</MenuItem>
+                      <MenuItem value={"A"}>Active</MenuItem>
+                      <MenuItem value={"I"}>Inactive</MenuItem>
                     </Select>
                   </FormControl>
                 </div>

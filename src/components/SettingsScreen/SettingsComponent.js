@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   headingDiv: {
+    display: "flex",
+    width: "100%",
     padding: theme.spacing(2),
   },
   divContainer: {
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
   },
   listStaffPanel: {
-    width: "100%",
+    width: "80%",
   },
 }));
 
@@ -106,7 +108,7 @@ export default function SettingsComponent() {
         <TabPanel value={value} index={1} >
           <CreateUpdateStaffComponent userFound={userFound} updateUserFound={updateUserFound}/>
         </TabPanel>
-        <TabPanel value={value} index={2} className={classes.listStaffPanel} >
+        <TabPanel value={value} index={2} className={classes.listStaffPanel}>
           <ListStaffComponent updateUserFound={updateUserFound}/>
         </TabPanel>
         {/* <TabPanel value={value} index={3}>

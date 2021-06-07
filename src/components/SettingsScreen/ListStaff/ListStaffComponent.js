@@ -10,7 +10,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TablePaginationActions from "../../Common/TablePaginationActions";
 import Button from "@material-ui/core/Button";
-
+import ViewStaffPopupComponent from "../Popups/UpdateStaff/ViewStaffPopupComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,17 +26,21 @@ const useStyles = makeStyles((theme) => ({
   staffTableDiv: {
     height: "100%",
   },
+  tableContainer: {
+    maxHeight: `calc(100vh - 300px)`,
+  },
 }));
 
 export default function ListStaffComponent(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [users,setUsers] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [viewStaffPopup, setViewStaffPopup] = React.useState(false);
+  const [selectedUser, setSelectedUser] = React.useState(null);
   const rows = users;
   const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, users.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -46,19 +50,27 @@ export default function ListStaffComponent(props) {
     setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
-  
+
   React.useEffect(() => {
     // To fetch all users from backend
-    setUsers([{userId:1,userName:'abc',userType:'A',officeCode:'abc'},{userId:2,userName:'qwe',userType:'E',officeCode:'qwe'}]);
-  },[]);
+    setUsers([
+      { userId: 1, userName: "abc", userType: "A", officeCode: "abc" },
+      { userId: 2, userName: "qwe", userType: "E", officeCode: "qwe" },
+    ]);
+  }, []);
 
-  const navigateToViewUser = (selectedUser) => {
-    props.updateUserFound(selectedUser);
-  }
+  const navigateToViewUser = (user) => {
+    //props.updateUserFound(selectedUser);
+    setViewStaffPopup(true);
+    setSelectedUser(user);
+  };
+
+  const closeViewStaffPopupFn = (event) => {
+    setViewStaffPopup(false);
+  };
 
   return (
     <div className={classes.tableOuterContainer}>
-      <div>
       {users && users.length > 0 ? (
         <Paper className={classes.root}>
           <TableContainer className={classes.tableContainer}>
@@ -87,9 +99,11 @@ export default function ListStaffComponent(props) {
                   <TableRow key={row.id} hover>
                     <TableCell align="left">{row.userId}</TableCell>
                     <TableCell align="left">{row.userName}</TableCell>
-                    <TableCell align="left">{row.userType === 'A' ? 'Administrator' : 'Employee'}</TableCell>
+                    <TableCell align="left">
+                      {row.userType === "A" ? "Administrator" : "Employee"}
+                    </TableCell>
                     <TableCell align="left">{row.officeCode}</TableCell>
-                    
+
                     <TableCell align="right">
                       <Button
                         color="primary"
@@ -124,7 +138,11 @@ export default function ListStaffComponent(props) {
       ) : (
         ""
       )}
-    </div>
+      <ViewStaffPopupComponent
+        openToDoPopup={viewStaffPopup}
+        selectedUser={selectedUser}
+        handleToDoClose={closeViewStaffPopupFn}
+      />
     </div>
   );
 }

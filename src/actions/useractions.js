@@ -13,6 +13,14 @@ export const createNewUser = (userObject, currentUser) => {
   );
 };
 
+export const updateUser = (userObject, currentUser) => {
+  return axios.post(
+    URL.CREATE_NEW_USER,
+    userObject,
+    createAccessToken(currentUser)
+  );
+};
+
 function createAccessToken(currentUser) {
   return {
     headers: { Authorization: `Bearer ${currentUser.accessToken}` },
