@@ -59,6 +59,7 @@ export default function MarketingPurposeComponent(props) {
           />
         </MuiPickersUtilsProvider>
         <TextField
+          required
           id="source"
           label="Source"
           name="source"

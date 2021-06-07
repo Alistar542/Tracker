@@ -103,7 +103,7 @@ export default function RemarksFromStudentComponent(props) {
   return (
     <div className={classes.outerDiv}>
       <Typography component={"span"} variant="h7">
-        Remarks From Student
+        Comments from Counselor
       </Typography>
       &nbsp; &nbsp;
       <Button variant="contained" color="primary" onClick={openToDoPopupFn}>

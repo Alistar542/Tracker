@@ -105,7 +105,7 @@ export function StudentsFoundTableComponent(props) {
                     <TableCell component="th" scope="row">
                       {row.firstName.capitalize()} {row.lastName}
                     </TableCell>
-                    <TableCell align="left">{row.currentState}</TableCell>
+                    <TableCell align="left">{row.status=='E'?row.enrolledStudentRemarks:(row.status=='P'?row.proposalStudentRemarks:row.studentRemarks)}</TableCell>
                     <TableCell align="left">{row.source}</TableCell>
                     <TableCell align="left">{PRIORITY[row.priority]}</TableCell>
                     <TableCell align="center">
