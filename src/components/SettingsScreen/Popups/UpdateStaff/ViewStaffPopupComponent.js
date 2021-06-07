@@ -23,7 +23,7 @@ import { updateUser } from "../../../../actions/useractions";
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Required"),
   password: Yup.string().when("changePassword", {
-    is: true,
+    is: (val) => val === true,
     then: Yup.string().required("Required"),
   }),
   officeCode: Yup.string().required("Required"),
@@ -49,9 +49,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   rootPaper: {
-    //borderWidth: "1px",
-    //borderColor: "black",
-    //borderStyle: "solid",
     padding: theme.spacing(2),
     margin: theme.spacing(2),
   },
