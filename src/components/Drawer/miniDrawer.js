@@ -115,9 +115,6 @@ const useStyles = makeStyles((theme) => ({
   tabPopoverContainer: {
     overflowY: "auto",
     maxHeight: 350,
-    display: "flex",
-    alignItems: "center",
-    alignContent: "center",
   },
   popoverDivider: {
     marginTop: -2,
@@ -135,8 +132,13 @@ const useStyles = makeStyles((theme) => ({
   },
   logoutButton: {
     display: "flex",
-    alignItems: "center",
-    alignContent: "center",
+    padding: "5px",
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  },
+  listItemText: {
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -260,7 +262,7 @@ export default function MiniDrawer() {
             </AppBar>
             <List dense className={classes.tabPopoverContainer}>
               <ListItem>
-                <ListItemText>
+                <ListItemText className={classes.listItemText}>
                   <Button
                     variant="outlined"
                     size="small"
