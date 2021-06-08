@@ -225,8 +225,8 @@ export default function MiniDrawer() {
               <PowerSettingsNewIcon />
             </Button>
           </Tooltip> */}
-          <IconButton aria-label="Account">
-            <Avatar className={classes.orange} onClick={handleAvatarClick}>
+          <IconButton aria-label="Account" onClick={handleAvatarClick}>
+            <Avatar className={classes.orange}>
               {currentUser.userName.charAt(0).toUpperCase()}
             </Avatar>
           </IconButton>
