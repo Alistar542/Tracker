@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
     background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
     display: "flex",
+    alignItems: "center",
   },
   buttonProgress: {
     color: green[500],
@@ -81,9 +82,10 @@ const useStyles = makeStyles((theme) => ({
   innerDiv: {
     display: "flex",
     flexDirection: "row",
-    marginTop: theme.spacing(5),
-    height: "70%",
-    width: "30%",
+    justifyContent: "center",
+    maxHeight: "600px",
+    maxWidth: "500px",
+    minHeight: "600px",
   },
   innerFormDiv: {
     margin: theme.spacing(8, 4),
@@ -108,7 +110,7 @@ export default function LoginComponent() {
     const user = {
       userName: userName.value.trim(),
       password: password.value,
-      officeCode:officeCode.value
+      officeCode: officeCode.value,
     };
     loginUser(user)
       .then((res) => {
