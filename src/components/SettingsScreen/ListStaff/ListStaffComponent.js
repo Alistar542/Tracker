@@ -54,7 +54,7 @@ export default function ListStaffComponent(props) {
   React.useEffect(() => {
     // To fetch all users from backend
     setUsers([
-      { userId: 1, userName: "abc", userType: "A", officeCode: "abc" },
+      { userId: 1, userName: "yak", userType: "E", officeCode: "abc" },
       { userId: 2, userName: "qwe", userType: "E", officeCode: "qwe" },
     ]);
   }, []);

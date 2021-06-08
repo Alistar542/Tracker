@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Box from "@material-ui/core/Box";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
@@ -35,6 +36,9 @@ import SettingsComponent from "../SettingsScreen/SettingsComponent";
 import SaveStudentComponent from "../SaveStudentScreen/SaveStudentComponent";
 import { AbilityContext } from "../../privilegehandler/privilegehandler";
 import { findStudent } from "../../actions/studentactions";
+import Avatar from "@material-ui/core/Avatar";
+import { red } from "@material-ui/core/colors";
+import Popover from "@material-ui/core/Popover";
 
 const drawerWidth = 240;
 
@@ -104,7 +108,41 @@ const useStyles = makeStyles((theme) => ({
   bottomLink: {
     marginBottom: "auto",
   },
+  orange: {
+    color: theme.palette.getContrastText(red[500]),
+    backgroundColor: red[500],
+  },
+  tabPopoverContainer: {
+    overflowY: "auto",
+    maxHeight: 350,
+    display: "flex",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  popoverDivider: {
+    marginTop: -2,
+  },
+  noShadow: {
+    boxShadow: "none !important",
+  },
+  popoverPaper: {
+    width: "100%",
+    maxWidth: 200,
+    marginRight: theme.spacing(1),
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: 270,
+    },
+  },
+  logoutButton: {
+    display: "flex",
+    alignItems: "center",
+    alignContent: "center",
+  },
 }));
+
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 export default function MiniDrawer() {
   const classes = useStyles();
@@ -137,6 +175,21 @@ export default function MiniDrawer() {
       .catch((err) => {});
   });
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleAvatarClose = () => {
+    setAnchorEl(null);
+  };
+
+  const anchorRef = React.useRef(null);
+
+  const openAvatarPopover = Boolean(anchorEl);
+  const id = openAvatarPopover ? "simple-popover" : undefined;
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -165,11 +218,62 @@ export default function MiniDrawer() {
               </Badge>
             </IconButton>
           </Typography>
-          <Tooltip title="Logout" arrow>
+          {/* <Tooltip title="Logout" arrow>
             <Button color="inherit" onClick={logout}>
               <PowerSettingsNewIcon />
             </Button>
-          </Tooltip>
+          </Tooltip> */}
+          <IconButton aria-label="Account">
+            <Avatar className={classes.orange} onClick={handleAvatarClick}>
+              {currentUser.userName.charAt(0).toUpperCase()}
+            </Avatar>
+          </IconButton>
+          <Popover
+            id={id}
+            open={openAvatarPopover}
+            anchorEl={anchorEl}
+            onClose={handleAvatarClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            classes={{ paper: classes.popoverPaper }}
+          >
+            <AppBar
+              position="static"
+              color="inherit"
+              className={classes.noShadow}
+            >
+              <Box pt={1} pl={2} pb={1} pr={1}>
+                <Typography variant="h6" display="block" gutterBottom>
+                  {capitalizeFirstLetter(currentUser.userName)}
+                </Typography>
+                <Typography variant="caption" display="block" gutterBottom>
+                  {currentUser.officeCode.toUpperCase()}
+                </Typography>
+              </Box>
+              <Divider className={classes.popoverDivider} />
+            </AppBar>
+            <List dense className={classes.tabPopoverContainer}>
+              <ListItem>
+                <ListItemText>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="primary"
+                    onClick={logout}
+                    className={classes.logoutButton}
+                  >
+                    Logout
+                  </Button>
+                </ListItemText>
+              </ListItem>
+            </List>
+          </Popover>
         </Toolbar>
       </AppBar>
       <Drawer

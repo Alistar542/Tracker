@@ -19,6 +19,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { AuthContext } from "../../../LoginScreen/context/auth";
 import { updateUser } from "../../../../actions/useractions";
+import FormGroup from "@material-ui/core/FormGroup";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Required"),
@@ -204,15 +205,18 @@ export default function ViewStaffPopupComponent(props) {
                       </Select>
                     </FormControl>
                   </div>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="changePassword"
-                        {...formik.getFieldProps("changePassword")}
-                      />
-                    }
-                    label="Change Password"
-                  />
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="changePassword"
+                          {...formik.getFieldProps("changePassword")}
+                          color="primary"
+                        />
+                      }
+                      label="Change Password"
+                    />
+                  </FormGroup>
                   {formik.values.changePassword ? (
                     <div>
                       <TextField
