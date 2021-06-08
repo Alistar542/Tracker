@@ -85,7 +85,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     maxHeight: "600px",
     maxWidth: "500px",
-    minHeight: "600px",
   },
   innerFormDiv: {
     margin: theme.spacing(8, 4),
