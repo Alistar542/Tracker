@@ -100,12 +100,29 @@ export function StudentsFoundTableComponent(props) {
                   : rows
                 ).map((row) => (
                   <TableRow key={row.id} hover>
-                    {row.remarksStatus==="N"?<TableCell style={{color: "red"}} align="left">{`# ${row.studentId}`}</TableCell>:<TableCell style={{color: "green"}} align="left">{`# ${row.studentId}`}</TableCell>}
-                    
+                    {row.remarksStatus === "N" ? (
+                      <TableCell
+                        style={{ color: "red" }}
+                        align="left"
+                      >{`# ${row.studentId}`}</TableCell>
+                    ) : (
+                      <TableCell
+                        style={{ color: "green" }}
+                        align="left"
+                      >{`# ${row.studentId}`}</TableCell>
+                    )}
+
                     <TableCell component="th" scope="row">
-                      {row.firstName.capitalize()} {row.lastName}
+                      {row.firstName && row.firstName.capitalize()}{" "}
+                      {row.lastName}
                     </TableCell>
-                    <TableCell align="left">{row.status=='E'?row.enrolledStudentRemarks:(row.status=='P'?row.proposalStudentRemarks:row.studentRemarks)}</TableCell>
+                    <TableCell align="left">
+                      {row.status == "E"
+                        ? row.enrolledStudentRemarks
+                        : row.status == "P"
+                        ? row.proposalStudentRemarks
+                        : row.studentRemarks}
+                    </TableCell>
                     <TableCell align="left">{row.source}</TableCell>
                     <TableCell align="left">{PRIORITY[row.priority]}</TableCell>
                     <TableCell align="center">

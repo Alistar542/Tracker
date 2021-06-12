@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePaginationActions from "../../Common/TablePaginationActions";
 import Button from "@material-ui/core/Button";
 import ViewStaffPopupComponent from "../Popups/UpdateStaff/ViewStaffPopupComponent";
+import { useGetQuery } from "../../../utils/useFetchQuery";
+import { URL } from "../../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,12 +37,9 @@ export default function ListStaffComponent(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [users, setUsers] = React.useState([]);
   const [viewStaffPopup, setViewStaffPopup] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState(null);
-  const rows = users;
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
+  let rows = [];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,14 +49,11 @@ export default function ListStaffComponent(props) {
     setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
-
-  React.useEffect(() => {
-    // To fetch all users from backend
-    setUsers([
-      { userId: 1, userName: "yak", userType: "E", officeCode: "abc" },
-      { userId: 2, userName: "qwe", userType: "E", officeCode: "qwe" },
-    ]);
-  }, []);
+  const { response } = useGetQuery(URL.LIST_USERS, { showBackDrop: false });
+  rows = response;
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, rows && rows.length - page * rowsPerPage);
 
   const navigateToViewUser = (user) => {
     //props.updateUserFound(selectedUser);
@@ -71,7 +67,7 @@ export default function ListStaffComponent(props) {
 
   return (
     <div className={classes.tableOuterContainer}>
-      {users && users.length > 0 ? (
+      {response && response.length > 0 ? (
         <Paper className={classes.root}>
           <TableContainer className={classes.tableContainer}>
             <Table
@@ -124,7 +120,7 @@ export default function ListStaffComponent(props) {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, { label: "All", value: -1 }]}
-            count={users.length}
+            count={response.length}
             rowsPerPage={rowsPerPage}
             page={page}
             SelectProps={{

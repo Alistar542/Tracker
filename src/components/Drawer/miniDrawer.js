@@ -18,7 +18,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FaceRoundedIcon from "@material-ui/icons/FaceRounded";
 import { Link } from "react-router-dom";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { FetchUserComponent } from "../FindUsersScreen/FetchUserComponent";
 import { HomeComponent } from "../HomeScreen/HomeComponent";
 import SearchIcon from "@material-ui/icons/Search";
@@ -39,6 +39,10 @@ import { findStudent } from "../../actions/studentactions";
 import Avatar from "@material-ui/core/Avatar";
 import { red } from "@material-ui/core/colors";
 import Popover from "@material-ui/core/Popover";
+import axios from "axios";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { FetchContext } from "../../utils/context/fetchContext";
 
 const drawerWidth = 240;
 
@@ -140,6 +144,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 }));
 
 const capitalizeFirstLetter = (string) => {
@@ -160,6 +168,8 @@ export default function MiniDrawer() {
   };
 
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { loading } = useContext(FetchContext);
+
   const logout = () => {
     setCurrentUser(null);
   };
@@ -379,7 +389,9 @@ export default function MiniDrawer() {
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
-
+        <Backdrop className={classes.backdrop} open={loading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <Switch>
           <Route exact path={"/home"}>
             <HomeComponent />
@@ -396,6 +408,7 @@ export default function MiniDrawer() {
           <Route exact path={"/home/saveStudent"}>
             <SaveStudentComponent />
           </Route>
+          <Route path="*" render={(props) => <Redirect to="/" />} />
         </Switch>
       </main>
     </div>

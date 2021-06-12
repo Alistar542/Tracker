@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -18,6 +18,7 @@ import login_bg from "../../photos/login_bg.jpg";
 import login_new from "../../photos/login_new.jpg";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,10 +95,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginComponent() {
+export default function LoginComponent(props) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { setCurrentUser } = useContext(AuthContext);
   const ability = useContext(AbilityContext);
   const classes = useStyles();
 
@@ -116,16 +117,13 @@ export default function LoginComponent() {
         updatePrivilege(ability, res.data);
         setCurrentUser(res.data);
         setLoading(false);
+        props.history.push("/home");
       })
       .catch((error) => {
         setLoading(false);
         setError(error);
       });
   };
-
-  if (currentUser) {
-    return <Redirect to="/home" />;
-  }
 
   return (
     <div className={classes.back}>
