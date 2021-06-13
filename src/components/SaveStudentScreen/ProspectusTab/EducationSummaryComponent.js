@@ -120,7 +120,7 @@ export default function EducationSummaryComponent(props) {
 
         <TextField
           id="eduCourseType"
-          label="Course Type"
+          label="Course Major"
           name="eduCourseType"
           {...formik.getFieldProps("eduCourseType")}
         />

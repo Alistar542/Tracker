@@ -117,11 +117,7 @@ export function StudentsFoundTableComponent(props) {
                       {row.lastName}
                     </TableCell>
                     <TableCell align="left">
-                      {row.status == "E"
-                        ? row.enrolledStudentRemarks
-                        : row.status == "P"
-                        ? row.proposalStudentRemarks
-                        : row.studentRemarks}
+                      {row.currentState}
                     </TableCell>
                     <TableCell align="left">{row.source}</TableCell>
                     <TableCell align="left">{PRIORITY[row.priority]}</TableCell>
