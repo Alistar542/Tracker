@@ -69,14 +69,14 @@ export default function RemarksComponent(props) {
             id="followUpDate"
             name="followUpDate"
             label="Next Follow Up Date"
-            KeyboardButtonProps={{
+            /*KeyboardButtonProps={{
               "aria-label": "change date",
             }}
             value={formik.values.followUpDate}
             onChange={(value) => {
               formik.setFieldValue("followUpDate", value);
               setRemarksStatus("N");
-            }}
+            }}*/
           />
         </MuiPickersUtilsProvider>
         <TextField
@@ -95,7 +95,7 @@ export default function RemarksComponent(props) {
           New Follow Up Comment
         </Button>
 
-        <Button
+        {/* <Button
           variant="contained"
           color="primary"
           id="remarksDoneButton"
@@ -104,7 +104,7 @@ export default function RemarksComponent(props) {
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
           {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}
-        </Button>
+        </Button> */}
       </div>
       <div className={classes.studentRemarksField}>
         <TextField

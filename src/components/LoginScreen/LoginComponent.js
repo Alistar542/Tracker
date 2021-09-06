@@ -54,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1),
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+  },
+  text: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   },
   paper_div: {
     background: "blue",
@@ -133,7 +137,7 @@ export default function LoginComponent(props) {
         {/* <Paper className={classes.containerDiv}> */}
         {/* <div className={classes.back_img} /> */}
         <Container className={classes.innerFormDiv}>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" >
             Student Tracker
           </Typography>
           <form
@@ -150,6 +154,7 @@ export default function LoginComponent(props) {
               variant="outlined"
               margin="normal"
               error={error ? true : false}
+              color="secondary"
               helperText={error ? "Incorrect login credentials" : ""}
             />
 
@@ -163,6 +168,7 @@ export default function LoginComponent(props) {
               autoComplete="current-password"
               variant="outlined"
               margin="normal"
+              color="secondary"
             />
             <TextField
               required
@@ -173,6 +179,7 @@ export default function LoginComponent(props) {
               autoComplete="current-password"
               variant="outlined"
               margin="normal"
+              color="secondary"
             />
             <br></br>
             <div className={classes.wrapper}>
