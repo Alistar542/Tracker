@@ -42,8 +42,7 @@ export default function DetailsPanelComponent(props) {
       <Divider />
       <AreasOfInterestComponent formik={formik} />
       <Divider />
-      <RemarksFromStudentComponent toDoRemarks={toDoRemarks} setToDoRemarks={setToDoRemarks} />
-      <Divider />
+      
       <Divider />
       <MarketingPurposeComponent formik={formik} />
       <Divider />
@@ -53,6 +52,8 @@ export default function DetailsPanelComponent(props) {
         setRemarksStatus={setRemarksStatus}
         openFollowUpPopupFn={openFollowUpPopupFn}
       />
+      {/* <RemarksFromStudentComponent toDoRemarks={toDoRemarks} setToDoRemarks={setToDoRemarks} /> */}
+      <Divider />
       <Divider />
       <FollowUpComponent followUpRemarks={followUpRemarks} />
     </div>

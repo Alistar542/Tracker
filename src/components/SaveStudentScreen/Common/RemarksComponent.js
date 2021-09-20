@@ -8,6 +8,7 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const useStyles = makeStyles((theme) => ({
   personalInfoDiv: {
@@ -60,7 +61,7 @@ export default function RemarksComponent(props) {
         Follow Up Reminder
       </Typography>
       <div className={classes.personalInfoDiv}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             autoOk
             variant="inline"
@@ -69,23 +70,15 @@ export default function RemarksComponent(props) {
             id="followUpDate"
             name="followUpDate"
             label="Next Follow Up Date"
-            /*KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-            value={formik.values.followUpDate}
-            onChange={(value) => {
-              formik.setFieldValue("followUpDate", value);
-              setRemarksStatus("N");
-            }}*/
           />
         </MuiPickersUtilsProvider>
         <TextField
           id="currentState"
-          label="Counselor Remarks"
+          label="What to do next?"
           name="currentState"
           {...formik.getFieldProps("currentState")}
-        />
-        <Button
+        /> */}
+        {/* <Button
           variant="contained"
           color="primary"
           id="remarksDoneButton"
@@ -93,20 +86,21 @@ export default function RemarksComponent(props) {
           onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
         >
           New Follow Up Comment
-        </Button>
+        </Button>  */}
 
-        {/* <Button
-          variant="contained"
-          color="primary"
-          id="remarksDoneButton"
-          className={classes.doneButton}
-          disabled={remarksStatus !== "N"}
-          onClick={(e) => openFollowUpPopupFn(e, "remarksDoneButton")}
-        >
-          {remarksStatus === "N" ? "Mark Followup Done" : "Followup done"}
-        </Button> */}
       </div>
       <div className={classes.studentRemarksField}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              autoOk
+              variant="inline"
+              format="dd/MM/yyyy"
+              margin="normal"
+              id="followUpDate"
+              name="followUpDate"
+              label="Next Follow Up Date"
+            />
+          </MuiPickersUtilsProvider>
         <TextField
           required
           id="standard-textarea"
@@ -115,6 +109,17 @@ export default function RemarksComponent(props) {
           name="studentRemarks"
           multiline
           {...formik.getFieldProps("studentRemarks")}
+        />
+      </div>
+      <div className={classes.studentRemarksField}>
+        
+      <TextField
+          id="currentState"
+          label="Counsellor Remarks"
+          name="currentState"
+          placeholder=" Add counsellor comments"
+          multiline
+          {...formik.getFieldProps("currentState")}
         />
       </div>
     </div>

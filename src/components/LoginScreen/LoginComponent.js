@@ -138,7 +138,7 @@ export default function LoginComponent(props) {
         {/* <div className={classes.back_img} /> */}
         <Container className={classes.innerFormDiv}>
           <Typography component="h1" variant="h5" >
-            Student Tracker
+            Creaticks Student Tracker
           </Typography>
           <form
             className={classes.root}

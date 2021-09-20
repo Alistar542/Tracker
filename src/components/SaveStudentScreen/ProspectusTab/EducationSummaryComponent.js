@@ -79,99 +79,99 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// export default function EducationSummaryComponent(props) {
+//   const { formik } = props;
+//   const classes = useStyles();
+
+//   return (
+//     <div className={classes.outerDiv}>
+//       <Typography component={"span"} variant="h7">
+//         Education Summary
+//       </Typography>
+//       <div className={classes.personalInfoDiv}>
+//         <TextField
+//           id="countryOfEducation"
+//           label="Country Of Education"
+//           name="countryOfEducation"
+//           {...formik.getFieldProps("countryOfEducation")}
+//         />
+//         <FormControl className={classes.formControlSelect}>
+//           <InputLabel id="demo-simple-select-label">
+//             Highest Level Of Education
+//           </InputLabel>
+//           <Select
+//             labelId="demo-simple-select-label"
+//             id="highestLevelOfEducation"
+//             name="highestLevelOfEducation"
+//             {...formik.getFieldProps("highestLevelOfEducation")}
+//           >
+//             <MenuItem value={"secSchool"}>Secondary School</MenuItem>
+//             <MenuItem value={"higherSecondary"}>
+//               Higher Secondary School
+//             </MenuItem>
+//             <MenuItem value={"1ydiploma"}>1 Year Diploma</MenuItem>
+//             <MenuItem value={"2ydiploma"}>2 Year Diploma</MenuItem>
+//             <MenuItem value={"3ydiploma"}>3 Year Diploma</MenuItem>
+//             <MenuItem value={"bachelor"}>Bachelor</MenuItem>
+//             <MenuItem value={"master"}>Master</MenuItem>
+//             <MenuItem value={"phd"}>PhD</MenuItem>
+//           </Select>
+//         </FormControl>
+
+//         <TextField
+//           id="eduCourseType"
+//           label="Course Major"
+//           name="eduCourseType"
+//           {...formik.getFieldProps("eduCourseType")}
+//         />
+
+//         <FormControl className={classes.formControlSelect}>
+//           <InputLabel id="demo-simple-select-label">Grading Scheme</InputLabel>
+//           <Select
+//             labelId="demo-simple-select-label"
+//             id="gradingScheme"
+//             name="gradingScheme"
+//             {...formik.getFieldProps("gradingScheme")}
+//           >
+//             <MenuItem value={"gpa4"}>GPA out of 4</MenuItem>
+//             <MenuItem value={"gpa5"}>GPA out of 5</MenuItem>
+//             <MenuItem value={"gpa10"}>GPA out of 10</MenuItem>
+//             <MenuItem value={"percent"}>Percentage</MenuItem>
+//             <MenuItem value={"grade"}>Grade</MenuItem>
+//           </Select>
+//         </FormControl>
+
+//         <TextField
+//           id="gradeAverage"
+//           label="Grade Average"
+//           name="gradeAverage"
+//           {...formik.getFieldProps("gradeAverage")}
+//         />
+
+//         <MuiPickersUtilsProvider utils={DateFnsUtils}>
+//           <KeyboardDatePicker
+//             autoOk
+//             openTo="year"
+//             variant="inline"
+//             views={["year", "month"]}
+//             margin="normal"
+//             id="graduatedYear"
+//             name="graduatedYear"
+//             label="Graduated Year"
+//             KeyboardButtonProps={{
+//               "aria-label": "change date",
+//             }}
+//             value={formik.values.graduatedYear}
+//             onChange={(value) => formik.setFieldValue("graduatedYear", value)}
+//           />
+//         </MuiPickersUtilsProvider>
+//       </div>
+//       <EducationDetails formik={formik} />
+//     </div>
+//   );
+// }
+
 export default function EducationSummaryComponent(props) {
-  const { formik } = props;
-  const classes = useStyles();
-
-  return (
-    <div className={classes.outerDiv}>
-      <Typography component={"span"} variant="h7">
-        Education Summary
-      </Typography>
-      <div className={classes.personalInfoDiv}>
-        <TextField
-          id="countryOfEducation"
-          label="Country Of Education"
-          name="countryOfEducation"
-          {...formik.getFieldProps("countryOfEducation")}
-        />
-        <FormControl className={classes.formControlSelect}>
-          <InputLabel id="demo-simple-select-label">
-            Highest Level Of Education
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="highestLevelOfEducation"
-            name="highestLevelOfEducation"
-            {...formik.getFieldProps("highestLevelOfEducation")}
-          >
-            <MenuItem value={"secSchool"}>Secondary School</MenuItem>
-            <MenuItem value={"higherSecondary"}>
-              Higher Secondary School
-            </MenuItem>
-            <MenuItem value={"1ydiploma"}>1 Year Diploma</MenuItem>
-            <MenuItem value={"2ydiploma"}>2 Year Diploma</MenuItem>
-            <MenuItem value={"3ydiploma"}>3 Year Diploma</MenuItem>
-            <MenuItem value={"bachelor"}>Bachelor</MenuItem>
-            <MenuItem value={"master"}>Master</MenuItem>
-            <MenuItem value={"phd"}>PhD</MenuItem>
-          </Select>
-        </FormControl>
-
-        <TextField
-          id="eduCourseType"
-          label="Course Major"
-          name="eduCourseType"
-          {...formik.getFieldProps("eduCourseType")}
-        />
-
-        <FormControl className={classes.formControlSelect}>
-          <InputLabel id="demo-simple-select-label">Grading Scheme</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="gradingScheme"
-            name="gradingScheme"
-            {...formik.getFieldProps("gradingScheme")}
-          >
-            <MenuItem value={"gpa4"}>GPA out of 4</MenuItem>
-            <MenuItem value={"gpa5"}>GPA out of 5</MenuItem>
-            <MenuItem value={"gpa10"}>GPA out of 10</MenuItem>
-            <MenuItem value={"percent"}>Percentage</MenuItem>
-            <MenuItem value={"grade"}>Grade</MenuItem>
-          </Select>
-        </FormControl>
-
-        <TextField
-          id="gradeAverage"
-          label="Grade Average"
-          name="gradeAverage"
-          {...formik.getFieldProps("gradeAverage")}
-        />
-
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            autoOk
-            openTo="year"
-            variant="inline"
-            views={["year", "month"]}
-            margin="normal"
-            id="graduatedYear"
-            name="graduatedYear"
-            label="Graduated Year"
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-            value={formik.values.graduatedYear}
-            onChange={(value) => formik.setFieldValue("graduatedYear", value)}
-          />
-        </MuiPickersUtilsProvider>
-      </div>
-      <EducationDetails formik={formik} />
-    </div>
-  );
-}
-
-function EducationDetails(props) {
   const { formik } = props;
   const classes = useStyles();
   return (
@@ -183,11 +183,13 @@ function EducationDetails(props) {
             ? formik.values.educationDetails.map((p, index) => {
                 const educationLevel = `educationDetails[${index}].educationLevel`;
                 const institutionCountry = `educationDetails[${index}].institutionCountry`;
+                const courseMajor = `educationDetails[${index}].courseMajor`;
                 const institutionName = `educationDetails[${index}].institutionName`;
                 const primaryLanguage = `educationDetails[${index}].primaryLanguage`;
                 const attendedFromDate = `educationDetails[${index}].attendedFromDate`;
                 const attendedToDate = `educationDetails[${index}].attendedToDate`;
-                const degreeAwarded = `educationDetails[${index}].degreeAwarded`;
+                const gradingScheme = `educationDetails[${index}].gradingScheme`;
+                const gradeAvg = `educationDetails[${index}].gradeAvg`;
                 const degreeAwardedOn = `educationDetails[${index}].degreeAwardedOn`;
                 const address = `educationDetails[${index}].address`;
                 const city = `educationDetails[${index}].city`;
@@ -210,26 +212,69 @@ function EducationDetails(props) {
                   formik.errors,
                   institutionCountry
                 );
+                const touchedCourseMajor = getIn(
+                  formik.touched,
+                  courseMajor
+                );
+                const errorCourseMajor = getIn(
+                  formik.errors,
+                  courseMajor
+                );
                 return (
                   <div key={index} className={classes.innerDiv}>
                     <Typography component={"span"} variant="body2">
                       {`Education Details - ${index + 1}`}
                     </Typography>
                     <div className={classes.fieldDiv}>
-                      <TextField
-                        label="Education Level"
+                      
+                      <FormControl className={classes.formControlSelect}>
+                        <InputLabel id="demo-simple-select-label">
+                         Level Of Education
+                        </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
                         name={educationLevel}
                         value={p.educationLevel}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                      >
+                        <MenuItem value={"secSchool"}>Secondary School</MenuItem>
+                        <MenuItem value={"higherSecondary"}>
+                          Higher Secondary School
+                        </MenuItem>
+                        <MenuItem value={"1ydiploma"}>1 Year Diploma</MenuItem>
+                        <MenuItem value={"2ydiploma"}>2 Year Diploma</MenuItem>
+                        <MenuItem value={"3ydiploma"}>3 Year Diploma</MenuItem>
+                        <MenuItem value={"bachelor"}>Bachelor</MenuItem>
+                        <MenuItem value={"master"}>Master</MenuItem>
+                        <MenuItem value={"phd"}>PhD</MenuItem>
+                      </Select>
+                      </FormControl>
+
+                      <TextField
+                        margin="dense"
+                        name={courseMajor}
+                        label="Course Major"
+                        type="text"
+                        value={p.courseMajor}
+                        onChange={formik.handleChange}
                         helperText={
-                          touchedEducationLevel && errorEducationLevel
-                            ? errorEducationLevel
+                          touchedCourseMajor && errorCourseMajor
+                            ? errorCourseMajor
                             : ""
                         }
                         error={Boolean(
-                          touchedEducationLevel && errorEducationLevel
+                          touchedCourseMajor && errorCourseMajor
                         )}
+                      />
+                      <TextField
+                        margin="dense"
+                        name={institutionName}
+                        label="Name Of Institution"
+                        type="text"
+                        value={p.institutionName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                       <TextField
                         margin="dense"
@@ -248,15 +293,6 @@ function EducationDetails(props) {
                         )}
                       />
                       <TextField
-                        margin="dense"
-                        name={institutionName}
-                        label="Name Of Institution"
-                        type="text"
-                        value={p.institutionName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                      <TextField
                         id="primaryLanguage"
                         name={primaryLanguage}
                         label="Primary Language"
@@ -265,7 +301,35 @@ function EducationDetails(props) {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <FormControl className={classes.formControlSelect}>
+          <InputLabel id="demo-simple-select-label">Grading Scheme</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="gradingScheme"
+            name={gradingScheme}
+            value={p.gradingScheme}
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <MenuItem value={"gpa4"}>GPA out of 4</MenuItem>
+            <MenuItem value={"gpa5"}>GPA out of 5</MenuItem>
+            <MenuItem value={"gpa10"}>GPA out of 10</MenuItem>
+            <MenuItem value={"percent"}>Percentage</MenuItem>
+            <MenuItem value={"grade"}>Grade</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          id="gradeAvg"
+          label="Grade Average"
+          name={gradeAvg}
+          type="text"
+          value={p.gradeAvg}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           autoOk
                           openTo="year"
@@ -302,14 +366,14 @@ function EducationDetails(props) {
                           }
                         />
                       </MuiPickersUtilsProvider>
-                      <TextField
+                      {/* <TextField
                         margin="dense"
                         name={degreeAwarded}
                         label="Degree Awarded"
                         type="text"
                         value={p.degreeAwarded}
                         onChange={formik.handleChange}
-                      />
+                      /> */}
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           autoOk
@@ -384,8 +448,11 @@ function EducationDetails(props) {
               push({
                 educationLevel: "",
                 institutionCountry: "",
+                courseMajor:"",
                 institutionName: "",
                 primaryLanguage: "",
+                gradingScheme: "",
+                gradeAvg: "",
                 attendedFromDate: null,
                 attendedToDate: null,
                 degreeAwarded: "",
